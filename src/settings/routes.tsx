@@ -1,4 +1,3 @@
-import { useRoutes } from "react-router-dom";
 import EditItem from "../components/pages/EditItem";
 import Home from "../components/pages/Home";
 import HowItWorks from "../components/pages/HowItWorks";
