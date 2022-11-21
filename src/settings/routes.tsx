@@ -41,10 +41,12 @@ const routes = [
   {
     path: "/item/list",
     element: <ListItem />,
+    key: "ListItem",
   },
   {
     path: "*",
     element: <HttpError />,
+    key: "HttpError",
   },
 ];
 
