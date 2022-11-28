@@ -1,52 +1,52 @@
-import EditItem from '../components/pages/EditItem';
-import Home from '../components/pages/Home';
-import HowItWorks from '../components/pages/HowItWorks';
-import HttpError from '../components/pages/HttpError';
-import ListItem from '../components/pages/ListItem';
-import Profile from '../components/pages/Profile';
-import SignIn from '../components/pages/SignIn';
-import SignUp from '../components/pages/SignUp';
+import EditItem from "../components/pages/EditItem";
+import Home from "../components/pages/Home";
+import HowItWorks from "../components/pages/HowItWorks";
+import HttpError from "../components/pages/HttpError";
+import ListItem from "../components/pages/ListItem";
+import Profile from "../components/pages/Profile";
+import SignIn from "../components/pages/SignIn";
+import SignUp from "../components/pages/SignUp";
 
 const routes = [
   {
-    path: '/',
+    path: "/",
     element: <Home />,
-    key: 'Home',
+    key: "Home",
   },
   {
-    path: '/signin',
+    path: "/signin",
     element: <SignIn />,
-    key: 'SignIn',
+    key: "SignIn",
   },
   {
-    path: '/signup',
+    path: "/signup",
     element: <SignUp />,
-    key: 'SignUp',
+    key: "SignUp",
   },
   {
-    path: '/profile',
+    path: "/profile",
     element: <Profile />,
-    key: 'Profile',
+    key: "Profile",
   },
   {
-    path: '/howitworks',
+    path: "/howitworks",
     element: <HowItWorks />,
-    key: 'HowItWorks',
+    key: "HowItWorks",
   },
   {
-    path: '/item/edit',
+    path: "/item/edit",
     element: <EditItem />,
-    key: 'EditItem',
+    key: "EditItem",
   },
   {
-    path: '/item/list',
+    path: "/item/list",
     element: <ListItem />,
-    key: 'ListItem',
+    key: "ListItem",
   },
   {
-    path: '*',
+    path: "*",
     element: <HttpError />,
-    key: 'HttpError',
+    key: "HttpError",
   },
 ];
 

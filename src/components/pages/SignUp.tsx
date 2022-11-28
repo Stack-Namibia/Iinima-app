@@ -1,3 +1,5 @@
-const SignUp = () => <h1>SignUp</h1>;
+const SignUp = () => {
+  return <h1>SignUp</h1>;
+};
 
 export default SignUp;
