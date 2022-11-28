@@ -1,3 +1,5 @@
-const EditItems = () => <h1>Edit Items</h1>;
+const EditItems = () => {
+  return <h1>Edit Items</h1>;
+};
 
 export default EditItems;
