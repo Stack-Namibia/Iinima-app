@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import logo from "../../assets/logo.svg"
+import styled from 'styled-components';
+import logo from '../../assets/logo.svg';
 
 export const NavigationBar = () => {
   return (
@@ -27,22 +27,23 @@ export const NavigationBar = () => {
             className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <StyledLink className="hover:text-red-500">How it works</StyledLink>
+              <StyledLink className="hover:text-red-500">
+                How it works
+              </StyledLink>
             </li>
             <li>
-              <StyledLink className="hover:text-red-500">List an item</StyledLink>
+              <StyledLink className="hover:text-red-500">
+                List an item
+              </StyledLink>
             </li>
           </ul>
         </div>
-        <StyledLogo
-            alt=""
-            src={logo}
-         />
+        <StyledLogo alt="" src={logo} />
       </div>
       <div className="navbar-end hidden lg:flex">
         <ul className="menu menu-horizontal p-0 lg:gap-20">
           <li>
-            <StyledLink  className="hover:text-red-500">How it works</StyledLink>
+            <StyledLink className="hover:text-red-500">How it works</StyledLink>
           </li>
           <li>
             <StyledLink className="hover:text-red-500">List an item</StyledLink>
@@ -50,53 +51,54 @@ export const NavigationBar = () => {
         </ul>
       </div>
       <div className="navbar-start lg:ml-20">
-        <StyledButton className="text-white bg-red-500 hover:bg-red-700 ">Login or Sign In</StyledButton>
+        <StyledButton className="btn text-white bg-red-500 hover:bg-red-700">
+          Login or Signup
+        </StyledButton>
       </div>
     </StyledNavigationBar>
   );
 };
 
 const StyledNavigationBar = styled.div`
-width: 100%;
-left: 0px;
-top: 0px;
+  width: 100%;
+  left: 0px;
+  top: 0px;
 
-background: #FFFFFF;
-border: 0.5px #7E7A7A;
+  background: #ffffff;
+  border: 0.5px #7e7a7a;
 `;
 
 const StyledButton = styled.button`
-width: 200px;
-height: 35px;
-left: 1264px;
-top: 26px;
+  height: 35px;
+  left: 1264px;
+  top: 26px;
+  max-width: 200px;
 
-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-border-radius: 30px;
-`
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 30px;
+  border: none;
+`;
 const StyledLogo = styled.img`
-width: 50%;
-height: 100px;
-left: 0px;
-top: 0px;
+  width: 50%;
+  height: 100px;
+  left: 0px;
+  top: 0px;
 
-background: #FFFFFF;
-border: 0.5px #7E7A7A;
-`
+  background: #ffffff;
+  border: 0.5px #7e7a7a;
+`;
 
 const StyledLink = styled.span`
-width: 128px;
-height: 30px;
-left: 920px;
-top: 35px;
+  width: 128px;
+  height: 30px;
+  left: 920px;
+  top: 35px;
 
-font-style: normal;
-font-weight: 600;
-font-size: 15px;
-line-height: 30px;
-/* identical to box height */
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 30px;
+  /* identical to box height */
 
-
-color: #222E2E;
-
-`
+  color: #222e2e;
+`;
