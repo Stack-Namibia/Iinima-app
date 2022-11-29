@@ -2,6 +2,7 @@ import { Facebook, Twitter, Google } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import { Input } from "../../general/Input";
 import { Button } from "../../general/Button";
+import { Link } from "react-router-dom";
 
 const Form = () => (
   <div className='flex items-center justify-center p-6 sm:p-12 md:w-1/2'>
@@ -19,15 +20,17 @@ const Form = () => (
         <Input id='password' label='Password' type='password' />
       </div>
       <p className='mt-4'>
-        <a
-          className='text-sm text-primary hover:underline'
-          href='./forgot-password.html'
-        >
+        <Link className='text-sm text-primary hover:underline' to={"/signin"}>
           Forgot your password?
-        </a>
+        </Link>
       </p>
-
       <Button text='Sign In' />
+      <p className='mt-2'>
+        Don't have an account?{" "}
+        <span className='text-sm text-primary hover:underline'>
+          <Link to={"/signup"}>Register</Link>
+        </span>
+      </p>
 
       <div className='divider'>Or continue with</div>
 
