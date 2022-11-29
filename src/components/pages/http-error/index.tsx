@@ -1,7 +1,7 @@
-import ApplicationWrapper from "../general/ApplicationWrapper";
-import logo from "../../assets/404.svg";
+import ApplicationWrapper from "../../general/ApplicationWrapper";
+import logo from "../../../assets/404.svg";
 import styled from "styled-components";
-import { Button as DaisyButton } from "../general/Button";
+import { Button as DaisyButton } from "../../general/Button";
 import { Link } from "react-router-dom";
 
 const HttpError = () => {
