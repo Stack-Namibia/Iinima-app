@@ -1,5 +1,5 @@
 import { Facebook, Twitter, Google } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
+import { IconButton, Checkbox } from "@mui/material";
 import { Input } from "../../general/Input";
 import { Button } from "../../general/Button";
 import { Link } from "react-router-dom";
@@ -46,8 +46,18 @@ const Form = () => (
       <div>
         <Input id='confirmPassword' label='Confirm Password' type='password' />
       </div>
+      <div className='flex'>
+        <Checkbox />{" "}
+        <span className='my-auto font-semibold text-[#7E7A7A] text-sm'>
+          {/* TODO Add link to terms and conditions */}I have read and agree to
+          the{" "}
+          <Link to={"/signup"} className='text-primary underline'>
+            Terms of Service
+          </Link>
+        </span>
+      </div>
       <Button text='Sign Up' />
-      <p className='mt-2'>
+      <p className='mt-2 font-semibold text-[#7E7A7A] text-sm'>
         Already have an account?{" "}
         <span className='text-sm text-primary hover:underline'>
           <Link to={"/signin"}>Sign in</Link>
