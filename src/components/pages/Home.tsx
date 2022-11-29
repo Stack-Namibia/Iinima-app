@@ -1,5 +1,11 @@
+import ApplicationWrapper from "../general/ApplicationWrapper";
+
 const Home = () => {
-  return <h1>Home Page</h1>;
+  return (
+    <ApplicationWrapper>
+      <h1>Home Page</h1>
+    </ApplicationWrapper>
+  );
 };
 
 export default Home;

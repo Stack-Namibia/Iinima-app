@@ -1,5 +1,11 @@
+import ApplicationWrapper from "../general/ApplicationWrapper";
+
 const ListItem = () => {
-  return <h1>List Item</h1>;
+  return (
+    <ApplicationWrapper>
+      <h1>List Item</h1>;
+    </ApplicationWrapper>
+  );
 };
 
 export default ListItem;
