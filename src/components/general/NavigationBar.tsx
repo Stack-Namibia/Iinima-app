@@ -3,7 +3,12 @@ import { Menu, Transition } from "@headlessui/react";
 import styled from "styled-components";
 import logo from "../../assets/logo.svg";
 
+
+
 export const NavigationBar = () => {
+   function classNames(...classes: string[]) {
+    return classes.filter(Boolean).join(" ");
+  }
   return (
     <StyledNavigationBar className="navbar bg-base-100 flex-1 px-4 flex justify-between ">
       <div className="navbar-start">
@@ -57,16 +62,16 @@ export const NavigationBar = () => {
         </ul>
       </div>
       <div className="navbar-start lg:ml-20">
-        <StyledButton className="btn text-white bg-red-500 hover:bg-red-700 ">
+        <StyledButton className="btn text-white bg-red-500 hover:bg-red-700 ml:40">
           Login or Sign up
         </StyledButton>
       </div>
       
-      <Menu as="div" className="ml-3 relative">
+      <Menu as="div" className="navbar-start">
           <div>
-            <Menu.Button className="bg-transparent rounded-full flex items-center text-sm focus:outline-none">
+            <Menu.Button className="bg-transparent rounded-full flex items-bottom text-sm focus:outline-none">
               <img
-                className="avatar rounded-full"
+                className="avatar rounded-full w-10 h-10"
                 src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                 alt=""
               />
@@ -81,11 +86,11 @@ export const NavigationBar = () => {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items className="relative mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
               <Menu.Item>
                 {({ active }: { active: any }) => (
                   <a
-                    href="#"
+                    href="http://localhost:3000/"
                     className={classNames(
                       active ? "bg-gray-100" : "",
                       "block px-4 py-2 text-sm text-gray-700"
@@ -98,13 +103,52 @@ export const NavigationBar = () => {
               <Menu.Item>
                 {({ active }: { active: any }) => (
                   <a
-                    href="#"
+                    href="http://localhost:3000/"
                     className={classNames(
                       active ? "bg-gray-100" : "",
                       "block px-4 py-2 text-sm text-gray-700"
                     )}
                   >
-                    Logout
+                    Profile
+                  </a>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }: { active: any }) => (
+                  <a
+                    href="http://localhost:3000/"
+                    className={classNames(
+                      active ? "bg-gray-100" : "",
+                      "block px-4 py-2 text-sm text-gray-700"
+                    )}
+                  >
+                    Rentals
+                  </a>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }: { active: any }) => (
+                  <a
+                    href="http://localhost:3000/"
+                    className={classNames(
+                      active ? "bg-gray-100" : "",
+                      "block px-4 py-2 text-sm text-gray-700"
+                    )}
+                  >
+                    Favourites
+                  </a>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }: { active: any }) => (
+                  <a
+                    href="http://localhost:3000/"
+                    className={classNames(
+                      active ? "bg-gray-100" : "",
+                      "block px-4 py-2 text-sm text-gray-700"
+                    )}
+                  >
+                    My Items
                   </a>
                 )}
               </Menu.Item>
@@ -159,7 +203,4 @@ const StyledLink = styled.span`
 
   color: #222e2e;
 `;
-function classNames(arg0: string, arg1: string): string | undefined {
-    throw new Error("Function not implemented.");
-}
 
