@@ -1,15 +1,53 @@
 import ApplicationWrapper from "../../general/ApplicationWrapper";
 import { Search } from "@mui/icons-material";
+import { Grid } from "@mui/material";
+import ItemsCard from "./itemsCard";
 
 const itemsMock = [
   {
-    name: "IMG_4985.HEIC",
-    size: "3.9 MB",
-    source:
+    name: "Drill Machine",
+    images: [
       "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    current: true,
+    ],
+    location: "Windhoek",
+    price: 100,
+    description: "This is a drill machine",
+    category: "Tools",
+    likes: 200,
   },
-  // More files...
+  {
+    name: "Drill Machine",
+    images: [
+      "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
+    ],
+    location: "Windhoek",
+    price: 100,
+    description: "This is a drill machine",
+    category: "Tools",
+    likes: 200,
+  },
+  {
+    name: "Drill Machine",
+    images: [
+      "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
+    ],
+    location: "Windhoek",
+    price: 100,
+    description: "This is a drill machine",
+    category: "Tools",
+    likes: 200,
+  },
+  {
+    name: "Drill Machine",
+    images: [
+      "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
+    ],
+    location: "Windhoek",
+    price: 100,
+    description: "This is a drill machine",
+    category: "Tools",
+    likes: 200,
+  },
 ];
 
 const BrowseItems = () => {
@@ -74,13 +112,19 @@ const BrowseItems = () => {
                   <h2 id='gallery-heading' className='sr-only'>
                     Recently viewed
                   </h2>
-                  <div className='grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8'>
-                    {itemsMock.map((file) => (
-                      <li key={file.name} className='relative'>
-                        {/* Add item cards here */}
-                      </li>
-                    ))}
-                  </div>
+                  <Grid
+                    container
+                    rowSpacing={1}
+                    columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                  >
+                    <Grid item xs={6}>
+                      {itemsMock.map((item) => (
+                        <div key={item.name} className='relative'>
+                          <ItemsCard item={item} />
+                        </div>
+                      ))}
+                    </Grid>
+                  </Grid>
                 </section>
               </div>
             </main>
