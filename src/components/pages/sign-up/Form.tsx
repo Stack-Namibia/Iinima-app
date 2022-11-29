@@ -32,10 +32,19 @@ const Form = () => (
       </div>
       <div className='divider'>Or</div>
       <div className='mb-2'>
+        <Input id='firstName' label='First Name' type='text' />
+      </div>
+      <div className='mb-2'>
+        <Input id='lastName' label='Last Name' type='text' />
+      </div>
+      <div className='mb-2'>
         <Input id='email' label='Email' type='email' />
       </div>
       <div>
         <Input id='password' label='Password' type='password' />
+      </div>
+      <div>
+        <Input id='confirmPassword' label='Confirm Password' type='password' />
       </div>
       <p className='mt-4'>
         <Link className='text-sm text-primary hover:underline' to={"/signin"}>
