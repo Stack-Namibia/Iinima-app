@@ -7,10 +7,10 @@ import { Link } from "react-router-dom";
 const HttpError = () => {
   return (
     <ApplicationWrapper>
-      <div className="flex items-center">
-        <div className="flex-1 h-full max-w-7xl m-5 bg-white rounded-lg  md:mx-auto">
-          <div className="flex flex-col md:flex-row">
-            <div className="flex flex-col justify-center p-6 sm:p-12 md:w-1/2">
+      <div className='flex items-center'>
+        <div className='flex-1 h-full max-w-7xl m-5 bg-white rounded-lg  md:mx-auto'>
+          <div className='flex flex-col md:flex-row'>
+            <div className='flex flex-col justify-center p-6 sm:p-12 md:w-1/2'>
               <Styled404Header>Oops....</Styled404Header>
               <Styled404Subheading>Page not found 404</Styled404Subheading>
               <Styled404Description>
@@ -18,14 +18,14 @@ const HttpError = () => {
                 home.
               </Styled404Description>
               <Link to={"/"}>
-                <DaisyButton text="Back to Home" width="50%" />
+                <DaisyButton text='Back to Home' width='50%' />
               </Link>
             </div>
-            <div className=" h-0 md:h-auto md:w-1/2 md:visible">
+            <div>
               <img
-                className="object-cover w-full h-full"
+                className='object-cover w-full h-full'
                 src={logo}
-                alt="img"
+                alt='img'
               />
             </div>
           </div>
