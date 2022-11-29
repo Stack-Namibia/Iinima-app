@@ -1,9 +1,9 @@
 import EditItem from "../components/pages/EditItem";
 import Home from "../components/pages/Home";
 import HowItWorks from "../components/pages/HowItWorks";
-import HttpError from "../components/pages/HttpError";
 import ListItem from "../components/pages/items/list-items";
-import Profile from "../components/pages/Profile";
+import HttpError from "../components/pages/http-error";
+import Profile from "../components/pages/profile";
 import SignIn from "../components/pages/sign-in";
 import SignUp from "../components/pages/sign-up";
 
