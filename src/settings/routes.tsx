@@ -5,7 +5,7 @@ import HttpError from "../components/pages/HttpError";
 import ListItem from "../components/pages/ListItem";
 import Profile from "../components/pages/Profile";
 import SignIn from "../components/pages/sign-in";
-import SignUp from "../components/pages/SignUp";
+import SignUp from "../components/pages/sign-up";
 
 const routes = [
   {

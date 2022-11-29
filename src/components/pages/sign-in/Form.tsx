@@ -19,13 +19,13 @@ const Form = () => (
       <div>
         <Input id='password' label='Password' type='password' />
       </div>
-      <p className='mt-4'>
+      <p className='mt-4 font-semibold text-sm'>
         <Link className='text-sm text-primary hover:underline' to={"/signin"}>
           Forgot your password?
         </Link>
       </p>
       <Button text='Sign In' />
-      <p className='mt-2'>
+      <p className='mt-2 font-semibold text-[#7E7A7A] text-sm'>
         Don't have an account?{" "}
         <span className='text-sm text-primary hover:underline'>
           <Link to={"/signup"}>Register</Link>
