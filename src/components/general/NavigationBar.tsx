@@ -1,119 +1,155 @@
-const NavigationBar = () => (
-  <div className='navbar bg-base-100'>
-    <div className='navbar-start'>
-      <div className='dropdown'>
-        <label tabIndex={0} className='btn btn-ghost lg:hidden'>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            className='h-5 w-5'
-            fill='none'
-            viewBox='0 0 24 24'
-            stroke='currentColor'
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              strokeWidth='2'
-              d='M4 6h16M4 12h8m-8 6h16'
-            />
-          </svg>
-        </label>
-        <ul
-          tabIndex={0}
-          className='menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52'
-        >
-          <li>
-            <a>Item 1</a>
-          </li>
-          <li tabIndex={0}>
-            <a className='justify-between'>
-              Parent
-              <svg
-                className='fill-current'
-                xmlns='http://www.w3.org/2000/svg'
-                width='24'
-                height='24'
-                viewBox='0 0 24 24'
-              >
-                <path d='M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z' />
-              </svg>
-            </a>
-            <ul className='p-2'>
-              <li>
-                <a>Submenu 1</a>
-              </li>
-              <li>
-                <a>Submenu 2</a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a>Item 3</a>
-          </li>
-        </ul>
-      </div>
-      <a className='btn btn-ghost normal-case text-xl'>daisyUI</a>
-    </div>
-    <div className='navbar-center hidden lg:flex'>
-      <ul className='menu menu-horizontal p-0'>
-        <li>
-          <a>Item 1</a>
-        </li>
-        <li tabIndex={0}>
-          <a>
-            Parent
-            <svg
-              className='fill-current'
-              xmlns='http://www.w3.org/2000/svg'
-              width='20'
-              height='20'
-              viewBox='0 0 24 24'
-            >
-              <path d='M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z' />
-            </svg>
-          </a>
-          <ul className='p-2'>
-            <li>
-              <a>Submenu 1</a>
-            </li>
-            <li>
-              <a>Submenu 2</a>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <a>Item 3</a>
-        </li>
-      </ul>
-    </div>
-    <div className='navbar-end'>
-      <a className='btn'>Get started</a>
-    </div>
-    <div className='dropdown dropdown-end'>
-      <label tabIndex={0} className='btn btn-ghost btn-circle avatar'>
-        <div className='w-10 rounded-full'>
-          <img src='https://placeimg.com/80/80/people' />
-        </div>
-      </label>
-      <ul
-        tabIndex={0}
-        className='menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52'
-      >
-        <li>
-          <a className='justify-between'>
-            Profile
-            <span className='badge'>New</span>
-          </a>
-        </li>
-        <li>
-          <a>Settings</a>
-        </li>
-        <li>
-          <a>Logout</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-);
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import logo from "../../assets/logo.svg";
+import { Button as DaisyButton } from "./Button";
+import { useState } from "react";
+import { AvatarIcon } from "./AvatarIcon";
+import { Link } from "react-router-dom";
 
-export default NavigationBar;
+const pages = [
+  { text: "How it works", to: "howitworks" },
+  { text: "List an item", to: "listanitem" },
+];
+const pages2 = [
+  { text: "How it works", to: "/howitworks" },
+  { text: "List an item", to: "/listanitem" },
+  { text: "Login", to: "/signin" },
+];
+export const settings = ["Profile", "Account", "Dashboard", "Logout"];
+
+function ResponsiveAppBar() {
+  const [loggedIn] = useState(false);
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+    null
+  );
+
+  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  return (
+    <AppBar
+      position='static'
+      color='inherit'
+      elevation={0}
+      sx={{ borderBottom: 0.5, borderColor: "divider" }}
+    >
+      <Container maxWidth='xl'>
+        <Toolbar disableGutters>
+          <Box sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}>
+            <Link to={"/"}>
+              <img src={logo} alt='logo' className='logo w-[50%]' />
+            </Link>
+          </Box>
+          <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size='large'
+              aria-label='account of current user'
+              aria-controls='menu-appbar'
+              aria-haspopup='true'
+              onClick={handleOpenNavMenu}
+              color='inherit'
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id='menu-appbar'
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: "block", md: "none" },
+              }}
+            >
+              {pages2.map(({ text, to }) => (
+                <Link to={to}>
+                  <MenuItem key={text} onClick={handleCloseNavMenu}>
+                    <Typography
+                      textAlign='center'
+                      className='hover:text-primary'
+                    >
+                      {text}
+                    </Typography>
+                  </MenuItem>
+                </Link>
+              ))}
+            </Menu>
+          </Box>
+          {/* small screen logo */}
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "flex", md: "none" },
+              mr: 1,
+              justifyContent: { xs: "center" },
+            }}
+          >
+            <Link to='/'>
+              <img src={logo} alt='logo' className='logo w-[115px]' />
+            </Link>
+          </Box>
+          <Box
+            sx={{
+              flexGrow: 1,
+              justifyContent: "right",
+              display: { xs: "none", md: "flex" },
+              marginRight: 5,
+            }}
+          >
+            {pages.map(({ text, to }) => (
+              <Link to={to}>
+                <Button
+                  key={text}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: "black", display: "block" }}
+                  className='hover:text-primary'
+                >
+                  {text}
+                </Button>
+              </Link>
+            ))}
+          </Box>
+          {loggedIn ? (
+            <AvatarIcon />
+          ) : (
+            <Box
+              sx={{
+                flexGrow: 1,
+                justifyContent: "right",
+                display: { xs: "none", md: "flex" },
+                marginRight: 5,
+              }}
+            >
+              <Link to={"/signin"}>
+                <DaisyButton text='Login or Signup' width='50%' />
+              </Link>
+            </Box>
+          )}
+        </Toolbar>
+      </Container>
+    </AppBar>
+  );
+}
+export default ResponsiveAppBar;
