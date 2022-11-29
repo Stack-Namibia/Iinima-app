@@ -26,12 +26,10 @@ const Form = () => (
       </p>
       <Button text='Sign In' />
       <p className='mt-2'>
-        <a className='text-sm text-black' href='./forgot-password.html'>
-          Don't have an account?{" "}
-          <span className='text-sm text-primary hover:underline'>
-            <Link to={"/signup"}>Register</Link>
-          </span>
-        </a>
+        Don't have an account?{" "}
+        <span className='text-sm text-primary hover:underline'>
+          <Link to={"/signup"}>Register</Link>
+        </span>
       </p>
 
       <div className='divider'>Or continue with</div>
