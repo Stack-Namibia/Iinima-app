@@ -1,52 +1,46 @@
 import ApplicationWrapper from "../../general/ApplicationWrapper";
 import { Search } from "@mui/icons-material";
-import { Grid } from "@mui/material";
-import ItemsCard from "./itemsCard";
+import ItemsCard from "./ItemCard";
 
 const itemsMock = [
   {
+    id: "ajsdlkadsubia",
     name: "Drill Machine",
     images: [
       "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
     ],
     location: "Windhoek",
     price: 100,
-    description: "This is a drill machine",
+    description: "Lorem ipsum dolor sit ametconsectetur ",
     category: "Tools",
     likes: 200,
+    user: {
+      name: "John Doe",
+      avatar:
+        "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+      id: "dsjhkgfsk",
+    },
+    liked: false,
   },
   {
+    id: "ajsdlkadsubiaas",
     name: "Drill Machine",
     images: [
       "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
     ],
     location: "Windhoek",
     price: 100,
-    description: "This is a drill machine",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
     category: "Tools",
     likes: 200,
-  },
-  {
-    name: "Drill Machine",
-    images: [
-      "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    ],
-    location: "Windhoek",
-    price: 100,
-    description: "This is a drill machine",
-    category: "Tools",
-    likes: 200,
-  },
-  {
-    name: "Drill Machine",
-    images: [
-      "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
-    ],
-    location: "Windhoek",
-    price: 100,
-    description: "This is a drill machine",
-    category: "Tools",
-    likes: 200,
+    user: {
+      name: "John Doe",
+      avatar:
+        "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+      id: "dsjhkgfsk",
+    },
+    liked: true,
   },
 ];
 
@@ -98,7 +92,7 @@ const BrowseItems = () => {
           {/* Main content */}
           <div className='flex flex-1 items-stretch overflow-hidden'>
             <main className='flex-1 overflow-y-auto'>
-              <div className='mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8'>
+              <div className='mx-auto max-w-4xl px-4 pt-8 sm:px-4 lg:px-4'>
                 <div className='flex'>
                   <h1 className='flex-1 text-2xl font-bold text-gray-900'>
                     Items
@@ -112,19 +106,19 @@ const BrowseItems = () => {
                   <h2 id='gallery-heading' className='sr-only'>
                     Recently viewed
                   </h2>
-                  <Grid
-                    container
-                    rowSpacing={1}
-                    columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                  <div
+                    role='list'
+                    className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2'
                   >
-                    <Grid item xs={6}>
-                      {itemsMock.map((item) => (
-                        <div key={item.name} className='relative'>
-                          <ItemsCard item={item} />
-                        </div>
-                      ))}
-                    </Grid>
-                  </Grid>
+                    {itemsMock.map((item) => (
+                      <li
+                        key={item.name}
+                        className='col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow'
+                      >
+                        <ItemsCard item={item} />
+                      </li>
+                    ))}
+                  </div>
                 </section>
               </div>
             </main>
