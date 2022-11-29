@@ -42,7 +42,7 @@ function ResponsiveAppBar() {
 
   return (
     <AppBar
-      position='static'
+      position='sticky'
       color='inherit'
       elevation={0}
       sx={{ borderBottom: 0.5, borderColor: "divider" }}
