@@ -46,16 +46,11 @@ const Form = () => (
       <div>
         <Input id='confirmPassword' label='Confirm Password' type='password' />
       </div>
-      <p className='mt-4'>
-        <Link className='text-sm text-primary hover:underline' to={"/signin"}>
-          Forgot your password?
-        </Link>
-      </p>
-      <Button text='Sign In' />
+      <Button text='Sign Up' />
       <p className='mt-2'>
-        Don't have an account?{" "}
+        Already have an account?{" "}
         <span className='text-sm text-primary hover:underline'>
-          <Link to={"/signup"}>Register</Link>
+          <Link to={"/signin"}>Sign in</Link>
         </span>
       </p>
     </div>
