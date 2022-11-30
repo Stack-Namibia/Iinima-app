@@ -1,17 +1,24 @@
 import ApplicationWrapper from "../../../general/ApplicationWrapper";
-import { Search } from "@mui/icons-material";
+import { Phone, Search, WhatsApp } from "@mui/icons-material";
 import ItemsCard from "./ItemCard";
+import Couresal from "../../../general/Couresal";
+import { IconButton, Typography } from "@mui/material";
+import { Favorite } from "@mui/icons-material";
 
 const itemsMock = [
   {
     id: "ajsdlkadsubia",
     name: "Drill Machine",
     images: [
-      "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
+      "https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60",
+      "https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60",
+      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
+      "https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60",
     ],
     location: "Windhoek",
     price: 100,
-    description: "Lorem ipsum dolor sit ametconsectetur ",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
     category: "Tools",
     likes: 200,
     user: {
@@ -127,6 +134,33 @@ const BrowseItems = () => {
             <aside className='hidden w-96 overflow-y-auto border-l border-gray-200 bg-white p-8 lg:block'>
               <div className='space-y-6 pb-16'>
                 {/* select items details here */}
+                <div className='flex-row'>
+                  <Couresal images={itemsMock[0].images} maxWidth={400} />
+                  <div className='flex justify-between'>
+                    <div className='flex-row'>
+                      <h1 className='text-2xl font-bold text-gray-900'>
+                        {itemsMock[0].name}
+                      </h1>
+                      <span className='font-semibold text-gray-400 text-sm'>
+                        {itemsMock[0].user.name}
+                      </span>
+                    </div>
+                    <div className='flex-col'>
+                      <IconButton aria-label='add to favorites'>
+                        <Favorite />
+                      </IconButton>
+                      <IconButton>
+                        <WhatsApp />
+                      </IconButton>
+                      <IconButton>
+                        <Phone />
+                      </IconButton>
+                    </div>
+                  </div>
+                </div>
+                <Typography variant='body2' color='text.secondary'>
+                  {itemsMock[0].description}
+                </Typography>
               </div>
             </aside>
           </div>
