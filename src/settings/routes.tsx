@@ -1,11 +1,11 @@
 import EditItem from "../components/pages/EditItem";
 import Home from "../components/pages/Home";
-import HowItWorks from "../components/pages/HowItWorks";
 import ListItem from "../components/pages/items/list-items";
 import HttpError from "../components/pages/http-error";
 import Profile from "../components/pages/profile";
 import SignIn from "../components/pages/sign-in";
 import SignUp from "../components/pages/sign-up";
+import HowItWorks from "../components/pages/how-it-works";
 
 const routes = [
   {
