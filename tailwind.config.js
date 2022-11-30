@@ -7,6 +7,10 @@ module.exports = {
         primary: "#d63e3e",
         secondary: "#799ca9",
       },
+      backgroundImage: {
+        wave1: "url('/src/assets/wave1.svg')",
+        wave2: "url('/src/assets/wave2.svg')",
+      },
     },
   },
   plugins: [require("daisyui")],
