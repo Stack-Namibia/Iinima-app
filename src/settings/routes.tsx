@@ -1,4 +1,4 @@
-import BrowseItems from "../components/pages/browse-items";
+import BrowseItems from "../components/pages/items/browse-items";
 import EditItem from "../components/pages/EditItem";
 import Home from "../components/pages/Home";
 import HowItWorks from "../components/pages/HowItWorks";

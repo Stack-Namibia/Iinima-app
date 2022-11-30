@@ -1,4 +1,4 @@
-import ApplicationWrapper from "../../general/ApplicationWrapper";
+import ApplicationWrapper from "../../../general/ApplicationWrapper";
 import { Search } from "@mui/icons-material";
 import ItemsCard from "./ItemCard";
 
