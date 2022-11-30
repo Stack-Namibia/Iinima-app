@@ -4,6 +4,11 @@ import ItemsCard from "./ItemCard";
 import Couresal from "../../../general/Couresal";
 import { IconButton, Typography } from "@mui/material";
 import { Favorite } from "@mui/icons-material";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import Divider from "@mui/material/Divider";
+import ItemsCouresal from "../../../general/ItemsCouresal";
 
 const itemsMock = [
   {
@@ -16,7 +21,11 @@ const itemsMock = [
       "https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60",
     ],
     location: "Windhoek",
-    price: 100,
+    price: {
+      day: 100,
+      week: 500,
+      month: 1000,
+    },
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
     category: "Tools",
@@ -31,12 +40,16 @@ const itemsMock = [
   },
   {
     id: "ajsdlkadsubiaas",
-    name: "Drill Machine",
+    name: "Electric Drill Machine",
     images: [
       "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
     ],
     location: "Windhoek",
-    price: 100,
+    price: {
+      day: 250,
+      week: 500,
+      month: 1000,
+    },
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
     category: "Tools",
@@ -48,6 +61,107 @@ const itemsMock = [
       id: "dsjhkgfsk",
     },
     liked: true,
+  },
+  {
+    id: "ajsdlkadsubia",
+    name: "Drill Machine",
+    images: [
+      "https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60",
+      "https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60",
+      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
+      "https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60",
+    ],
+    location: "Windhoek",
+    price: {
+      day: 100,
+      week: 500,
+      month: 1000,
+    },
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
+    category: "Tools",
+    likes: 200,
+    user: {
+      name: "John Doe",
+      avatar:
+        "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+      id: "dsjhkgfsk",
+    },
+    liked: true,
+  },
+  {
+    id: "ajsdlkadsubiaas",
+    name: "Electric Drill Machine",
+    images: [
+      "https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60",
+    ],
+    location: "Windhoek",
+    price: {
+      day: 250,
+      week: 500,
+      month: 1000,
+    },
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
+    category: "Tools",
+    likes: 200,
+    user: {
+      name: "John Doe",
+      avatar:
+        "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+      id: "dsjhkgfsk",
+    },
+    liked: false,
+  },
+  {
+    id: "ajsdlkadsubia",
+    name: "Drill Machine",
+    images: [
+      "https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60",
+      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
+      "https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60",
+    ],
+    location: "Windhoek",
+    price: {
+      day: 100,
+      week: 500,
+      month: 1000,
+    },
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
+    category: "Tools",
+    likes: 200,
+    user: {
+      name: "John Doe",
+      avatar:
+        "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+      id: "dsjhkgfsk",
+    },
+    liked: false,
+  },
+  {
+    id: "ajsdlkadsubiaas",
+    name: "Electric Drill Machine",
+    images: [
+      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
+    ],
+    location: "Windhoek",
+    price: {
+      day: 250,
+      week: 500,
+      month: 1000,
+    },
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
+    category: "Tools",
+    likes: 200,
+    user: {
+      name: "John Doe",
+      avatar:
+        "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+      id: "dsjhkgfsk",
+    },
+    liked: false,
   },
 ];
 
@@ -135,14 +249,14 @@ const BrowseItems = () => {
               <div className='space-y-6 pb-16'>
                 {/* select items details here */}
                 <div className='flex-row'>
-                  <Couresal images={itemsMock[0].images} maxWidth={400} />
-                  <div className='flex justify-between'>
+                  <Couresal data={itemsMock[0].images} maxWidth={400} />
+                  <div className='flex justify-between mt-2'>
                     <div className='flex-row'>
                       <h1 className='text-2xl font-bold text-gray-900'>
                         {itemsMock[0].name}
                       </h1>
                       <span className='font-semibold text-gray-400 text-sm'>
-                        {itemsMock[0].user.name}
+                        {itemsMock[0].location}
                       </span>
                     </div>
                     <div className='flex-col'>
@@ -158,9 +272,47 @@ const BrowseItems = () => {
                     </div>
                   </div>
                 </div>
-                <Typography variant='body2' color='text.secondary'>
-                  {itemsMock[0].description}
-                </Typography>
+                <Typography variant='subtitle1'>Description</Typography>
+                <div>
+                  <Typography variant='body2' color='text.secondary'>
+                    {itemsMock[0].description}
+                  </Typography>
+                </div>
+                <Typography variant='subtitle1'>Prices</Typography>
+                <List
+                  sx={{
+                    width: "100%",
+                    maxWidth: 360,
+                    bgcolor: "background.paper",
+                    display: "flex",
+                  }}
+                >
+                  <ListItem>
+                    <ListItemText
+                      primary={`N$ ${itemsMock[0].price.day}`}
+                      secondary='Per Day'
+                      sx={{ textAlign: "center" }}
+                    />
+                  </ListItem>
+                  <Divider component='li' orientation='vertical' flexItem />
+                  <ListItem>
+                    <ListItemText
+                      primary={`N$ ${itemsMock[0].price.week}`}
+                      secondary='Per Week'
+                      sx={{ textAlign: "center" }}
+                    />
+                  </ListItem>
+                  <Divider component='li' orientation='vertical' flexItem />
+                  <ListItem>
+                    <ListItemText
+                      primary={`N$ ${itemsMock[0].price.month}`}
+                      secondary='Per Month'
+                      sx={{ textAlign: "center" }}
+                    />
+                  </ListItem>
+                </List>
+                <Typography variant='subtitle1'>Other Items</Typography>
+                <ItemsCouresal items={itemsMock} maxWidth={400} />
               </div>
             </aside>
           </div>

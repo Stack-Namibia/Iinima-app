@@ -17,7 +17,11 @@ interface Props {
     name: string;
     images: string[];
     location: string;
-    price: number;
+    price: {
+      day: number;
+      week: number;
+      month: number;
+    };
     description: string;
     category: string;
     likes: number;
