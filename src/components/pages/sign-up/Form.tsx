@@ -19,12 +19,44 @@ const Form = () => {
   const [passwordCheck, setPasswordCheck] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [terms, setTerms] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
   };
+
+  const clearData = () => {
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+    setPasswordCheck(true);
+    setTerms(false);
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const data = {
+      firstName,
+      lastName,
+      email,
+      password,
+    };
+    console.log(data);
+    setLoading(true);
+
+    //Replace with call to API and Reduz store to save user data
+    setTimeout(() => {
+      setLoading(false);
+      clearData();
+    }, 5000);
+  };
+
+  const enableSubmit =
+    firstName && lastName && email && password && terms && passwordCheck;
 
   const textField: any = {
     variant: "outlined",
@@ -64,7 +96,7 @@ const Form = () => {
           </IconButton>
         </div>
         <div className='divider'>Or</div>
-        <form>
+        <form onSubmit={(e) => handleSubmit(e)}>
           <div className='mb-2'>
             <TextField
               {...textField}
@@ -152,7 +184,12 @@ const Form = () => {
               </Link>
             </span>
           </div>
-          <Button text='Sign Up' type='submit' />
+          <Button
+            text='Sign Up'
+            type='submit'
+            disabled={!enableSubmit}
+            loading={loading}
+          />
         </form>
         <p className='mt-2 font-semibold text-[#7E7A7A] text-sm'>
           Already have an account?{" "}
