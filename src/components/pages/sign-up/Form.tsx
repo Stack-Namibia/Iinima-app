@@ -1,6 +1,11 @@
-import { Facebook, Twitter, Google } from "@mui/icons-material";
-import { IconButton, Checkbox, TextField } from "@mui/material";
-import { Input } from "../../general/Input";
+import {
+  Facebook,
+  Twitter,
+  Google,
+  Visibility,
+  VisibilityOff,
+} from "@mui/icons-material";
+import { IconButton, Checkbox, TextField, InputAdornment } from "@mui/material";
 import { Button } from "../../general/Button";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -11,10 +16,17 @@ const Form = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [terms, setTerms] = useState(false);
   const [passwordCheck, setPasswordCheck] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+  const [terms, setTerms] = useState(false);
 
-  const inputProps: any = {
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
+
+  const textField: any = {
     variant: "outlined",
     fullWidth: true,
     margin: "dense",
@@ -55,7 +67,7 @@ const Form = () => {
         <form>
           <div className='mb-2'>
             <TextField
-              {...inputProps}
+              {...textField}
               id='firstName'
               label='First Name'
               type='text'
@@ -66,7 +78,7 @@ const Form = () => {
           </div>
           <div className='mb-2'>
             <TextField
-              {...inputProps}
+              {...textField}
               id='lastName'
               label='Last Name'
               type='text'
@@ -77,7 +89,7 @@ const Form = () => {
           </div>
           <div className='mb-2'>
             <TextField
-              {...inputProps}
+              {...textField}
               id='email'
               label='Email'
               type='email'
@@ -88,21 +100,35 @@ const Form = () => {
           </div>
           <div>
             <TextField
-              {...inputProps}
+              {...textField}
               id='password'
               label='Password'
-              type='password'
+              type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required={true}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    <IconButton
+                      aria-label='toggle password visibility'
+                      onClick={() => setShowPassword(!showPassword)}
+                      onMouseDown={handleMouseDownPassword}
+                      edge='end'
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
           </div>
           <div>
             <TextField
-              {...inputProps}
+              {...textField}
               id='confirmPassword'
               label='Confirm Password'
-              type='password'
+              type={showPassword ? "text" : "password"}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required={true}
