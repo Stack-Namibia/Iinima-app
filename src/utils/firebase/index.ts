@@ -1,4 +1,10 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  TwitterAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import { auth } from "../../plugins/firebase";
 import { User, UsersApi } from "../../api/accounts";
 
@@ -8,6 +14,7 @@ interface EmailSignUp {
   email: string;
   password: string;
 }
+const googleProvider = new GoogleAuthProvider();
 
 export const signupWithEmailAndPassword = async ({
   firstName,
@@ -29,6 +36,93 @@ export const signupWithEmailAndPassword = async ({
     const newUser = await usersApi.createUserApiV1Post(user, {
       headers: {
         Authorization: `Bearer ${await reponse.user.getIdToken()}`,
+      },
+    });
+
+    return newUser;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const signInWithGoogle = async () => {
+  try {
+    const response: any = await signInWithPopup(auth, googleProvider);
+    const usersApi = new UsersApi();
+
+    const [firstName, lastName] = response.user.displayName.split(" ");
+
+    const user: User = {
+      user_id: response.user.uid,
+      firstName,
+      lastName,
+      email: response.user.email,
+    };
+
+    const newUser = await usersApi.createUserApiV1Post(user, {
+      headers: {
+        Authorization: `Bearer ${await response.user.getIdToken()}`,
+      },
+    });
+
+    return newUser;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const signInWithFacebook = async () => {
+  try {
+    const response: any = await signInWithPopup(
+      auth,
+      new FacebookAuthProvider()
+    );
+    const usersApi = new UsersApi();
+
+    const [firstName, lastName] = response.user.displayName.split(" ");
+
+    const user: User = {
+      user_id: response.user.uid,
+      firstName,
+      lastName,
+      email: response.user.email,
+    };
+
+    const newUser = await usersApi.createUserApiV1Post(user, {
+      headers: {
+        Authorization: `Bearer ${await response.user.getIdToken()}`,
+      },
+    });
+
+    return newUser;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const signInWithTwitter = async () => {
+  try {
+    const response: any = await signInWithPopup(
+      auth,
+      new TwitterAuthProvider()
+    );
+    const usersApi = new UsersApi();
+
+    const [firstName, lastName] = response.user.displayName.split(" ");
+
+    const user: User = {
+      user_id: response.user.uid,
+      firstName,
+      lastName,
+      email: response.user.email,
+    };
+
+    const newUser = await usersApi.createUserApiV1Post(user, {
+      headers: {
+        Authorization: `Bearer ${await response.user.getIdToken()}`,
       },
     });
 
