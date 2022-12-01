@@ -16,12 +16,12 @@ import { AvatarIcon } from "./AvatarIcon";
 import { Link } from "react-router-dom";
 
 const pages = [
-  { text: "How it works", to: "howitworks" },
-  { text: "List an item", to: "listanitem" },
+  { text: "How it works", to: "/howitworks" },
+  { text: "List an item", to: "/item/list" },
 ];
 const pages2 = [
   { text: "How it works", to: "/howitworks" },
-  { text: "List an item", to: "/listanitem" },
+  { text: "List an item", to: "/item/list" },
   { text: "Login", to: "/signin" },
 ];
 export const settings = ["Profile", "Account", "Dashboard", "Logout"];

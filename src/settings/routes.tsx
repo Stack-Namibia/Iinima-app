@@ -1,3 +1,4 @@
+import BrowseItems from "../components/pages/items/browse-items";
 import EditItem from "../components/pages/EditItem";
 import Home from "../components/pages/Home";
 import ListItem from "../components/pages/items/list-items";
@@ -41,6 +42,11 @@ const routes = [
   {
     path: "/item/list",
     element: <ListItem />,
+    key: "ListItem",
+  },
+  {
+    path: "/item/browse",
+    element: <BrowseItems />,
     key: "ListItem",
   },
   {
