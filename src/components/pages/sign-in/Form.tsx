@@ -21,6 +21,24 @@ const Form = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const clearData = () => {
+    setEmail("");
+    setPassword("");
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const data = { email, password };
+    console.log(data);
+
+    setLoading(true);
+    //Replace with API call to authenticate user
+    setTimeout(() => {
+      setLoading(false);
+      clearData();
+    }, 5000);
+  };
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
@@ -35,13 +53,14 @@ const Form = () => {
         <h1 className='mb-4 text-2xl font-bold text-center text-gray-700'>
           Login to Your Account
         </h1>
-        <form>
+        <form onSubmit={(e) => handleSubmit(e)}>
           <div className='mb-2'>
             <TextField
               {...TextFieldProps}
               id='email'
               label='Email'
               type='email'
+              required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -54,6 +73,7 @@ const Form = () => {
               type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>
@@ -78,7 +98,7 @@ const Form = () => {
               Forgot your password?
             </Link>
           </p>
-          <Button text='Sign In' type='submit' />
+          <Button text='Sign In' type='submit' loading={loading} />
         </form>
         <p className='mt-2 font-semibold text-[#7E7A7A] text-sm'>
           Don't have an account?{" "}
