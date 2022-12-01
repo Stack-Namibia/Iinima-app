@@ -9,6 +9,7 @@ import { IconButton, Checkbox, TextField, InputAdornment } from "@mui/material";
 import { Button } from "../../general/Button";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { signupWithEmailAndPassword } from "../../../utils/firebase";
 
 const Form = () => {
   const [firstName, setFirstName] = useState("");
@@ -49,14 +50,15 @@ const Form = () => {
     setLoading(true);
 
     //Replace with call to API and Reduz store to save user data
-    setTimeout(() => {
+    signupWithEmailAndPassword(data).then((res) => {
+      console.log(res);
       setLoading(false);
       clearData();
-    }, 5000);
+    });
   };
 
   const enableSubmit =
-    firstName && lastName && email && password && terms && passwordCheck;
+    firstName && lastName && email && password && passwordCheck;
 
   const textField: any = {
     variant: "outlined",
