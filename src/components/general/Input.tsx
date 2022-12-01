@@ -8,6 +8,11 @@ interface Props {
   adornment?: string;
   value?: any;
   onChange?: (e: any) => void;
+  required?: boolean;
+  error?: {
+    error: true;
+    helperText: string;
+  };
 }
 
 export const Input = ({
@@ -18,6 +23,8 @@ export const Input = ({
   adornment,
   value,
   onChange,
+  required,
+  error,
 }: Props) => (
   <TextField
     id={id}
@@ -39,6 +46,8 @@ export const Input = ({
         : {}
     }
     value={value}
+    required={required}
     onChange={onChange}
+    {...error}
   />
 );
