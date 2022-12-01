@@ -6,9 +6,19 @@ interface Props {
   type: string;
   multiline?: boolean;
   adornment?: string;
+  value?: any;
+  onChange?: (e: any) => void;
 }
 
-export const Input = ({ id, label, type, multiline, adornment }: Props) => (
+export const Input = ({
+  id,
+  label,
+  type,
+  multiline,
+  adornment,
+  value,
+  onChange,
+}: Props) => (
   <TextField
     id={id}
     label={label}
@@ -28,5 +38,7 @@ export const Input = ({ id, label, type, multiline, adornment }: Props) => (
           }
         : {}
     }
+    value={value}
+    onChange={onChange}
   />
 );
