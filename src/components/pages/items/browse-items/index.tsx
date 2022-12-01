@@ -1,6 +1,6 @@
 import ApplicationWrapper from "../../../general/ApplicationWrapper";
 import { Phone, WhatsApp } from "@mui/icons-material";
-import ItemsCard from "./ItemCard";
+import ItemsCard from "../../../general/ItemCard";
 import Couresal from "../../../general/Couresal";
 import { IconButton, Typography } from "@mui/material";
 import { Favorite } from "@mui/icons-material";
@@ -180,48 +180,48 @@ const categories = ["Tools", "Electronics", "Furniture", "Clothing", "Books"];
 const BrowseItems = () => {
   return (
     <ApplicationWrapper>
-      <div className='flex h-screen'>
+      <div className="flex h-screen">
         {/* Content area */}
-        <div className='flex flex-1 flex-col overflow-hidden'>
-          <header className='w-full border-b border-gray-200 bg-white shadow-sm'>
-            <div className='relative z-10 flex h-16 flex-shrink-0 bg-white'>
-              <div className='flex flex-1 justify-between px-4 sm:px-6'>
-                <div className='flex flex-1'>
+        <div className="flex flex-1 flex-col overflow-hidden">
+          <header className="w-full border-b border-gray-200 bg-white shadow-sm">
+            <div className="relative z-10 flex h-16 flex-shrink-0 bg-white">
+              <div className="flex flex-1 justify-between px-4 sm:px-6">
+                <div className="flex flex-1">
                   <SearchInput data={itemsMock.map((item) => item.name)} />
                 </div>
               </div>
             </div>
-            <div className='flex-row md:flex lg:flex pl-5 pr-5'>
+            <div className="flex-row md:flex lg:flex pl-5 pr-5">
               <MultiSelect data={locations} label={"Locations"} />
               <MultiSelect data={categories} label={"Categories"} />
             </div>
           </header>
 
           {/* Main content */}
-          <div className='flex flex-1 items-stretch overflow-hidden'>
-            <main className='flex-1 overflow-y-auto'>
-              <div className='mx-auto max-w-4xl px-4 pt-8 sm:px-4 lg:px-4'>
-                <div className='flex'>
-                  <h1 className='flex-1 text-2xl font-bold text-gray-900'>
+          <div className="flex flex-1 items-stretch overflow-hidden">
+            <main className="flex-1 overflow-y-auto">
+              <div className="mx-auto max-w-4xl px-4 pt-8 sm:px-4 lg:px-4">
+                <div className="flex">
+                  <h1 className="flex-1 text-2xl font-bold text-gray-900">
                     Items
                   </h1>
                 </div>
                 {/* Gallery */}
                 <section
-                  className='mt-8 pb-16'
-                  aria-labelledby='gallery-heading'
+                  className="mt-8 pb-16"
+                  aria-labelledby="gallery-heading"
                 >
-                  <h2 id='gallery-heading' className='sr-only'>
+                  <h2 id="gallery-heading" className="sr-only">
                     Recently viewed
                   </h2>
                   <div
-                    role='list'
-                    className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2'
+                    role="list"
+                    className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2"
                   >
                     {itemsMock.map((item) => (
                       <li
                         key={item.name}
-                        className='col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow'
+                        className="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow"
                       >
                         <ItemsCard item={item} />
                       </li>
@@ -232,22 +232,22 @@ const BrowseItems = () => {
             </main>
 
             {/* Details sidebar */}
-            <aside className='hidden w-96 overflow-y-auto border-l border-gray-200 bg-white p-8 lg:block'>
-              <div className='space-y-6 pb-16'>
+            <aside className="hidden w-96 overflow-y-auto border-l border-gray-200 bg-white p-8 lg:block">
+              <div className="space-y-6 pb-16">
                 {/* select items details here */}
-                <div className='flex-row'>
+                <div className="flex-row">
                   <Couresal data={itemsMock[0].images} maxWidth={400} />
-                  <div className='flex justify-between mt-2'>
-                    <div className='flex-row'>
-                      <h1 className='text-2xl font-bold text-gray-900'>
+                  <div className="flex justify-between mt-2">
+                    <div className="flex-row">
+                      <h1 className="text-2xl font-bold text-gray-900">
                         {itemsMock[0].name}
                       </h1>
-                      <span className='font-semibold text-gray-400 text-sm'>
+                      <span className="font-semibold text-gray-400 text-sm">
                         {itemsMock[0].location}
                       </span>
                     </div>
-                    <div className='flex-col'>
-                      <IconButton aria-label='add to favorites'>
+                    <div className="flex-col">
+                      <IconButton aria-label="add to favorites">
                         <Favorite />
                       </IconButton>
                       <IconButton>
@@ -259,13 +259,13 @@ const BrowseItems = () => {
                     </div>
                   </div>
                 </div>
-                <Typography variant='subtitle1'>Description</Typography>
+                <Typography variant="subtitle1">Description</Typography>
                 <div>
-                  <Typography variant='body2' color='text.secondary'>
+                  <Typography variant="body2" color="text.secondary">
                     {itemsMock[0].description}
                   </Typography>
                 </div>
-                <Typography variant='subtitle1'>Prices</Typography>
+                <Typography variant="subtitle1">Prices</Typography>
                 <List
                   sx={{
                     width: "100%",
@@ -277,28 +277,28 @@ const BrowseItems = () => {
                   <ListItem>
                     <ListItemText
                       primary={`N$ ${itemsMock[0].price.day}`}
-                      secondary='Per Day'
+                      secondary="Per Day"
                       sx={{ textAlign: "center" }}
                     />
                   </ListItem>
-                  <Divider component='li' orientation='vertical' flexItem />
+                  <Divider component="li" orientation="vertical" flexItem />
                   <ListItem>
                     <ListItemText
                       primary={`N$ ${itemsMock[0].price.week}`}
-                      secondary='Per Week'
+                      secondary="Per Week"
                       sx={{ textAlign: "center" }}
                     />
                   </ListItem>
-                  <Divider component='li' orientation='vertical' flexItem />
+                  <Divider component="li" orientation="vertical" flexItem />
                   <ListItem>
                     <ListItemText
                       primary={`N$ ${itemsMock[0].price.month}`}
-                      secondary='Per Month'
+                      secondary="Per Month"
                       sx={{ textAlign: "center" }}
                     />
                   </ListItem>
                 </List>
-                <Typography variant='subtitle1'>Other Items</Typography>
+                <Typography variant="subtitle1">Other Items</Typography>
                 <ItemsCouresal items={itemsMock} maxWidth={400} />
               </div>
             </aside>
