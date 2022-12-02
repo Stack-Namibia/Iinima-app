@@ -62,7 +62,7 @@ const Home = () => {
                 className="font-bold text-7xl text-black whitespace-pre-line w-3/4 mt-10
                "
               >
-                From withing your area
+                From within your area
               </div>
               <div className="flex flex-col items-center mt-10 lg:flex-row">
                 <div className="flex space-x-1 block w-full px-4 py-2 bg-white border rounded-full focus:border-purple-400 drop-shadow-2xl">
