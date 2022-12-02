@@ -28,7 +28,7 @@ export const signupWithEmailAndPassword = async ({
     // const usersApi = new UsersApi();
 
 
-    sessionStorage.setItem('apiToken', await reponse.user.getIdToken());
+    sessionStorage.setItem('firebaseToken', await reponse.user.getIdToken());
 
     const user: User = {
       user_id: reponse.user.uid,
