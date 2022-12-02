@@ -7,6 +7,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../../plugins/firebase";
 import { User, UsersApi } from "../../api/accounts";
+import { createUser } from "../../services/api/accounts-api";
 
 interface EmailSignUp {
   firstName: string;
@@ -24,7 +25,10 @@ export const signupWithEmailAndPassword = async ({
 }: EmailSignUp) => {
   try {
     const reponse = await createUserWithEmailAndPassword(auth, email, password);
-    const usersApi = new UsersApi();
+    // const usersApi = new UsersApi();
+
+
+    sessionStorage.setItem('apiToken', await reponse.user.getIdToken());
 
     const user: User = {
       user_id: reponse.user.uid,
@@ -33,11 +37,13 @@ export const signupWithEmailAndPassword = async ({
       email,
     };
 
-    const newUser = await usersApi.createUserApiV1Post(user, {
-      headers: {
-        Authorization: `Bearer ${await reponse.user.getIdToken()}`,
-      },
-    });
+    const newUser = await createUser(user);
+
+    // const newUser = await usersApi.createUserApiV1Post(user, {
+    //   headers: {
+    //     Authorization: `Bearer ${await reponse.user.getIdToken()}`,
+    //   },
+    // });
 
     return newUser;
   } catch (error) {
