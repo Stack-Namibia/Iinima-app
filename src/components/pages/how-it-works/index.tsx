@@ -1,4 +1,4 @@
-import ApplicationWrapper from "../../general/ApplicationWrapper";
+import HowItWorksWrapper from "../../general/HowItWorksWrapper";
 import logo from "../../../assets/iinima.svg";
 import undraw from "../../../assets/read_time.svg";
 import styled from "styled-components";
@@ -7,7 +7,7 @@ import BrowseItemButton from "../../general/BrowseItemButton";
 
 const HowItWorks = () => {
   return (
-    <ApplicationWrapper>
+    <HowItWorksWrapper>
       <div className="flex-row justify-center max-w-full bg-white rounded-lg mb-0 md:flex md:items-center mr-0 ml-0">
         <div className="py-12">
           <div className="hero-content flex-col lg:flex-row-reverse">
@@ -115,7 +115,7 @@ const HowItWorks = () => {
           </div>
         </div>
       </div>
-    </ApplicationWrapper>
+    </HowItWorksWrapper>
   );
 };
 
