@@ -1,4 +1,4 @@
-import ApplicationWrapper from "../../general/ApplicationWrapper";
+import HowItWorksWrapper from "../../general/HowItWorksWrapper";
 import logo from "../../../assets/iinima.svg";
 import undraw from "../../../assets/read_time.svg";
 import styled from "styled-components";
@@ -7,8 +7,8 @@ import BrowseItemButton from "../../general/BrowseItemButton";
 
 const HowItWorks = () => {
   return (
-    <ApplicationWrapper>
-      <div className="flex-row justify-center max-w-full bg-white rounded-lg mb-5 md:flex md:items-center mr-4 ml-4">
+    <HowItWorksWrapper>
+      <div className="flex-row justify-center max-w-full bg-white rounded-lg mb-0 md:flex md:items-center mr-0 ml-0">
         <div className="py-12">
           <div className="hero-content flex-col lg:flex-row-reverse">
             <img src={undraw} className="max-w-sm rounded-lg" alt="img" />
@@ -27,7 +27,7 @@ const HowItWorks = () => {
           </div>
         </div>
       </div>
-      <div className="flex-row justify-center max-w-full bg-white rounded-lg mb-5 md:flex md:items-center mr-4 ml-4 bg-wave1">
+      <div className="flex-row justify-center max-w-full bg-white rounded-lg mb-0 md:flex md:items-center mr-0 ml-0 bg-wave1">
         <div className="py-12">
           <div className="hero-content flex-col lg:flex-row">
             <img src={logo} className="max-w-sm rounded-lg" alt="img" />
@@ -64,7 +64,7 @@ const HowItWorks = () => {
         </div>
       </div>
 
-      <div className="flex-row justify-center max-w-full bg-white rounded-lg mb-5 md:flex md:items-center mr-4 ml-4">
+      <div className="flex-row justify-center max-w-full bg-white rounded-lg mb-0 md:flex md:items-center mr-0 ml-0">
         <div className="py-12">
           <div className="hero-content flex-col lg:flex-row-reverse">
             <img src={logo} className="max-w-sm rounded-lg" alt="img" />
@@ -94,7 +94,7 @@ const HowItWorks = () => {
         </div>
       </div>
 
-      <div className="flex-row justify-center max-w-full bg-white rounded-lg mb-5 md:flex md:items-center mr-4 ml-4 bg-wave2">
+      <div className="flex-row justify-center max-w-full bg-white rounded-lg mb-0 md:flex md:items-center mr-0 ml-0 bg-wave2">
         <div className="py-12">
           <div className="hero-content flex-col lg:flex-row">
             <img src={logo} className="max-w-sm rounded-lg" alt="img" />
@@ -115,7 +115,7 @@ const HowItWorks = () => {
           </div>
         </div>
       </div>
-    </ApplicationWrapper>
+    </HowItWorksWrapper>
   );
 };
 
