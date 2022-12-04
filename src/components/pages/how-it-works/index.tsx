@@ -3,6 +3,7 @@ import logo from "../../../assets/iinima.svg";
 import undraw from "../../../assets/read_time.svg";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import BrowseItemButton from "../../general/BrowseItemButton";
 
 const HowItWorks = () => {
   return (
@@ -52,12 +53,11 @@ const HowItWorks = () => {
                 Arrange pick up with the owner
               </SecondHeaders>
               <p className="text-black mt-1 text-left text-gray-500 whitespace-normal">
-                Search for the items you’re looking for and filter by location.
+                Use chat to arrange convenient times to pick up the item and ask
+                any questions you might have.
               </p>
               <Link to={"/item/browse"}>
-                <LinkButton className="btn gap-2 bg-primary rounded-[180px] border-none text-white mt-5">
-                  browse items
-                </LinkButton>
+                <BrowseItemButton />
               </Link>
             </div>
           </div>
@@ -87,9 +87,7 @@ const HowItWorks = () => {
                 item is available and you want to keep it for longer.
               </p>
               <Link to={"/item/browse"}>
-                <LinkButton className="btn gap-2 bg-primary rounded-[180px] border-none text-white mt-5">
-                  browse items
-                </LinkButton>
+                <BrowseItemButton />
               </Link>
             </div>
           </div>
@@ -111,9 +109,7 @@ const HowItWorks = () => {
                 protect this wonderful planet we live on.
               </p>
               <Link to={"/item/browse"}>
-                <LinkButton className="btn gap-2 bg-primary rounded-[180px] border-none text-white mt-5">
-                  browse items
-                </LinkButton>
+                <BrowseItemButton />
               </Link>
             </div>
           </div>
@@ -130,9 +126,4 @@ const Headers = styled.h1`
 `;
 const SecondHeaders = styled.h2`
   color: #545454;
-`;
-
-const LinkButton = styled.button`
-  background-color: #c13327;
-  text-align: center;
 `;

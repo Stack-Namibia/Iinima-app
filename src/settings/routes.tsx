@@ -1,6 +1,6 @@
 import BrowseItems from "../components/pages/items/browse-items";
 import EditItem from "../components/pages/EditItem";
-import Home from "../components/pages/Home";
+import Home from "../components/pages/Landing-page";
 import ListItem from "../components/pages/items/list-items";
 import HttpError from "../components/pages/http-error";
 import Profile from "../components/pages/profile";
