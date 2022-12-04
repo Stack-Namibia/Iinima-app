@@ -7,7 +7,9 @@ import {
 } from "firebase/auth";
 import { auth } from "../../plugins/firebase";
 import { User, UsersApi } from "../../api/accounts";
-import { createUser } from "../../services/api/accounts-api";
+import { getApiConfig } from "./api-config";
+
+const usersApi = new UsersApi(getApiConfig());
 
 interface EmailSignUp {
   firstName: string;
@@ -25,10 +27,8 @@ export const signupWithEmailAndPassword = async ({
 }: EmailSignUp) => {
   try {
     const reponse = await createUserWithEmailAndPassword(auth, email, password);
-    // const usersApi = new UsersApi();
 
-
-    sessionStorage.setItem('firebaseToken', await reponse.user.getIdToken());
+    sessionStorage.setItem("firebaseToken", await reponse.user.getIdToken());
 
     const user: User = {
       user_id: reponse.user.uid,
@@ -37,13 +37,11 @@ export const signupWithEmailAndPassword = async ({
       email,
     };
 
-    const newUser = await createUser(user);
-
-    // const newUser = await usersApi.createUserApiV1Post(user, {
-    //   headers: {
-    //     Authorization: `Bearer ${await reponse.user.getIdToken()}`,
-    //   },
-    // });
+    const newUser = await usersApi.createUserApiV1Post(user, {
+      headers: {
+        Authorization: `Bearer ${await reponse.user.getIdToken()}`,
+      },
+    });
 
     return newUser;
   } catch (error) {
@@ -55,8 +53,6 @@ export const signupWithEmailAndPassword = async ({
 export const signInWithGoogle = async () => {
   try {
     const response: any = await signInWithPopup(auth, googleProvider);
-    const usersApi = new UsersApi();
-
     const [firstName, lastName] = response.user.displayName.split(" ");
 
     const user: User = {
@@ -85,8 +81,6 @@ export const signInWithFacebook = async () => {
       auth,
       new FacebookAuthProvider()
     );
-    const usersApi = new UsersApi();
-
     const [firstName, lastName] = response.user.displayName.split(" ");
 
     const user: User = {
@@ -115,8 +109,6 @@ export const signInWithTwitter = async () => {
       auth,
       new TwitterAuthProvider()
     );
-    const usersApi = new UsersApi();
-
     const [firstName, lastName] = response.user.displayName.split(" ");
 
     const user: User = {
