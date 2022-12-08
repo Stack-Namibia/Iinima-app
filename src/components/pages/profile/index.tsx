@@ -6,6 +6,7 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import ApplicationWrapper from "../../general/ApplicationWrapper";
+import { Link } from "react-router-dom";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -102,6 +103,7 @@ const Profile = () => {
                             </Name>
                           </div>
                           <div className='justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4'>
+                            <Link to={"/profile/edit"}>
                             <EditButton
                               type='button'
                               className='inline-flex justify-center rounded-3xl border border-gray-300 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2'
@@ -112,6 +114,7 @@ const Profile = () => {
                               />
                               <span>Edit Profile</span>
                             </EditButton>
+                            </Link>
                           </div>
                         </div>
                       </div>

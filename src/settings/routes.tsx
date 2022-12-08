@@ -7,6 +7,7 @@ import Profile from "../components/pages/profile";
 import SignIn from "../components/pages/sign-in";
 import SignUp from "../components/pages/sign-up";
 import HowItWorks from "../components/pages/how-it-works";
+import ProfileEdit from "../components/pages/profile-edit";
 
 const routes = [
   {
@@ -27,6 +28,11 @@ const routes = [
   {
     path: "/profile",
     element: <Profile />,
+    key: "Profile",
+  },
+  {
+    path: "/profile/edit",
+    element: <ProfileEdit />,
     key: "Profile",
   },
   {

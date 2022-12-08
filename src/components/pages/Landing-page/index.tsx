@@ -69,7 +69,7 @@ const Home = () => {
                 From within your area
               </div>
               <div className="flex flex-col items-center mt-10 lg:flex-row">
-                <div className="flex space-x-1 block w-full px-4 py-2 bg-white border rounded-full focus:border-purple-400 drop-shadow-2xl">
+                <div className="flex space-x-1 w-full px-4 py-2 bg-white border rounded-full focus:border-purple-400 drop-shadow-2xl">
                   <input
                     type="text"
                     className="w-full text-center focus:ring-transparent focus:outline-none bg-transparent text-black"
@@ -104,17 +104,17 @@ const Home = () => {
         </div>
         <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 cursor-pointer">
           {categories.map((category) => (
-            <li
+            <CardList
               key={category.name}
               className="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow"
             >
               <ImageDiv className="flex flex-1 flex-col">
                 <Image className="rounded-lg" src={category.imageUrl} alt="" />
-                <h3 className="font-bold text-2xl mt-6 text-sm font-medium text-gray-900 text-center mb-5">
+                <h3 className="text-2xl mt-6 font-medium text-gray-900 text-center mb-5">
                   {category.name}
                 </h3>
               </ImageDiv>
-            </li>
+            </CardList>
           ))}
         </ul>
       </div>
@@ -172,4 +172,11 @@ const ImageDiv = styled.div`
     height: 227px;
     object-fit: cover;
   }
+`;
+
+const CardList = styled.li`
+&:hover {
+  scale: 1.1;
+  transition-duration: 900ms;
+}
 `;
