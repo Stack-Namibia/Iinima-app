@@ -7,7 +7,7 @@ export const setAuthUser = (user: User) => {
   return (dispatch: Dispatch<AuthAction>) => {
     try {
       dispatch({
-        type: AuthActionTypes.SET_AUTH_USER,
+        type: AuthActionTypes.LOGIN,
         payload: user,
       });
     } catch (error) {

@@ -1,8 +1,8 @@
 import { User } from "../../api/accounts";
 import { AuthActionTypes } from "../action-types/auth-action-type";
 
-interface SetAuthUserAction {
-  type: AuthActionTypes.SET_AUTH_USER;
+interface LoginAction {
+  type: AuthActionTypes.LOGIN;
   payload: User;
 }
 
@@ -10,4 +10,4 @@ interface LogoutAction {
   type: AuthActionTypes.LOGOUT;
 }
 
-export type AuthAction = SetAuthUserAction | LogoutAction;
+export type AuthAction = LoginAction | LogoutAction;
