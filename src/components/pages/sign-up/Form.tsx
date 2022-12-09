@@ -15,8 +15,14 @@ import {
   signInWithTwitter,
   signupWithEmailAndPassword,
 } from "../../../utils/firebase";
+import { useDispatch } from "react-redux";
+import * as authActionCreators from "../../../store/action-creators/auth-action-creators";
+import { bindActionCreators } from "@reduxjs/toolkit";
 
 const Form = () => {
+  const dispatch = useDispatch();
+  const { setAuthUser } = bindActionCreators(authActionCreators, dispatch);
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -55,16 +61,18 @@ const Form = () => {
     setLoading(true);
 
     //Replace with call to API and Reduz store to save user data
-    signupWithEmailAndPassword(data).then((res) => {
+    signupWithEmailAndPassword(data).then((res: any) => {
       console.log(res);
+      setAuthUser(res.data);
       setLoading(false);
       clearData();
     });
   };
 
   const handleGoogleSignIn = () => {
-    signInWithGoogle().then((res) => {
+    signInWithGoogle().then((res: any) => {
       console.log(res);
+      setAuthUser(res.data);
       setLoading(false);
       clearData();
     });
