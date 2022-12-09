@@ -53,13 +53,17 @@ const Home = () => {
       <div className="flex-row justify-center max-w-full bg-white rounded-lg mb-5 md:flex md:items-center mr-4 ml-4">
         <div className="py-12">
           <div className="hero-content flex-col lg:flex-row-reverse">
-            <img src={logo} className="max-w-sm rounded-lg" alt="img" />
+            <img
+              src={logo}
+              className="hidden max-w-sm rounded-lg lg:block"
+              alt="img "
+            />
             <div className="flex flex-col justify-center mt-10 w-full">
               <h1 className="font-bold text-7xl text-black">
                 Rent <MarkText>Anything</MarkText>
               </h1>
               <div
-                className="font-bold text-7xl text-black whitespace-pre-line w-3/4 mt-10
+                className="font-bold text-7xl text-black whitespace-pre-line w-3/4 mt-3
                "
               >
                 From within your area
@@ -68,7 +72,7 @@ const Home = () => {
                 <div className="flex space-x-1 block w-full px-4 py-2 bg-white border rounded-full focus:border-purple-400 drop-shadow-2xl">
                   <input
                     type="text"
-                    className="w-full text-center focus:ring-transparent focus:outline-none"
+                    className="w-full text-center focus:ring-transparent focus:outline-none bg-transparent text-black"
                     placeholder="Search..."
                   />
                   <SearchButton className="btn gap-2 bg-primary rounded-[180px] border-none text-white">
@@ -89,8 +93,8 @@ const Home = () => {
       <div className="flex-col justify-center max-w-full bg-white rounded-lg mb-5 md:flex md:items-center mr-4 ml-4">
         <Seperator className="w-full border-t border-gray-300 mb-5 lg:w-screen">
           <div className="m-5 text-center">
-            <h1 className="mb-4">Looking for something?</h1>
-            <BrowseItemButton className="btn bg-white rounded-[180px] border-none text-white lg:mt-0 drop-shadow-2xl text-sm mb-5">
+            <h1 className="mb-4 text-black">Looking for something?</h1>
+            <BrowseItemButton className="btn bg-white rounded-[180px] border-none text-white lg:mt-0 drop-shadow-2xl text-sm mb-5 hover:text-white">
               Browse
             </BrowseItemButton>
           </div>
@@ -98,7 +102,7 @@ const Home = () => {
         <div className="font-bold text-3xl text-black mb-5 text-left">
           <h1>Categories</h1>
         </div>
-        <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 cursor-pointer">
           {categories.map((category) => (
             <li
               key={category.name}

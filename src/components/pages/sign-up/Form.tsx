@@ -9,15 +9,6 @@ import { IconButton, Checkbox, TextField, InputAdornment } from "@mui/material";
 import { Button } from "../../general/Button";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import {
-  signInWithFacebook,
-  signInWithGoogle,
-  signInWithTwitter,
-  signupWithEmailAndPassword,
-} from "../../../utils/firebase";
-import { useDispatch } from "react-redux";
-import * as authActionCreators from "../../../store/action-creators/auth-action-creators";
-import { bindActionCreators } from "@reduxjs/toolkit";
 
 const Form = () => {
   const dispatch = useDispatch();
@@ -89,11 +80,11 @@ const Form = () => {
       setAuthUser(res.data);
       setLoading(false);
       clearData();
-    });
+    }, 5000);
   };
 
   const enableSubmit =
-    firstName && lastName && email && password && passwordCheck;
+    firstName && lastName && email && password && terms && passwordCheck;
 
   const textField: any = {
     variant: "outlined",
@@ -113,19 +104,19 @@ const Form = () => {
           Sign up now and get started with an account
         </p>
         <div className='flex items-center justify-center gap-4'>
-          <IconButton onClick={() => handleFacebookSignIn()}>
+          <IconButton>
             <Facebook
               fontSize='large'
               className='text-primary hover:text-black'
             />
           </IconButton>
-          <IconButton onClick={() => handleTwitterSignIn()}>
+          <IconButton>
             <Twitter
               fontSize='large'
               className='text-primary hover:text-black'
             />
           </IconButton>
-          <IconButton onClick={() => handleGoogleSignIn()}>
+          <IconButton>
             <Google
               fontSize='large'
               className='text-primary hover:text-black'
