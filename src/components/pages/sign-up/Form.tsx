@@ -57,9 +57,7 @@ const Form = () => {
       email,
       password,
     };
-    console.log(data);
     setLoading(true);
-
     //Replace with call to API and Reduz store to save user data
     signupWithEmailAndPassword(data).then((res: any) => {
       console.log(res);
@@ -79,16 +77,16 @@ const Form = () => {
   };
 
   const handleFacebookSignIn = () => {
-    signInWithFacebook().then((res) => {
-      console.log(res);
+    signInWithFacebook().then((res: any) => {
+      setAuthUser(res.data);
       setLoading(false);
       clearData();
     });
   };
 
   const handleTwitterSignIn = () => {
-    signInWithTwitter().then((res) => {
-      console.log(res);
+    signInWithTwitter().then((res: any) => {
+      setAuthUser(res.data);
       setLoading(false);
       clearData();
     });
