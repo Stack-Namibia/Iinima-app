@@ -9,6 +9,12 @@ import { IconButton, Checkbox, TextField, InputAdornment } from "@mui/material";
 import { Button } from "../../general/Button";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import {
+  signInWithFacebook,
+  signInWithGoogle,
+  signInWithTwitter,
+  signupWithEmailAndPassword,
+} from "../../../utils/firebase";
 
 const Form = () => {
   const [firstName, setFirstName] = useState("");
@@ -49,14 +55,39 @@ const Form = () => {
     setLoading(true);
 
     //Replace with call to API and Reduz store to save user data
-    setTimeout(() => {
+    signupWithEmailAndPassword(data).then((res) => {
+      console.log(res);
       setLoading(false);
       clearData();
-    }, 5000);
+    });
+  };
+
+  const handleGoogleSignIn = () => {
+    signInWithGoogle().then((res) => {
+      console.log(res);
+      setLoading(false);
+      clearData();
+    });
+  };
+
+  const handleFacebookSignIn = () => {
+    signInWithFacebook().then((res) => {
+      console.log(res);
+      setLoading(false);
+      clearData();
+    });
+  };
+
+  const handleTwitterSignIn = () => {
+    signInWithTwitter().then((res) => {
+      console.log(res);
+      setLoading(false);
+      clearData();
+    });
   };
 
   const enableSubmit =
-    firstName && lastName && email && password && terms && passwordCheck;
+    firstName && lastName && email && password && passwordCheck;
 
   const textField: any = {
     variant: "outlined",
@@ -76,19 +107,19 @@ const Form = () => {
           Sign up now and get started with an account
         </p>
         <div className='flex items-center justify-center gap-4'>
-          <IconButton>
+          <IconButton onClick={() => handleFacebookSignIn()}>
             <Facebook
               fontSize='large'
               className='text-primary hover:text-black'
             />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={() => handleTwitterSignIn()}>
             <Twitter
               fontSize='large'
               className='text-primary hover:text-black'
             />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={() => handleGoogleSignIn()}>
             <Google
               fontSize='large'
               className='text-primary hover:text-black'
