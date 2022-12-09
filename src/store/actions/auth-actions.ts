@@ -8,6 +8,7 @@ interface LoginAction {
 
 interface LogoutAction {
   type: AuthActionTypes.LOGOUT;
+  payload: null;
 }
 
 export type AuthAction = LoginAction | LogoutAction;
