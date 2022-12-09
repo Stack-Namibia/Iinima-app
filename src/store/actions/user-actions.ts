@@ -1,14 +1,14 @@
 import { User } from "../../api/accounts";
-import { UserActionTypes } from "../action-creators/user-action-creator";
+import { UsersActionTypes } from "../action-types/user-action-type";
 
-interface GetUserAction {
-  type: UserActionTypes.FETCH_USER;
-  payload: User;
+interface GetUsersAction {
+  type: UsersActionTypes.FETCH_USER;
+  payload: User[];
 }
 
-interface SetUserAction {
-  type: UserActionTypes.SET_USER;
-  payload: User;
+interface SetUsersAction {
+  type: UsersActionTypes.SET_USER;
+  payload: User[];
 }
 
-export type UserAction = GetUserAction | SetUserAction;
+export type UserAction = GetUsersAction | SetUsersAction;
