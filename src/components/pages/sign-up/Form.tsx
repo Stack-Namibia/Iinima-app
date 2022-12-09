@@ -9,6 +9,15 @@ import { IconButton, Checkbox, TextField, InputAdornment } from "@mui/material";
 import { Button } from "../../general/Button";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import {
+  signupWithEmailAndPassword,
+  signInWithGoogle,
+  signInWithFacebook,
+  signInWithTwitter,
+} from "../../../utils/firebase";
+import * as authActionCreators from "../../../store/action-creators/auth-action-creators";
 
 const Form = () => {
   const dispatch = useDispatch();
@@ -51,7 +60,6 @@ const Form = () => {
     setLoading(true);
     //Replace with call to API and Reduz store to save user data
     signupWithEmailAndPassword(data).then((res: any) => {
-      console.log(res);
       setAuthUser(res.data);
       setLoading(false);
       clearData();
@@ -60,7 +68,6 @@ const Form = () => {
 
   const handleGoogleSignIn = () => {
     signInWithGoogle().then((res: any) => {
-      console.log(res);
       setAuthUser(res.data);
       setLoading(false);
       clearData();
@@ -80,7 +87,7 @@ const Form = () => {
       setAuthUser(res.data);
       setLoading(false);
       clearData();
-    }, 5000);
+    });
   };
 
   const enableSubmit =
@@ -104,19 +111,19 @@ const Form = () => {
           Sign up now and get started with an account
         </p>
         <div className='flex items-center justify-center gap-4'>
-          <IconButton>
+          <IconButton onClick={() => handleFacebookSignIn()}>
             <Facebook
               fontSize='large'
               className='text-primary hover:text-black'
             />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={() => handleTwitterSignIn()}>
             <Twitter
               fontSize='large'
               className='text-primary hover:text-black'
             />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={() => handleGoogleSignIn()}>
             <Google
               fontSize='large'
               className='text-primary hover:text-black'
