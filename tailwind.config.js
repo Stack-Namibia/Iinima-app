@@ -10,6 +10,7 @@ module.exports = {
       backgroundImage: {
         wave1: "url('/src/assets/wave1.svg')",
         wave2: "url('/src/assets/wave2.svg')",
+        wave3: "url('/src/assets/wave3.svg')",
       },
     },
   },

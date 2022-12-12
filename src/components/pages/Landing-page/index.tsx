@@ -1,4 +1,4 @@
-import ApplicationWrapper from "../../general/ApplicationWrapper";
+import HowItWorksWrapper from "../../general/HowItWorksWrapper";
 import logo from "../../../assets/iinima.svg";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -10,7 +10,9 @@ import electronics from "../../../assets/mockimages/Electronics.jpg";
 import music from "../../../assets/mockimages/Music.jpg";
 import powertools from "../../../assets/mockimages/PowerTools.jpg";
 import transport from "../../../assets/mockimages/Transport.jpg";
-import withAuth from "../../auth";
+import SearchInput from "./SearchInput";
+import { Button } from "../../general/Button";
+import middlewave from "../../../assets/middlewave.svg";
 
 const Home = () => {
   const categories = [
@@ -50,86 +52,54 @@ const Home = () => {
   ];
 
   return (
-    <ApplicationWrapper>
-      <div className='flex-row justify-center max-w-full bg-white rounded-lg mb-5 md:flex md:items-center mr-4 ml-4'>
-        <div className='py-12'>
-          <div className='hero-content flex-col lg:flex-row-reverse'>
-            <img
-              src={logo}
-              className='hidden max-w-sm rounded-lg lg:block'
-              alt='img '
-            />
-            <div className='flex flex-col justify-center mt-10 w-full'>
-              <h1 className='font-bold text-7xl text-black'>
-                Rent <MarkText>Anything</MarkText>
-              </h1>
-              <div
-                className='font-bold text-7xl text-black whitespace-pre-line w-3/4 mt-3
+    <HowItWorksWrapper>
+      <div className='hero min-h-screen bg-white'>
+        <div className='hero-content flex-col lg:flex-row-reverse'>
+          <img
+            src={logo}
+            className='hidden max-w-sm md:block lg:block'
+            alt='logo'
+          />
+          <div>
+            <h1 className='font-bold text-7xl text-black'>
+              Rent <MarkText>Anything</MarkText>
+            </h1>
+            <div
+              className='font-bold text-7xl text-black whitespace-pre-line w-3/4 mt-3
                '
-              >
-                From within your area
-              </div>
-              <div className='flex flex-col items-center mt-10 lg:flex-row'>
-                <div className='flex space-x-1 block w-full px-4 py-2 bg-white border rounded-full focus:border-purple-400 drop-shadow-2xl'>
-                  <input
-                    type='text'
-                    className='w-full text-center focus:ring-transparent focus:outline-none bg-transparent text-black'
-                    placeholder='Search...'
-                  />
-                  <SearchButton className='btn gap-2 bg-primary rounded-[180px] border-none text-white'>
-                    search
-                  </SearchButton>
-                </div>
-                <Link to={"/item/browse"}>
-                  <SearchButton className='btn bg-primary rounded-[180px] border-none text-white ml-5 mt-5 lg:mt-0 drop-shadow-2xl text-sm'>
-                    Browse Items
-                  </SearchButton>
-                </Link>
-              </div>
+            >
+              From within your area
+            </div>
+            <div className='flex flex-row items-center mt-10 lg:flex-row gap-5'>
+              <SearchInput data={["Grinder", "Camera"]} />
+              <Link to={"/item/browse"}>
+                <Button text='Browse Items' />
+              </Link>
             </div>
           </div>
         </div>
       </div>
-
-      <div className='flex-col justify-center max-w-full bg-white rounded-lg mb-5 md:flex md:items-center mr-4 ml-4'>
-        <Seperator className='w-full border-t border-gray-300 mb-5 lg:w-screen'>
-          <div className='m-5 text-center'>
-            <h1 className='mb-4 text-black'>Looking for something?</h1>
-            <BrowseItemButton className='btn bg-white rounded-[180px] border-none text-white lg:mt-0 drop-shadow-2xl text-sm mb-5 hover:text-white'>
-              Browse
-            </BrowseItemButton>
-          </div>
-        </Seperator>
-        <div className='font-bold text-3xl text-black mb-5 text-left'>
-          <h1>Categories</h1>
-        </div>
-        <ul className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 cursor-pointer'>
-          {categories.map((category) => (
-            <li
-              key={category.name}
-              className='col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow'
-            >
-              <ImageDiv className='flex flex-1 flex-col'>
-                <Image className='rounded-lg' src={category.imageUrl} alt='' />
-                <h3 className='font-bold text-2xl mt-6 text-sm font-medium text-gray-900 text-center mb-5'>
-                  {category.name}
-                </h3>
-              </ImageDiv>
-            </li>
-          ))}
-        </ul>
+      <div
+        className='hero min-h-screen bg-[#FAE7F8] m-0'
+        style={{
+          backgroundImage: `url(${middlewave})`,
+        }}
+      >
+        <div className='hero-content flex-col lg:flex-row-reverse'></div>
       </div>
-    </ApplicationWrapper>
+    </HowItWorksWrapper>
   );
 };
 
-export default withAuth(Home);
+export default Home;
 
-const SearchButton = styled.button`
-  background-color: #c13327;
-  border: none;
-  color: white;
-  text-align: center;
+const SkewCC = styled.div`
+  width: 100%;
+  height: 100px;
+  position: absolute;
+  left: 0px;
+  background: linear-gradient(to right bottom, #823a9c 49%, #fff 50%),
+    linear-gradient(-50deg, #ffffff 16px, #000 0);
 `;
 
 const BrowseItemButton = styled.button`
@@ -148,6 +118,8 @@ const MarkText = styled.mark`
 const Seperator = styled.div`
   background-color: rgba(214, 62, 62, 0.51);
   text-align: center;
+  background: linear-gradient(to right bottom, #823a9c 49%, #fff 50%),
+    linear-gradient(-50deg, #ffffff 16px, #000 0);
 `;
 
 const Image = styled.img`
