@@ -1,257 +1,174 @@
+import { Grid, TextField } from "@mui/material";
+import { Button } from "../../general/Button";
+import styled from "styled-components";
 
-export default function Form() {
-    return (
-      <form className="space-y-8 divide-y divide-gray-200">
-        <div className="space-y-8 divide-y divide-gray-200">
-          <div>
-            <div>
-              <h3 className="text-lg font-medium leading-6 text-gray-900">Profile</h3>
-              <p className="mt-1 text-sm text-gray-500">
-                This information will be displayed publicly so be careful what you share.
-              </p>
-            </div>
-  
-            <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-              <div className="sm:col-span-4">
-                <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-                  Username
-                </label>
-                <div className="mt-1 flex rounded-md shadow-sm">
-                  <span className="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm">
-                    workcation.com/
-                  </span>
-                  <input
-                    type="text"
-                    name="username"
-                    id="username"
-                    autoComplete="username"
-                    className="block w-full min-w-0 flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  />
-                </div>
-              </div>
-  
-              <div className="sm:col-span-6">
-                <label htmlFor="about" className="block text-sm font-medium text-gray-700">
-                  About
-                </label>
-                <div className="mt-1">
-                  <textarea
-                    id="about"
-                    name="about"
-                    rows={3}
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    defaultValue={''}
-                  />
-                </div>
-                <p className="mt-2 text-sm text-gray-500">Write a few sentences about yourself.</p>
-              </div>
-  
-              <div className="sm:col-span-6">
-                <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
-                  Photo
-                </label>
-                <div className="mt-1 flex items-center">
-                  <span className="h-12 w-12 overflow-hidden rounded-full bg-gray-100">
-                    <svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                  </span>
-                  <button
-                    type="button"
-                    className="ml-5 rounded-md border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                  >
-                    Change
-                  </button>
-                </div>
-              </div>
-  
-              <div className="sm:col-span-6">
-                <label htmlFor="cover-photo" className="block text-sm font-medium text-gray-700">
-                  Cover photo
-                </label>
-                <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                  <div className="space-y-1 text-center">
-                    <svg
-                      className="mx-auto h-12 w-12 text-gray-400"
-                      stroke="currentColor"
-                      fill="none"
-                      viewBox="0 0 48 48"
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                        strokeWidth={2}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    <div className="flex text-sm text-gray-600">
-                      <label
-                        htmlFor="file-upload"
-                        className="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
-                      >
-                        <span>Upload a file</span>
-                        <input id="file-upload" name="file-upload" type="file" className="sr-only" />
-                      </label>
-                      <p className="pl-1">or drag and drop</p>
-                    </div>
-                    <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-  
-          <div className="pt-8">
-            <div>
-              <h3 className="text-lg font-medium leading-6 text-gray-900">Personal Information</h3>
-              <p className="mt-1 text-sm text-gray-500">Use a permanent address where you can receive mail.</p>
-            </div>
-            <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-              <div className="sm:col-span-3">
-                <label htmlFor="first-name" className="block text-sm font-medium text-gray-700">
-                  First name
-                </label>
-                <div className="mt-1">
-                  <input
-                    type="text"
-                    name="first-name"
-                    id="first-name"
-                    autoComplete="given-name"
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  />
-                </div>
-              </div>
-  
-              <div className="sm:col-span-3">
-                <label htmlFor="last-name" className="block text-sm font-medium text-gray-700">
-                  Last name
-                </label>
-                <div className="mt-1">
-                  <input
-                    type="text"
-                    name="last-name"
-                    id="last-name"
-                    autoComplete="family-name"
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  />
-                </div>
-              </div>
-  
-              <div className="sm:col-span-4">
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                  Email address
-                </label>
-                <div className="mt-1">
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  />
-                </div>
-              </div>
-  
-              <div className="sm:col-span-3">
-                <label htmlFor="country" className="block text-sm font-medium text-gray-700">
-                  Country
-                </label>
-                <div className="mt-1">
-                  <select
-                    id="country"
-                    name="country"
-                    autoComplete="country-name"
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  >
-                    <option>United States</option>
-                    <option>Canada</option>
-                    <option>Mexico</option>
-                  </select>
-                </div>
-              </div>
-  
-              <div className="sm:col-span-6">
-                <label htmlFor="street-address" className="block text-sm font-medium text-gray-700">
-                  Street address
-                </label>
-                <div className="mt-1">
-                  <input
-                    type="text"
-                    name="street-address"
-                    id="street-address"
-                    autoComplete="street-address"
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  />
-                </div>
-              </div>
-  
-              <div className="sm:col-span-2">
-                <label htmlFor="city" className="block text-sm font-medium text-gray-700">
-                  City
-                </label>
-                <div className="mt-1">
-                  <input
-                    type="text"
-                    name="city"
-                    id="city"
-                    autoComplete="address-level2"
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  />
-                </div>
-              </div>
-  
-              <div className="sm:col-span-2">
-                <label htmlFor="region" className="block text-sm font-medium text-gray-700">
-                  State / Province
-                </label>
-                <div className="mt-1">
-                  <input
-                    type="text"
-                    name="region"
-                    id="region"
-                    autoComplete="address-level1"
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  />
-                </div>
-              </div>
-  
-              <div className="sm:col-span-2">
-                <label htmlFor="postal-code" className="block text-sm font-medium text-gray-700">
-                  ZIP / Postal code
-                </label>
-                <div className="mt-1">
-                  <input
-                    type="text"
-                    name="postal-code"
-                    id="postal-code"
-                    autoComplete="postal-code"
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-  
+const Form = () => {
+  const textField: any = {
+    variant: "outlined",
+    fullWidth: true,
+    margin: "dense",
+  };
+
+  const profile: any = {
+    firstname: "Jon",
+    lastname: "Doe",
+    imageUrl:
+      "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+    coverImageUrl:
+      "https://images.unsplash.com/photo-1444628838545-ac4016a5418a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
+    about: `
+    <p>Tincidunt quam neque in cursus viverra orci, dapibus nec tristique. Nullam ut sit dolor consectetur urna, dui cras nec sed. Cursus risus congue arcu aenean posuere aliquam.</p>
+    <p>Et vivamus lorem pulvinar nascetur non. Pulvinar a sed platea rhoncus ac mauris amet. Urna, sem pretium sit pretium urna, senectus vitae. Scelerisque fermentum, cursus felis dui suspendisse velit pharetra. Augue et duis cursus maecenas eget quam lectus. Accumsan vitae nascetur pharetra rhoncus praesent dictum risus suspendisse.</p>
+  `,
+    fields: {
+      "First Name": "Jon",
+      "Last Name": "Doe",
+      "Mobile Number": "(081) 656-1487",
+      Email: "jondoe@example.com",
+      Address: "Windhoek, Namibia",
+    },
+  };
+
+  return (
+    <div className="w-full">
+      <div>
+        <div className="flex flex-col">
+          <img
+            className="h-32 w-full object-cover lg:h-48"
+            src={profile.coverImageUrl}
+            alt=""
+          />
+          <LabelDiv
+            htmlFor="file-upload"
+            className="cursor-pointer rounded-md bg-white font-medium text-right mr-3"
+          >
+            <span>Change Cover Image</span>
+            <input
+              id="file-upload"
+              name="file-upload"
+              type="file"
+              className="sr-only"
+            />
+          </LabelDiv>
         </div>
-  
-        <div className="pt-5">
-          <div className="flex justify-end">
-            <button
-              type="button"
-              className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            >
-              Save
-            </button>
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <div className="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
+            <div className="flex flex-col">
+              <img
+                className="h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32"
+                src={profile.imageUrl}
+                alt=""
+              />
+              <LabelDiv
+                htmlFor="file-upload"
+                className="cursor-pointer rounded-md bg-white font-medium text-left lg:text-center"
+              >
+                <span>Change Profile Image</span>
+                <input
+                  id="file-upload"
+                  name="file-upload"
+                  type="file"
+                  className="sr-only"
+                />
+              </LabelDiv>
+            </div>
+            <div className="mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
+              <div className="mt-6 min-w-0 flex-1 sm:hidden 2xl:block">
+                <div className="truncate text-2xl font-bold text-gray-900">
+                  {profile.name}
+                </div>
+              </div>
+              <div className="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4"></div>
+            </div>
+          </div>
+          <div className="mt-6 hidden min-w-0 flex-1 sm:block 2xl:hidden">
+            <div className="truncate text-2xl font-bold text-gray-900">
+              {profile.name}
+            </div>
           </div>
         </div>
-      </form>
-    )
+      </div>
+      <div className="divider" />
+      <div className="flex items-center justify-center">
+        <div className="w-full lg:w-1/2">
+          <form className="p-6">
+            <div className="flex flex-col gap-5 mb-2 lg:flex-row">
+              <TextField
+                {...textField}
+                id="firstName"
+                label="First Name"
+                type="text"
+                value={profile.firstname}
+              />
+              <TextField
+                {...textField}
+                id="lastName"
+                label="Last Name"
+                type="text"
+                value={profile.lastname}
+              />
+            </div>
+            <div className="flex flex-col gap-5 mb-2 lg:flex-row">
+              <TextField
+                {...textField}
+                id="mobileNumber"
+                label="Mobile Number"
+                type="text"
+                value={profile.fields["Mobile Number"]}
+              />
+              <TextField
+                {...textField}
+                id="email"
+                label="Email"
+                type="email"
+                value={profile.fields["Email"]}
+                className="h-Full"
+              />
+            </div>
+
+            <TextField
+              {...textField}
+              id="address"
+              label="Address"
+              type="text"
+              value={profile.fields["Address"]}
+            />
+
+            <TextField
+              {...textField}
+              id="outlined-multiline-static"
+              label="Description"
+              multiline
+              rows={4}
+              defaultValue={profile.about}
+            />
+            <Grid
+              container
+              rowSpacing={1}
+              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+              sx={{ marginTop: "1rem" }}
+            >
+              <Grid item xs={6}>
+                <Button text="cancel" color="secondary" />
+              </Grid>
+              <Grid item xs={6}>
+                <Button text="Save changes" />
+              </Grid>
+            </Grid>
+
+            <div className="flex"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Form;
+
+const LabelDiv = styled.label`
+  color: #5e8797;
+  &:hover {
+    color: #d63e3e;
   }
-  
+`;

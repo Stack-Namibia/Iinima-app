@@ -64,67 +64,67 @@ const Form = () => {
     margin: "dense",
   };
   return (
-    <div className='flex items-center justify-center p-6 sm:p-12 md:w-1/2'>
-      <div className='w-full'>
-        <div className='flex justify-center mb-5'>
-          <img src='/logo 2.svg' alt='logo' className='w-[25%]' />
+    <div className="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
+      <div className="w-full">
+        <div className="flex justify-center mb-5">
+          <img src="/logo 2.svg" alt="logo" className="w-[25%]" />
         </div>
-        <h1 className='mb-4 text-3xl font-bold text-center text-gray-700'>
+        <h1 className="mb-4 text-3xl font-bold text-center text-gray-700">
           Create an Account
         </h1>
-        <p className='text-[#7E7A7A] font-semibold text-sm text-center mb-4'>
+        <p className="text-[#7E7A7A] font-semibold text-sm text-center mb-4">
           Sign up now and get started with an account
         </p>
-        <div className='flex items-center justify-center gap-4'>
+        <div className="flex items-center justify-center gap-4">
           <IconButton>
             <Facebook
-              fontSize='large'
-              className='text-primary hover:text-black'
+              fontSize="large"
+              className="text-primary hover:text-black"
             />
           </IconButton>
           <IconButton>
             <Twitter
-              fontSize='large'
-              className='text-primary hover:text-black'
+              fontSize="large"
+              className="text-primary hover:text-black"
             />
           </IconButton>
           <IconButton>
             <Google
-              fontSize='large'
-              className='text-primary hover:text-black'
+              fontSize="large"
+              className="text-primary hover:text-black"
             />
           </IconButton>
         </div>
-        <div className='divider'>Or</div>
+        <div className="divider">Or</div>
         <form onSubmit={(e) => handleSubmit(e)}>
-          <div className='mb-2'>
+          <div className="mb-2">
             <TextField
               {...textField}
-              id='firstName'
-              label='First Name'
-              type='text'
+              id="firstName"
+              label="First Name"
+              type="text"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               required={true}
             />
           </div>
-          <div className='mb-2'>
+          <div className="mb-2">
             <TextField
               {...textField}
-              id='lastName'
-              label='Last Name'
-              type='text'
+              id="lastName"
+              label="Last Name"
+              type="text"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               required={true}
             />
           </div>
-          <div className='mb-2'>
+          <div className="mb-2">
             <TextField
               {...textField}
-              id='email'
-              label='Email'
-              type='email'
+              id="email"
+              label="Email"
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required={true}
@@ -133,20 +133,20 @@ const Form = () => {
           <div>
             <TextField
               {...textField}
-              id='password'
-              label='Password'
+              id="password"
+              label="Password"
               type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required={true}
               InputProps={{
                 endAdornment: (
-                  <InputAdornment position='end'>
+                  <InputAdornment position="end">
                     <IconButton
-                      aria-label='toggle password visibility'
+                      aria-label="toggle password visibility"
                       onClick={() => setShowPassword(!showPassword)}
                       onMouseDown={handleMouseDownPassword}
-                      edge='end'
+                      edge="end"
                     >
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
@@ -158,8 +158,8 @@ const Form = () => {
           <div>
             <TextField
               {...textField}
-              id='confirmPassword'
-              label='Confirm Password'
+              id="confirmPassword"
+              label="Confirm Password"
               type={showPassword ? "text" : "password"}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
@@ -170,30 +170,30 @@ const Form = () => {
             />
           </div>
 
-          <div className='flex'>
+          <div className="flex">
             <Checkbox
               value={terms}
               onChange={(e) => setTerms(!terms)}
               required
             />{" "}
-            <span className='my-auto font-semibold text-[#7E7A7A] text-sm'>
+            <span className="my-auto font-semibold text-[#7E7A7A] text-sm">
               {/* TODO Add link to terms and conditions */}I have read and agree
               to the{" "}
-              <Link to={"/signup"} className='text-primary underline'>
+              <Link to={"/signup"} className="text-primary underline">
                 Terms of Service
               </Link>
             </span>
           </div>
           <Button
-            text='Sign Up'
-            type='submit'
+            text="Sign Up"
+            type="submit"
             disabled={!enableSubmit}
             loading={loading}
           />
         </form>
-        <p className='mt-2 font-semibold text-[#7E7A7A] text-sm'>
+        <p className="mt-2 font-semibold text-[#7E7A7A] text-sm">
           Already have an account?{" "}
-          <span className='text-sm text-primary hover:underline'>
+          <span className="text-sm text-primary hover:underline">
             <Link to={"/signin"}>Sign in</Link>
           </span>
         </p>
