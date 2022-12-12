@@ -1,5 +1,6 @@
 import {
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   GoogleAuthProvider,
   FacebookAuthProvider,
   TwitterAuthProvider,
@@ -44,6 +45,17 @@ export const signupWithEmailAndPassword = async ({
     });
 
     return newUser;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const login = async (email: string, password: string) => {
+  try {
+    const response = await signInWithEmailAndPassword(auth, email, password);
+    sessionStorage.setItem("firebaseToken", await response.user.getIdToken());
+    return response.user;
   } catch (error) {
     console.log(error);
     return error;

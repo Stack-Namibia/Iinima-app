@@ -9,6 +9,7 @@ import { IconButton, InputAdornment, TextField } from "@mui/material";
 import { Button } from "../../general/Button";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { login } from "../../../utils/firebase";
 
 const TextFieldProps: any = {
   variant: "outlined",
@@ -29,15 +30,13 @@ const Form = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = { email, password };
-    console.log(data);
-
     setLoading(true);
-    //Replace with API call to authenticate user
-    setTimeout(() => {
+    login(email, password).then((res: any) => {
       setLoading(false);
-      clearData();
-    }, 5000);
+      //User in redux store
+      console.log(res.data);
+    });
+    clearData();
   };
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
