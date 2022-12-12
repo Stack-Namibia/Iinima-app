@@ -10,7 +10,6 @@ import electronics from "../../../assets/mockimages/Electronics.jpg";
 import music from "../../../assets/mockimages/Music.jpg";
 import powertools from "../../../assets/mockimages/PowerTools.jpg";
 import transport from "../../../assets/mockimages/Transport.jpg";
-import withAuth from "../../auth";
 
 const Home = () => {
   const categories = [
@@ -123,7 +122,7 @@ const Home = () => {
   );
 };
 
-export default withAuth(Home);
+export default Home;
 
 const SearchButton = styled.button`
   background-color: #c13327;

@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { IconButton, InputAdornment, TextField } from "@mui/material";
 import { Button } from "../../general/Button";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { login } from "../../../utils/firebase";
 import * as authActionCreators from "../../../store/action-creators/auth-action-creators";
@@ -21,7 +21,6 @@ const TextFieldProps: any = {
 };
 
 const Form = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
   const { setAuthUser } = bindActionCreators(authActionCreators, dispatch);
   const [email, setEmail] = useState("");

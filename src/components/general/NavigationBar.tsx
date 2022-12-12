@@ -11,7 +11,6 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import logo from "../../assets/logo.svg";
 import { Button as DaisyButton } from "./Button";
 import { AvatarIcon } from "./AvatarIcon";

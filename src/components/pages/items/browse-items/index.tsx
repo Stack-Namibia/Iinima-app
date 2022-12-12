@@ -11,7 +11,6 @@ import Divider from "@mui/material/Divider";
 import ItemsCouresal from "../../../general/ItemsCouresal";
 import SearchInput from "./SearchInput";
 import MultiSelect from "../../../general/MultiSelect";
-import withAuth from "../../../auth";
 
 const itemsMock = [
   {
@@ -310,4 +309,4 @@ const BrowseItems = () => {
   );
 };
 
-export default withAuth(BrowseItems);
+export default BrowseItems;

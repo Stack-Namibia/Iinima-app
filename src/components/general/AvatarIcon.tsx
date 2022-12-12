@@ -8,11 +8,12 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { settings } from "./NavigationBar";
 import * as authActionCreators from "../../store/action-creators/auth-action-creators";
 
 export const AvatarIcon = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const { logout } = bindActionCreators(authActionCreators, dispatch);
 
@@ -22,8 +23,11 @@ export const AvatarIcon = () => {
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
-  const handleCloseUserMenu = (type: string) => {
+  const handleCloseUserMenu = (type: { text: string; to: string }) => {
     setAnchorElUser(null);
+    if (type.text !== "Logout") {
+      history.push(type.to);
+    }
   };
   return (
     <Box sx={{ flexGrow: 0 }}>
@@ -51,8 +55,8 @@ export const AvatarIcon = () => {
         {settings.map(({ text, to }) => (
           <MenuItem
             key={text}
-            onClick={(e) => {
-              handleCloseUserMenu(text);
+            onClick={() => {
+              handleCloseUserMenu({ text, to });
               if (text === "Logout") {
                 logout();
               }
