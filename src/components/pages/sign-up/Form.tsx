@@ -9,14 +9,21 @@ import { IconButton, Checkbox, TextField, InputAdornment } from "@mui/material";
 import { Button } from "../../general/Button";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import { withRouter } from "react-router-dom";
 import {
-  signInWithFacebook,
-  signInWithGoogle,
-  signInWithTwitter,
   signupWithEmailAndPassword,
+  signInWithGoogle,
+  signInWithFacebook,
+  signInWithTwitter,
 } from "../../../utils/firebase";
+import * as authActionCreators from "../../../store/action-creators/auth-action-creators";
 
-const Form = () => {
+const Form = (props: any) => {
+  const dispatch = useDispatch();
+  const { setAuthUser } = bindActionCreators(authActionCreators, dispatch);
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -51,43 +58,42 @@ const Form = () => {
       email,
       password,
     };
-    console.log(data);
     setLoading(true);
-
     //Replace with call to API and Reduz store to save user data
-    signupWithEmailAndPassword(data).then((res) => {
-      console.log(res);
+    signupWithEmailAndPassword(data).then((res: any) => {
+      setAuthUser(res.data);
       setLoading(false);
+      props.history.push("/");
       clearData();
     });
   };
 
   const handleGoogleSignIn = () => {
-    signInWithGoogle().then((res) => {
-      console.log(res);
+    signInWithGoogle().then((res: any) => {
+      setAuthUser(res.data);
       setLoading(false);
       clearData();
     });
   };
 
   const handleFacebookSignIn = () => {
-    signInWithFacebook().then((res) => {
-      console.log(res);
+    signInWithFacebook().then((res: any) => {
+      setAuthUser(res.data);
       setLoading(false);
       clearData();
     });
   };
 
   const handleTwitterSignIn = () => {
-    signInWithTwitter().then((res) => {
-      console.log(res);
+    signInWithTwitter().then((res: any) => {
+      setAuthUser(res.data);
       setLoading(false);
       clearData();
     });
   };
 
   const enableSubmit =
-    firstName && lastName && email && password && passwordCheck;
+    firstName && lastName && email && password && terms && passwordCheck;
 
   const textField: any = {
     variant: "outlined",
@@ -233,4 +239,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default withRouter(Form);

@@ -11,46 +11,55 @@ import HowItWorks from "../components/pages/how-it-works";
 const routes = [
   {
     path: "/",
+    exact: true,
     element: <Home />,
     key: "Home",
   },
   {
     path: "/signin",
+    exact: true,
     element: <SignIn />,
     key: "SignIn",
   },
   {
     path: "/signup",
+    exact: true,
     element: <SignUp />,
     key: "SignUp",
   },
   {
     path: "/profile",
+    exact: true,
     element: <Profile />,
     key: "Profile",
   },
   {
     path: "/howitworks",
+    exact: true,
     element: <HowItWorks />,
     key: "HowItWorks",
   },
   {
     path: "/item/edit",
+    exact: true,
     element: <EditItem />,
     key: "EditItem",
   },
   {
     path: "/item/list",
+    exact: true,
     element: <ListItem />,
     key: "ListItem",
   },
   {
     path: "/item/browse",
+    exact: true,
     element: <BrowseItems />,
     key: "ListItem",
   },
   {
     path: "*",
+    exact: true,
     element: <HttpError />,
     key: "HttpError",
   },
