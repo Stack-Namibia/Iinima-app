@@ -2,53 +2,53 @@ import HowItWorksWrapper from "../../general/HowItWorksWrapper";
 import logo from "../../../assets/iinima.svg";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import photography from "../../../assets/mockimages/Photography.jpg";
-import camping from "../../../assets/mockimages/Camping.jpg";
-import dj from "../../../assets/mockimages/DjEquipment.jpg";
-import construction from "../../../assets/mockimages/Construction.jpg";
-import electronics from "../../../assets/mockimages/Electronics.jpg";
-import music from "../../../assets/mockimages/Music.jpg";
-import powertools from "../../../assets/mockimages/PowerTools.jpg";
-import transport from "../../../assets/mockimages/Transport.jpg";
 import SearchInput from "./SearchInput";
 import { Button } from "../../general/Button";
-import middlewave from "../../../assets/middlewave.svg";
+import divider from "../../../assets/divider.svg";
+import CategoryCard from "./CategoryCard";
 
 const Home = () => {
   const categories = [
     {
       name: "Photography",
-      imageUrl: photography,
+      imageUrl: "photography",
     },
     {
       name: "Camping",
-      imageUrl: camping,
+      imageUrl: "camping",
     },
     {
       name: "Dj Equipment",
-      imageUrl: dj,
+      imageUrl: "dj",
     },
     {
       name: "Transport",
-      imageUrl: transport,
+      imageUrl: "transport",
     },
     {
       name: "Electronics",
-      imageUrl: electronics,
+      imageUrl: "electronics",
     },
     {
       name: "Music",
-      imageUrl: music,
+      imageUrl: "music",
     },
     {
       name: "Power Tools",
-      imageUrl: powertools,
+      imageUrl: "powertools",
     },
     {
       name: "Construction",
-      imageUrl: construction,
+      imageUrl: "construction",
     },
-    // More people...
+    {
+      name: "Construction",
+      imageUrl: "construction",
+    },
+    {
+      name: "Construction",
+      imageUrl: "construction",
+    },
   ];
 
   return (
@@ -79,13 +79,39 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div
-        className='hero min-h-screen bg-[#FAE7F8] m-0'
+      <header
+        className='header'
         style={{
-          backgroundImage: `url(${middlewave})`,
+          backgroundImage: `url(${divider})`,
         }}
       >
-        <div className='hero-content flex-col lg:flex-row-reverse'></div>
+        <div className='text-box'>
+          <h1 className='heading-primary'>
+            <span className='font-bold  text-2xl text-black'>Save money</span>
+            <span className='heading-primary-sub text-black'>
+              Search for something you need and rent it for some day!
+            </span>
+          </h1>
+          <Link to='/item/browse'>
+            <Button text='Browse Items' />
+          </Link>
+        </div>
+      </header>
+      <div className='hero min-h-[50%] mb-10 mt-10'>
+        <div className='flex-col justify-center max-w-full  rounded-lg mb-5 md:flex md:items-center mr-4 ml-4'>
+          <div className='font-bold text-5xl text-black mb-20 text-left'>
+            <h1>Explore our categories</h1>
+          </div>
+          <ul className='grid grid-cols-2 gap-10 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5'>
+            {categories.map((category) => (
+              <Link to={"/item/browse"}>
+                <CardList>
+                  <CategoryCard {...category} />
+                </CardList>
+              </Link>
+            ))}
+          </ul>
+        </div>
       </div>
     </HowItWorksWrapper>
   );
@@ -93,56 +119,15 @@ const Home = () => {
 
 export default Home;
 
-const SkewCC = styled.div`
-  width: 100%;
-  height: 100px;
-  position: absolute;
-  left: 0px;
-  background: linear-gradient(to right bottom, #823a9c 49%, #fff 50%),
-    linear-gradient(-50deg, #ffffff 16px, #000 0);
-`;
-
-const BrowseItemButton = styled.button`
-  background-color: white;
-  border: none;
-  color: #000;
-  text-align: center;
-`;
-
 const MarkText = styled.mark`
   background-color: transparent;
   border: none;
   color: #c13327;
 `;
 
-const Seperator = styled.div`
-  background-color: rgba(214, 62, 62, 0.51);
-  text-align: center;
-  background: linear-gradient(to right bottom, #823a9c 49%, #fff 50%),
-    linear-gradient(-50deg, #ffffff 16px, #000 0);
-`;
-
-const Image = styled.img`
-  border-radius: 16px 16px 0px 0px;
-  @media (min-width: 768px) {
-    width: 296px;
-    height: 227px;
-    object-fit: cover;
-  }
-  @media (max-width: 768px) {
-    height: 227px;
-    object-fit: cover;
-  }
-`;
-
-const ImageDiv = styled.div`
-  @media (min-width: 768px) {
-    width: 296px;
-    height: 227px;
-    object-fit: cover;
-  }
-  @media (max-width: 768px) {
-    height: 227px;
-    object-fit: cover;
+const CardList = styled.li`
+  &:hover {
+    scale: 1.1;
+    transition-duration: 900ms;
   }
 `;
