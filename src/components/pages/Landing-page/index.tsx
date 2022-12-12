@@ -99,10 +99,10 @@ const Home = () => {
       </header>
       <div className='hero min-h-[50%] mb-10 mt-10'>
         <div className='flex-col justify-center max-w-full  rounded-lg mb-5 md:flex md:items-center mr-4 ml-4'>
-          <div className='font-bold text-5xl text-black mb-20 text-left'>
+          <div className='font-bold text-5xl text-black mb-20 text-center'>
             <h1>Explore our categories</h1>
           </div>
-          <ul className='grid grid-cols-2 gap-10 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5'>
+          <ul className='grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-5 items-center'>
             {categories.map((category) => (
               <Link to={"/item/browse"}>
                 <CardList>

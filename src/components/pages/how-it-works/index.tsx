@@ -13,11 +13,11 @@ const HowItWorks = () => {
           <div className='hero-content flex-col lg:flex-row-reverse'>
             <img src={undraw} className='max-w-sm' alt='undraw' />
             <div>
-              <h1 className='font-bold text-7xl text-black'>
+              <h1 className='font-bold text-5xl md:text-5xl lg:text-7xl text-black'>
                 How to rent <MarkText>Anything</MarkText>
               </h1>
               <div
-                className='font-bold text-4xl text-gray-500 whitespace-pre-line w-3/4 mt-3
+                className='font-bold text-2xl md:text-4xl text-gray-500 whitespace-pre-line w-3/4 mt-3
                '
               >
                 From within your area

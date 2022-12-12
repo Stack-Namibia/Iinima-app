@@ -4,7 +4,7 @@ interface Props {
 }
 
 const CategoryCard = ({ name, imageUrl }: Props) => (
-  <div className='card card-compact w-48 bg-white shadow-xl'>
+  <div className='card card-compact w-full bg-white shadow-xl'>
     <figure>
       <img src='https://placeimg.com/400/225/arch' alt='Shoes' />
     </figure>
