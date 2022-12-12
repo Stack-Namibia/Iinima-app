@@ -147,7 +147,7 @@ function ResponsiveAppBar() {
             ))}
           </Box>
           {user ? (
-            <AvatarIcon />
+            <AvatarIcon user={user} />
           ) : (
             <Box
               sx={{

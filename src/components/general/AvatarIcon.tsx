@@ -11,8 +11,9 @@ import { bindActionCreators } from "@reduxjs/toolkit";
 import { useHistory } from "react-router-dom";
 import { settings } from "./NavigationBar";
 import * as authActionCreators from "../../store/action-creators/auth-action-creators";
+import { User } from "../../api/accounts";
 
-export const AvatarIcon = () => {
+export const AvatarIcon = ({ user }: { user: User }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { logout } = bindActionCreators(authActionCreators, dispatch);
@@ -33,7 +34,7 @@ export const AvatarIcon = () => {
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip title='Open settings'>
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
+          <Avatar alt={user.email} src={""} />
         </IconButton>
       </Tooltip>
       <Menu

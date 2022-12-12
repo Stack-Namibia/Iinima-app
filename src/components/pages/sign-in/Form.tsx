@@ -39,8 +39,8 @@ const Form = () => {
     login(email, password).then((res: any) => {
       setLoading(false);
       setAuthUser(res);
+      clearData();
     });
-    clearData();
   };
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
