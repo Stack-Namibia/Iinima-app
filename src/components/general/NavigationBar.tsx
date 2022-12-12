@@ -18,10 +18,18 @@ import { AvatarIcon } from "./AvatarIcon";
 const pages = [
   { text: "How it works", to: "/howitworks" },
   { text: "List an item", to: "/item/list" },
+  {
+    text: "Browse Items",
+    to: "/item/browse",
+  },
 ];
 const pages2 = [
   { text: "How it works", to: "/howitworks" },
   { text: "List an item", to: "/item/list" },
+  {
+    text: "Browse Items",
+    to: "/item/browse",
+  },
   { text: "Login", to: "/signin" },
 ];
 export const settings = [

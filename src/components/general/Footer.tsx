@@ -2,7 +2,7 @@ import logo from "../../assets/stacklogo.svg";
 
 const Footer = () => {
   return (
-    <footer className='footer footer-center p-10 bg-[#FAE7F8] text-black-content border-t-2 border-gray-50'>
+    <footer className='footer footer-center p-10 bg-[#FAE7F8] text-black-content'>
       <div>
         <img
           className='inline-block fill-current h-20 w-20'
