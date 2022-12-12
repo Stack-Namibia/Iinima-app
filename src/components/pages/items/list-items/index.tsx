@@ -1,3 +1,4 @@
+import withAuth from "../../../auth";
 import ApplicationWrapper from "../../../general/ApplicationWrapper";
 import Form from "./Form";
 
@@ -12,8 +13,6 @@ const ListItem = () => {
   );
 };
 
-export default ListItem;
-
 interface Props {
   text: string;
 }
@@ -21,3 +20,5 @@ interface Props {
 const Heading = ({ text }: Props) => (
   <h1 className='font-bold text-3xl mt-5'>{text}</h1>
 );
+
+export default withAuth(ListItem);

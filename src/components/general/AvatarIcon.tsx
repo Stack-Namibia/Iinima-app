@@ -6,16 +6,23 @@ import Menu from "@mui/material/Menu";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import { useHistory, Link } from "react-router-dom";
 import { settings } from "./NavigationBar";
+import * as authActionCreators from "../../store/action-creators/auth-action-creators";
 
 export const AvatarIcon = () => {
+  const dispatch = useDispatch();
+  const { logout } = bindActionCreators(authActionCreators, dispatch);
+
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (type: string) => {
     setAnchorElUser(null);
   };
   return (
@@ -41,9 +48,17 @@ export const AvatarIcon = () => {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        {settings.map((setting) => (
-          <MenuItem key={setting} onClick={handleCloseUserMenu}>
-            <Typography textAlign='center'>{setting}</Typography>
+        {settings.map(({ text, to }) => (
+          <MenuItem
+            key={text}
+            onClick={(e) => {
+              handleCloseUserMenu(text);
+              if (text === "Logout") {
+                logout();
+              }
+            }}
+          >
+            <Typography textAlign='center'>{text}</Typography>
           </MenuItem>
         ))}
       </Menu>

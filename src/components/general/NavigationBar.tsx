@@ -9,11 +9,12 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 import logo from "../../assets/logo.svg";
 import { Button as DaisyButton } from "./Button";
-import { useState } from "react";
 import { AvatarIcon } from "./AvatarIcon";
-import { Link } from "react-router-dom";
 
 const pages = [
   { text: "How it works", to: "/howitworks" },
@@ -24,10 +25,19 @@ const pages2 = [
   { text: "List an item", to: "/item/list" },
   { text: "Login", to: "/signin" },
 ];
-export const settings = ["Profile", "Account", "Dashboard", "Logout"];
+export const settings = [
+  {
+    text: "Profile",
+    to: "/profile",
+  },
+  {
+    text: "Logout",
+    to: "/",
+  },
+];
 
 function ResponsiveAppBar() {
-  const [loggedIn] = useState(false);
+  const { user } = useSelector((state: any) => state.authUser);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -35,11 +45,9 @@ function ResponsiveAppBar() {
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
-
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
   return (
     <AppBar
       position='sticky'
@@ -83,8 +91,8 @@ function ResponsiveAppBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages2.map(({ text, to }) => (
-                <Link to={to}>
+              {pages2.map(({ text, to }, i) => (
+                <Link to={to} key={i}>
                   <MenuItem key={text} onClick={handleCloseNavMenu}>
                     <Typography
                       textAlign='center'
@@ -118,8 +126,8 @@ function ResponsiveAppBar() {
               marginRight: 5,
             }}
           >
-            {pages.map(({ text, to }) => (
-              <Link to={to}>
+            {pages.map(({ text, to }, i) => (
+              <Link to={to} key={i}>
                 <Button
                   key={text}
                   onClick={handleCloseNavMenu}
@@ -131,7 +139,7 @@ function ResponsiveAppBar() {
               </Link>
             ))}
           </Box>
-          {loggedIn ? (
+          {user ? (
             <AvatarIcon />
           ) : (
             <Box

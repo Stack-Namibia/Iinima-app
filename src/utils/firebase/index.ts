@@ -5,6 +5,7 @@ import {
   FacebookAuthProvider,
   TwitterAuthProvider,
   signInWithPopup,
+  signOut,
 } from "firebase/auth";
 import { auth } from "../../plugins/firebase";
 import { User, UsersApi } from "../../api/accounts";
@@ -140,5 +141,14 @@ export const signInWithTwitter = async () => {
   } catch (error) {
     console.log(error);
     return error;
+  }
+};
+
+export const logout = async () => {
+  try {
+    await signOut(auth);
+    sessionStorage.removeItem("firebaseToken");
+  } catch (error) {
+    console.log(error);
   }
 };

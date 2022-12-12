@@ -1,3 +1,4 @@
+import withAuth from "../auth";
 import ApplicationWrapper from "../general/ApplicationWrapper";
 
 const EditItems = () => {
@@ -8,4 +9,4 @@ const EditItems = () => {
   );
 };
 
-export default EditItems;
+export default withAuth(EditItems);
