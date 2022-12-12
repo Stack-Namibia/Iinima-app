@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
+import { withRouter } from "react-router-dom";
 import {
   signupWithEmailAndPassword,
   signInWithGoogle,
@@ -19,7 +20,7 @@ import {
 } from "../../../utils/firebase";
 import * as authActionCreators from "../../../store/action-creators/auth-action-creators";
 
-const Form = () => {
+const Form = (props: any) => {
   const dispatch = useDispatch();
   const { setAuthUser } = bindActionCreators(authActionCreators, dispatch);
 
@@ -62,6 +63,7 @@ const Form = () => {
     signupWithEmailAndPassword(data).then((res: any) => {
       setAuthUser(res.data);
       setLoading(false);
+      props.history.push("/");
       clearData();
     });
   };
@@ -237,4 +239,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default withRouter(Form);
