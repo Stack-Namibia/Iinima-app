@@ -5,6 +5,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import { Link } from "react-router-dom";
 import ApplicationWrapper from "../../general/ApplicationWrapper";
 
 interface TabPanelProps {
@@ -102,16 +103,18 @@ const Profile = () => {
                             </Name>
                           </div>
                           <div className='justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4'>
-                            <EditButton
-                              type='button'
-                              className='inline-flex justify-center rounded-3xl border border-gray-300 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2'
-                            >
-                              <PencilIcon
-                                className='-ml-1 mr-2 h-5 w-5'
-                                aria-hidden='true'
-                              />
-                              <span>Edit Profile</span>
-                            </EditButton>
+                            <Link to={"/profile/edit"}>
+                              <EditButton
+                                type='button'
+                                className='inline-flex justify-center rounded-3xl border border-gray-300 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2'
+                              >
+                                <PencilIcon
+                                  className='-ml-1 mr-2 h-5 w-5'
+                                  aria-hidden='true'
+                                />
+                                <span>Edit Profile</span>
+                              </EditButton>
+                            </Link>
                           </div>
                         </div>
                       </div>
