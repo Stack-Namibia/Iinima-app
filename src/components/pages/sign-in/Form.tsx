@@ -8,6 +8,7 @@ import {
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { IconButton, InputAdornment, TextField } from "@mui/material";
+import { useLocation, useHistory } from "react-router-dom";
 import { Button } from "../../general/Button";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -22,6 +23,8 @@ const TextFieldProps: any = {
 
 const Form = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const history = useHistory();
   const { setAuthUser } = bindActionCreators(authActionCreators, dispatch);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -50,7 +53,10 @@ const Form = () => {
         }
         setLoading(false);
         setAuthUser(res);
-        return clearData();
+        if (location.pathname === "/signin") {
+          history.push("/");
+          clearData();
+        }
       })
       .catch((err: any) => {
         setLoading(false);
