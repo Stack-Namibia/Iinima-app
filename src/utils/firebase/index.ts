@@ -30,25 +30,46 @@ export const signupWithEmailAndPassword = async ({
   try {
     const reponse = await createUserWithEmailAndPassword(auth, email, password);
 
-    sessionStorage.setItem("firebaseToken", await reponse.user.getIdToken());
+    usersApi
+      .getUserByEmailApiV1EmailEmailGet(email, {
+        headers: {
+          Authorization: `Bearer ${await reponse.user.getIdToken()}`,
+        },
+      })
+      .then(async (user) => {
+        if (user) {
+          return "user-exists";
+        }
+      })
+      .catch(async (error) => {
+        if (error.response.status === 404) {
+          sessionStorage.setItem(
+            "firebaseToken",
+            await reponse.user.getIdToken()
+          );
 
-    const user: User = {
-      user_id: reponse.user.uid,
-      firstName,
-      lastName,
-      email,
-    };
+          const user: User = {
+            user_id: reponse.user.uid,
+            firstName,
+            lastName,
+            email,
+          };
 
-    const newUser = await usersApi.createUserApiV1Post(user, {
-      headers: {
-        Authorization: `Bearer ${await reponse.user.getIdToken()}`,
-      },
-    });
+          return await usersApi.createUserApiV1Post(user, {
+            headers: {
+              Authorization: `Bearer ${await reponse.user.getIdToken()}`,
+            },
+          });
+        }
+        console.log(error);
+      });
 
-    return newUser;
-  } catch (error) {
+    return reponse.user;
+  } catch (error: any) {
+    if (error.code === "auth/email-already-in-use") {
+      return "user-exists";
+    }
     console.log(error);
-    return error;
   }
 };
 

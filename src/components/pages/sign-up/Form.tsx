@@ -33,6 +33,7 @@ const Form = (props: any) => {
   const [showPassword, setShowPassword] = useState(false);
   const [terms, setTerms] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [userExists, setUserExists] = useState(false);
 
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -61,10 +62,14 @@ const Form = (props: any) => {
     setLoading(true);
     //Replace with call to API and Reduz store to save user data
     signupWithEmailAndPassword(data).then((res: any) => {
+      if (res === "user-exists") {
+        setLoading(false);
+        return setUserExists(true);
+      }
       setAuthUser(res.data);
       setLoading(false);
       props.history.push("/");
-      clearData();
+      return clearData();
     });
   };
 
@@ -165,6 +170,9 @@ const Form = (props: any) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required={true}
+              error={userExists}
+              helperText={userExists ? "A user with email already exists" : ""}
+              onFocus={() => setUserExists(false)}
             />
           </div>
           <div>
