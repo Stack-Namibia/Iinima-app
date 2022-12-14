@@ -38,19 +38,24 @@ const Form = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    login(email, password).then((res: any) => {
-      if (res === "wrong-password") {
+    login(email, password)
+      .then((res: any) => {
+        if (res === "wrong-password") {
+          setLoading(false);
+          return setPasswordIncorrect(true);
+        }
+        if (res === "user-not-found") {
+          setLoading(false);
+          return setUserNotFound(true);
+        }
         setLoading(false);
-        return setPasswordIncorrect(true);
-      }
-      if (res === "user-not-found") {
+        setAuthUser(res);
+        return clearData();
+      })
+      .catch((err: any) => {
         setLoading(false);
-        return setUserNotFound(true);
-      }
-      setLoading(false);
-      setAuthUser(res);
-      return clearData();
-    });
+        console.log(err);
+      });
   };
   const handleGoogleSignIn = () => {
     signInWithGoogle().then((res: any) => {
@@ -81,6 +86,11 @@ const Form = () => {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              error={userNotFound}
+              helperText={
+                userNotFound ? "Email not associated to any user" : undefined
+              }
+              onFocus={() => setUserNotFound(false)}
             />
           </div>
           <div>
