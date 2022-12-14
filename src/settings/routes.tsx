@@ -4,6 +4,7 @@ import Home from "../components/pages/Landing-page";
 import ListItem from "../components/pages/items/list-items";
 import HttpError from "../components/pages/http-error";
 import Profile from "../components/pages/profile";
+import ProfileEdit from "../components/pages/profile/edit";
 import SignIn from "../components/pages/sign-in";
 import SignUp from "../components/pages/sign-up";
 import HowItWorks from "../components/pages/how-it-works";
@@ -32,6 +33,12 @@ const routes = [
     exact: true,
     element: <Profile />,
     key: "Profile",
+  },
+  {
+    path: "/profile/edit",
+    exact: true,
+    element: <ProfileEdit />,
+    key: "Profile-edit",
   },
   {
     path: "/howitworks",
