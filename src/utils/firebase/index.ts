@@ -57,9 +57,13 @@ export const login = async (email: string, password: string) => {
     const response = await signInWithEmailAndPassword(auth, email, password);
     sessionStorage.setItem("firebaseToken", await response.user.getIdToken());
     return response.user;
-  } catch (error) {
-    console.log(error);
-    return error;
+  } catch (error: any) {
+    if (error.code === "auth/user-not-found") {
+      return "user-not-found";
+    }
+    if (error.code === "auth/wrong-password") {
+      return "wrong-password";
+    }
   }
 };
 
@@ -68,22 +72,40 @@ export const signInWithGoogle = async () => {
     const response: any = await signInWithPopup(auth, googleProvider);
     const [firstName, lastName] = response.user.displayName.split(" ");
 
-    const user: User = {
-      user_id: response.user.uid,
-      firstName,
-      lastName,
-      email: response.user.email,
-    };
+    // Create user exists in the database
+    usersApi
+      .getUserByEmailApiV1EmailEmailGet(response.user.email, {
+        headers: {
+          Authorization: `Bearer ${await response.user.getIdToken()}`,
+        },
+      })
+      .then(async (user) => {
+        return response.user;
+      })
+      .catch(async (error) => {
+        // Create user if it does not exist
+        if (error.response.status === 404) {
+          console.log("Creating user");
+          const user: User = {
+            user_id: response.user.uid,
+            firstName,
+            lastName,
+            email: response.user.email,
+          };
+          usersApi
+            .createUserApiV1Post(user, {
+              headers: {
+                Authorization: `Bearer ${await response.user.getIdToken()}`,
+              },
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+      });
 
-    const newUser = await usersApi.createUserApiV1Post(user, {
-      headers: {
-        Authorization: `Bearer ${await response.user.getIdToken()}`,
-      },
-    });
-
-    return newUser;
+    return response.user;
   } catch (error) {
-    console.log(error);
     return error;
   }
 };

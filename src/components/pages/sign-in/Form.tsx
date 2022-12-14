@@ -11,7 +11,7 @@ import { IconButton, InputAdornment, TextField } from "@mui/material";
 import { Button } from "../../general/Button";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { login } from "../../../utils/firebase";
+import { login, signInWithGoogle } from "../../../utils/firebase";
 import * as authActionCreators from "../../../store/action-creators/auth-action-creators";
 
 const TextFieldProps: any = {
@@ -27,6 +27,8 @@ const Form = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [passwordIncorrect, setPasswordIncorrect] = useState(false);
+  const [userNotFound, setUserNotFound] = useState(false);
 
   const clearData = () => {
     setEmail("");
@@ -37,9 +39,22 @@ const Form = () => {
     e.preventDefault();
     setLoading(true);
     login(email, password).then((res: any) => {
+      if (res === "wrong-password") {
+        setLoading(false);
+        return setPasswordIncorrect(true);
+      }
+      if (res === "user-not-found") {
+        setLoading(false);
+        return setUserNotFound(true);
+      }
       setLoading(false);
       setAuthUser(res);
-      clearData();
+      return clearData();
+    });
+  };
+  const handleGoogleSignIn = () => {
+    signInWithGoogle().then((res: any) => {
+      setAuthUser(res);
     });
   };
   const handleMouseDownPassword = (
@@ -91,6 +106,9 @@ const Form = () => {
                   </InputAdornment>
                 ),
               }}
+              error={passwordIncorrect}
+              helperText={passwordIncorrect ? "Incorrect password" : undefined}
+              onFocus={() => setPasswordIncorrect(false)}
             />
           </div>
           <p className='mt-4 font-semibold text-sm'>
@@ -125,7 +143,7 @@ const Form = () => {
               className='text-primary hover:text-black'
             />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={handleGoogleSignIn}>
             <Google
               fontSize='large'
               className='text-primary hover:text-black'
