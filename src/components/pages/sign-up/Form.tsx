@@ -66,7 +66,7 @@ const Form = (props: any) => {
         setLoading(false);
         return setUserExists(true);
       }
-      setAuthUser(res.data);
+      setAuthUser(res);
       setLoading(false);
       props.history.push("/");
       return clearData();
