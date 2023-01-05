@@ -11,13 +11,12 @@ export const createItem = async (item: any) => {
     //upload photos to firebase storage
     const photos = item.photos;
     const photoUrls: any[] = [];
-    console.log(item.title);
 
     photos.forEach(async (photo: any, index: number) => {
       if (photo.file) {
         const storageRef = ref(
           storage,
-          `item-images/${item.user_id}/${photo.file.path}`
+          `item-images/${item.user_id}/${item.title}/${photo.file.path}`
         );
         await uploadBytes(storageRef, photo.file);
         const url = await getDownloadURL(storageRef);
@@ -25,6 +24,8 @@ export const createItem = async (item: any) => {
       }
     });
     item.photos = photoUrls;
+
+    console.log(item);
 
     const response = await itemsApi.createItemApiV1Post(item, {
       headers: {
