@@ -17,7 +17,7 @@ export const createItem = async (item: any) => {
       if (photo.file) {
         const storageRef = ref(
           storage,
-          `item-images/${item.userId}/${photo.file.path}`
+          `item-images/${item.user_id}/${photo.file.path}`
         );
         await uploadBytes(storageRef, photo.file);
         const url = await getDownloadURL(storageRef);
