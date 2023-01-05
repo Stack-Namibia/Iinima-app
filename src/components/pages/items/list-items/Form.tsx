@@ -7,6 +7,8 @@ import { InfoText } from "../../../general/InfoText";
 import { BasicSelect } from "../../../general/BasicSelect";
 import { useState } from "react";
 import ReactDropzone from "react-dropzone";
+import { createItem } from "../../../../utils/api/items-service";
+import { useSelector } from "react-redux";
 
 const categoriesMock = [
   {
@@ -39,42 +41,43 @@ const addressesMock = [
 ];
 
 const Form = () => {
+  const { user } = useSelector((state: any) => state.authUser);
+
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
-  const [address, setAddress] = useState("");
+  const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
-  const [dayPrice, setDayPrice] = useState("");
-  const [weekPrice, setWeekPrice] = useState("");
-  const [monthPrice, setMonthPrice] = useState("");
+  const [dailyPrice, setDailyPrice] = useState("");
+  const [weeklyPrice, setWeeklyPrice] = useState("");
+  const [monthlyPrice, setMonthlyPrice] = useState("");
   const [itemValue, setItemValue] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [minRentalDays, setMinRentalDays] = useState("");
+  const [miniRentalDays, setMiniRentalDays] = useState("");
   const [loading, setLoading] = useState(false);
   const [photos, setPhotos] = useState<{ file: any; preview: string }[]>(
     Array(4).fill({ file: null, preview: "" })
   ); // This is the array that will hold the images
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     // This function sends the data to the backend
     e.preventDefault();
     setLoading(true);
-    console.log({
+
+    await createItem({
       title,
       category,
-      address,
+      location,
       description,
-      dayPrice,
-      weekPrice,
-      monthPrice,
+      dailyPrice,
+      weeklyPrice,
+      monthlyPrice,
       itemValue,
       quantity,
-      minRentalDays,
+      miniRentalDays,
       photos,
+      user_id: user.uid,
     });
-    setTimeout(() => {
-      setLoading(false);
-      handleCancel();
-    }, 2000);
+    setLoading(false);
   };
 
   const handleCancel = () => {
@@ -82,14 +85,15 @@ const Form = () => {
 
     setTitle("");
     setCategory("");
-    setAddress("");
+    setLocation("");
     setDescription("");
-    setDayPrice("");
-    setWeekPrice("");
-    setMonthPrice("");
+    setDailyPrice("");
+    setWeeklyPrice("");
+    setMonthlyPrice("");
     setItemValue("");
     setQuantity("");
-    setMinRentalDays("");
+    setMiniRentalDays("");
+    setPhotos(Array(4).fill({ file: null, preview: "" }));
   };
 
   return (
@@ -242,8 +246,8 @@ const Form = () => {
             <BasicSelect
               items={addressesMock}
               text={"Address"}
-              onChange={setAddress}
-              value={address}
+              onChange={setLocation}
+              value={location}
             />
             <Input
               id='description'
@@ -267,8 +271,8 @@ const Form = () => {
                 label='Day(s)'
                 type='number'
                 adornment='N$'
-                onChange={setDayPrice}
-                value={dayPrice}
+                onChange={setDailyPrice}
+                value={dailyPrice}
                 required
               />
             </Grid>
@@ -278,8 +282,8 @@ const Form = () => {
                 label='Week(s)'
                 type='number'
                 adornment='N$'
-                onChange={setWeekPrice}
-                value={weekPrice}
+                onChange={setWeeklyPrice}
+                value={weeklyPrice}
                 required
               />
             </Grid>
@@ -289,8 +293,8 @@ const Form = () => {
                 label='Month(s)'
                 type='number'
                 adornment='N$'
-                onChange={setMonthPrice}
-                value={monthPrice}
+                onChange={setMonthlyPrice}
+                value={monthlyPrice}
                 required
               />
             </Grid>
@@ -319,8 +323,8 @@ const Form = () => {
                 id='minRentalDays'
                 label='Minimum rental days'
                 type='number'
-                onChange={setMinRentalDays}
-                value={minRentalDays}
+                onChange={setMiniRentalDays}
+                value={miniRentalDays}
                 required
               />
             </Grid>
