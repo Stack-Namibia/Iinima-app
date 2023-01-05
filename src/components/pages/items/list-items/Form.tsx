@@ -6,6 +6,7 @@ import photoUploadImage from "../../../../assets/photo-upload.svg";
 import { InfoText } from "../../../general/InfoText";
 import { BasicSelect } from "../../../general/BasicSelect";
 import { useState } from "react";
+import { useDropzone } from "react-dropzone";
 
 const categoriesMock = [
   {
@@ -49,6 +50,7 @@ const Form = () => {
   const [quantity, setQuantity] = useState("");
   const [minRentalDays, setMinRentalDays] = useState("");
   const [loading, setLoading] = useState(false);
+  const [images, setImages] = useState<{ file: any; preview: string }[]>([]); // This is the array that will hold the images
 
   const handleSubmit = (e: any) => {
     // This function sends the data to the backend
@@ -87,16 +89,63 @@ const Form = () => {
     setMinRentalDays("");
   };
 
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop: (acceptedFiles) => {
+      if (acceptedFiles) {
+        setImages([
+          ...images,
+          {
+            file: acceptedFiles[0],
+            preview: URL.createObjectURL(acceptedFiles[0]),
+          },
+        ]);
+      }
+      return true;
+    },
+  });
+
   return (
     <div className='flex items-center justify-center p-6 max-w-2xl'>
       <div className='w-full'>
         <form onSubmit={(e) => handleSubmit(e)}>
           <InfoText text='Add Photos' />
           <div className='flex justify-center mb-5 mt-2 gap-2'>
-            <img src={photoUploadImage} alt='logo' className='w-[24%]' />
-            <img src={photoUploadImage} alt='logo' className='w-[24%]' />
-            <img src={photoUploadImage} alt='logo' className='w-[24%]' />
-            <img src={photoUploadImage} alt='logo' className='w-[24%]' />
+            <div {...getRootProps()} className='cursor-pointer w-[24%]'>
+              <input
+                {...getInputProps()}
+                type='file'
+                className='w-10 invisible'
+              />
+              <img
+                src={images[0] ? images[0].preview : photoUploadImage}
+                alt='logo'
+                className='w-full'
+              />
+            </div>
+            <div {...getRootProps()} className='cursor-pointer w-[24%]'>
+              <input {...getInputProps()} type='file' multiple />
+              <img
+                src={images[1] ? images[1].preview : photoUploadImage}
+                alt='logo'
+                className='w-full'
+              />
+            </div>
+            <div {...getRootProps()} className='cursor-pointer w-[24%]'>
+              <input {...getInputProps()} type='file' multiple />
+              <img
+                src={images[2] ? images[2].preview : photoUploadImage}
+                alt='logo'
+                className='w-full'
+              />
+            </div>
+            <div {...getRootProps()} className='cursor-pointer w-[24%]'>
+              <input {...getInputProps()} type='file' multiple />
+              <img
+                src={images[3] ? images[3].preview : photoUploadImage}
+                alt='logo'
+                className='w-full'
+              />
+            </div>
           </div>
           <div className='mb-2'>
             <Input
