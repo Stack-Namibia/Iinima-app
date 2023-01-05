@@ -48,9 +48,11 @@ const Form = () => {
   const [itemValue, setItemValue] = useState("");
   const [quantity, setQuantity] = useState("");
   const [minRentalDays, setMinRentalDays] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = () => {
+    // This function sends the data to the backend
+    setLoading(true);
     console.log({
       title,
       category,
@@ -63,127 +65,149 @@ const Form = () => {
       quantity,
       minRentalDays,
     });
+    setTimeout(() => {
+      setLoading(false);
+      handleCancel();
+    }, 2000);
+  };
+
+  const handleCancel = () => {
+    // This function clears all the input fields
+
+    setTitle("");
+    setCategory("");
+    setAddress("");
+    setDescription("");
+    setDayPrice("");
+    setWeekPrice("");
+    setMonthPrice("");
+    setItemValue("");
+    setQuantity("");
+    setMinRentalDays("");
   };
 
   return (
     <div className='flex items-center justify-center p-6 max-w-2xl'>
       <div className='w-full'>
-        <form onSubmit={(e) => handleSubmit(e)}>
-          <InfoText text='Add Photos' />
-          <div className='flex justify-center mb-5 mt-2 gap-2'>
-            <img src={photoUploadImage} alt='logo' className='w-[24%]' />
-            <img src={photoUploadImage} alt='logo' className='w-[24%]' />
-            <img src={photoUploadImage} alt='logo' className='w-[24%]' />
-            <img src={photoUploadImage} alt='logo' className='w-[24%]' />
-          </div>
-          <div className='mb-2'>
+        <InfoText text='Add Photos' />
+        <div className='flex justify-center mb-5 mt-2 gap-2'>
+          <img src={photoUploadImage} alt='logo' className='w-[24%]' />
+          <img src={photoUploadImage} alt='logo' className='w-[24%]' />
+          <img src={photoUploadImage} alt='logo' className='w-[24%]' />
+          <img src={photoUploadImage} alt='logo' className='w-[24%]' />
+        </div>
+        <div className='mb-2'>
+          <Input
+            id='title'
+            label='Listing title'
+            type='text'
+            value={title}
+            onChange={setTitle}
+          />
+          <BasicSelect
+            items={categoriesMock}
+            text={"Categories"}
+            onChange={setCategory}
+            value={category}
+          />
+          <BasicSelect
+            items={addressesMock}
+            text={"Address"}
+            onChange={setAddress}
+            value={address}
+          />
+          <Input
+            id='description'
+            label='Item description'
+            type='text'
+            multiline
+            onChange={setDescription}
+            value={description}
+          />
+        </div>
+        <InfoText text='Rental price per:' />
+        <Grid
+          container
+          spacing={{ xs: 2, md: 3 }}
+          columns={{ xs: 4, sm: 8, md: 12 }}
+        >
+          <Grid item xs={2} sm={4} md={4}>
             <Input
-              id='title'
-              label='Listing title'
-              type='text'
-              value={title}
-              onChange={setTitle}
+              id='day'
+              label='Day(s)'
+              type='number'
+              adornment='N$'
+              onChange={setDayPrice}
+              value={dayPrice}
             />
-            <BasicSelect
-              items={categoriesMock}
-              text={"Categories"}
-              onChange={setCategory}
-              value={category}
-            />
-            <BasicSelect
-              items={addressesMock}
-              text={"Address"}
-              onChange={setAddress}
-              value={address}
-            />
+          </Grid>
+          <Grid item xs={2} sm={4} md={4}>
             <Input
-              id='description'
-              label='Item description'
-              type='text'
-              multiline
-              onChange={setDescription}
-              value={description}
+              id='week'
+              label='Week(s)'
+              type='number'
+              adornment='N$'
+              onChange={setWeekPrice}
+              value={weekPrice}
             />
-          </div>
-          <InfoText text='Rental price per:' />
-          <Grid
-            container
-            spacing={{ xs: 2, md: 3 }}
-            columns={{ xs: 4, sm: 8, md: 12 }}
-          >
-            <Grid item xs={2} sm={4} md={4}>
-              <Input
-                id='day'
-                label='Day(s)'
-                type='number'
-                adornment='N$'
-                onChange={setDayPrice}
-                value={dayPrice}
-              />
-            </Grid>
-            <Grid item xs={2} sm={4} md={4}>
-              <Input
-                id='week'
-                label='Week(s)'
-                type='number'
-                adornment='N$'
-                onChange={setWeekPrice}
-                value={weekPrice}
-              />
-            </Grid>
-            <Grid item xs={2} sm={4} md={4}>
-              <Input
-                id='month'
-                label='Month(s)'
-                type='number'
-                adornment='N$'
-                onChange={setMonthPrice}
-                value={monthPrice}
-              />
-            </Grid>
-            <Grid item xs={2} sm={4} md={4}>
-              <Input
-                id='itemValue'
-                label='Item Value'
-                type='number'
-                adornment='N$'
-                onChange={setItemValue}
-                value={itemValue}
-              />
-            </Grid>
-            <Grid item xs={2} sm={4} md={4}>
-              <Input
-                id='quantity'
-                label='Quantity'
-                type='number'
-                onChange={setQuantity}
-                value={quantity}
-              />
-            </Grid>
-            <Grid item xs={2} sm={4} md={4}>
-              <Input
-                id='minRentalDays'
-                label='Minimum rental days'
-                type='number'
-                onChange={setMinRentalDays}
-                value={minRentalDays}
-              />
-            </Grid>
           </Grid>
-          <Grid
-            container
-            rowSpacing={1}
-            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-            sx={{ marginTop: "1rem" }}
-          >
-            <Grid item xs={6}>
-              <Button text='cancel' color='secondary' />
-            </Grid>
-            <Grid item xs={6}>
-              <Button text='List item' type='submit' />
-            </Grid>
+          <Grid item xs={2} sm={4} md={4}>
+            <Input
+              id='month'
+              label='Month(s)'
+              type='number'
+              adornment='N$'
+              onChange={setMonthPrice}
+              value={monthPrice}
+            />
           </Grid>
-        </form>
+          <Grid item xs={2} sm={4} md={4}>
+            <Input
+              id='itemValue'
+              label='Item Value'
+              type='number'
+              adornment='N$'
+              onChange={setItemValue}
+              value={itemValue}
+            />
+          </Grid>
+          <Grid item xs={2} sm={4} md={4}>
+            <Input
+              id='quantity'
+              label='Quantity'
+              type='number'
+              onChange={setQuantity}
+              value={quantity}
+            />
+          </Grid>
+          <Grid item xs={2} sm={4} md={4}>
+            <Input
+              id='minRentalDays'
+              label='Minimum rental days'
+              type='number'
+              onChange={setMinRentalDays}
+              value={minRentalDays}
+            />
+          </Grid>
+        </Grid>
+        <Grid
+          container
+          rowSpacing={1}
+          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          sx={{ marginTop: "1rem" }}
+        >
+          <Grid item xs={6}>
+            <Button text='cancel' color='secondary' clickEvent={handleCancel} />
+          </Grid>
+          <Grid item xs={6}>
+            <Button
+              text='List item'
+              type='submit'
+              clickEvent={handleSubmit}
+              loading={loading}
+            />
+          </Grid>
+        </Grid>
       </div>
     </div>
   );
