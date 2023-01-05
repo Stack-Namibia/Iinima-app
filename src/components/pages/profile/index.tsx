@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
 import ApplicationWrapper from "../../general/ApplicationWrapper";
+import withAuth from "../../auth";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -200,8 +201,6 @@ const Profile = () => {
   );
 };
 
-export default Profile;
-
 const EditButton = styled.button`
   background-color: #d63e3e;
   &:hover {
@@ -212,3 +211,5 @@ const EditButton = styled.button`
 const Name = styled.h1`
   color: #5e8797;
 `;
+
+export default withAuth(Profile);

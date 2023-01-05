@@ -6,23 +6,35 @@ import Menu from "@mui/material/Menu";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import { useHistory } from "react-router-dom";
 import { settings } from "./NavigationBar";
+import * as authActionCreators from "../../store/action-creators/auth-action-creators";
+import { User } from "../../api/accounts";
 
-export const AvatarIcon = () => {
+export const AvatarIcon = ({ user }: { user: User }) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { logout } = bindActionCreators(authActionCreators, dispatch);
+
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (type: { text: string; to: string }) => {
     setAnchorElUser(null);
+    if (type.text !== "Logout") {
+      history.push(type.to);
+    }
   };
   return (
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip title='Open settings'>
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
+          <Avatar alt={user.email} src={""} />
         </IconButton>
       </Tooltip>
       <Menu
@@ -41,9 +53,17 @@ export const AvatarIcon = () => {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        {settings.map((setting) => (
-          <MenuItem key={setting} onClick={handleCloseUserMenu}>
-            <Typography textAlign='center'>{setting}</Typography>
+        {settings.map(({ text, to }) => (
+          <MenuItem
+            key={text}
+            onClick={() => {
+              handleCloseUserMenu({ text, to });
+              if (text === "Logout") {
+                logout();
+              }
+            }}
+          >
+            <Typography textAlign='center'>{text}</Typography>
           </MenuItem>
         ))}
       </Menu>

@@ -2,6 +2,7 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { User } from "../../api/accounts";
 import { AuthActionTypes } from "../action-types/auth-action-type";
 import { AuthAction } from "../actions/auth-actions";
+import { logout as signOut } from "../../utils/firebase";
 
 export const setAuthUser = (user: User) => {
   return (dispatch: Dispatch<AuthAction>) => {
@@ -20,9 +21,11 @@ export const setAuthUser = (user: User) => {
 export const logout = () => {
   return (dispatch: Dispatch<AuthAction>) => {
     try {
-      dispatch({
-        type: AuthActionTypes.LOGOUT,
-        payload: null,
+      signOut().then(() => {
+        dispatch({
+          type: AuthActionTypes.LOGOUT,
+          payload: null,
+        });
       });
     } catch (error) {
       //alert here

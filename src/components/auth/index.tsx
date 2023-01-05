@@ -1,8 +1,13 @@
 import React from "react";
+import { connect } from "react-redux";
 import { auth } from "../../plugins/firebase";
+import {
+  logout,
+  setAuthUser,
+} from "../../store/action-creators/auth-action-creators";
 import SignIn from "../pages/sign-in";
 const withAuth = (WrappedComponent: any) => {
-  return class extends React.Component<{}, { user: any }> {
+  class WithAuth extends React.Component<{ dispatch: any }, { user: any }> {
     constructor(props: any) {
       super(props);
 
@@ -16,12 +21,16 @@ const withAuth = (WrappedComponent: any) => {
       auth.onAuthStateChanged((user: any) => {
         if (user) {
           this.setState({ user });
+          this.props.dispatch(setAuthUser(user));
+        } else {
+          this.setState({ user: null });
+          this.props.dispatch(logout());
         }
       });
     }
 
     render() {
-      console.log(this.state.user);
+      console.log();
       // Provide the wrapped component with the authenticated user's data
       if (this.state.user) {
         return <WrappedComponent {...this.props} user={this.state.user} />;
@@ -29,7 +38,8 @@ const withAuth = (WrappedComponent: any) => {
         return <SignIn />;
       }
     }
-  };
+  }
+  return connect()(WithAuth);
 };
 
 export default withAuth;

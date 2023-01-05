@@ -5,10 +5,15 @@ import {
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "@reduxjs/toolkit";
 import { IconButton, InputAdornment, TextField } from "@mui/material";
+import { useLocation, useHistory } from "react-router-dom";
 import { Button } from "../../general/Button";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { login, signInWithGoogle } from "../../../utils/firebase";
+import * as authActionCreators from "../../../store/action-creators/auth-action-creators";
 
 const TextFieldProps: any = {
   variant: "outlined",
@@ -17,10 +22,16 @@ const TextFieldProps: any = {
 };
 
 const Form = () => {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const history = useHistory();
+  const { setAuthUser } = bindActionCreators(authActionCreators, dispatch);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [passwordIncorrect, setPasswordIncorrect] = useState(false);
+  const [userNotFound, setUserNotFound] = useState(false);
 
   const clearData = () => {
     setEmail("");
@@ -29,15 +40,33 @@ const Form = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = { email, password };
-    console.log(data);
-
     setLoading(true);
-    //Replace with API call to authenticate user
-    setTimeout(() => {
-      setLoading(false);
-      clearData();
-    }, 5000);
+    login(email, password)
+      .then((res: any) => {
+        if (res === "wrong-password") {
+          setLoading(false);
+          return setPasswordIncorrect(true);
+        }
+        if (res === "user-not-found") {
+          setLoading(false);
+          return setUserNotFound(true);
+        }
+        setLoading(false);
+        setAuthUser(res);
+        if (location.pathname === "/signin") {
+          history.push("/");
+          clearData();
+        }
+      })
+      .catch((err: any) => {
+        setLoading(false);
+        console.log(err);
+      });
+  };
+  const handleGoogleSignIn = () => {
+    signInWithGoogle().then((res: any) => {
+      setAuthUser(res);
+    });
   };
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -63,6 +92,11 @@ const Form = () => {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              error={userNotFound}
+              helperText={
+                userNotFound ? "Email not associated to any user" : undefined
+              }
+              onFocus={() => setUserNotFound(false)}
             />
           </div>
           <div>
@@ -88,6 +122,9 @@ const Form = () => {
                   </InputAdornment>
                 ),
               }}
+              error={passwordIncorrect}
+              helperText={passwordIncorrect ? "Incorrect password" : undefined}
+              onFocus={() => setPasswordIncorrect(false)}
             />
           </div>
           <p className='mt-4 font-semibold text-sm'>
@@ -122,7 +159,7 @@ const Form = () => {
               className='text-primary hover:text-black'
             />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={handleGoogleSignIn}>
             <Google
               fontSize='large'
               className='text-primary hover:text-black'
