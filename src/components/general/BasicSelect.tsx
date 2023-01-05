@@ -14,8 +14,15 @@ interface SelectProps {
   onChange?: Dispatch<SetStateAction<string>>;
   value?: string;
   text: string;
+  required?: boolean;
 }
-export function BasicSelect({ items, onChange, value, text }: SelectProps) {
+export function BasicSelect({
+  items,
+  onChange,
+  value,
+  text,
+  required,
+}: SelectProps) {
   return (
     <Box sx={{ minWidth: 120, marginTop: 1 }}>
       <FormControl fullWidth>
@@ -28,6 +35,7 @@ export function BasicSelect({ items, onChange, value, text }: SelectProps) {
           onChange={
             onChange && ((e: SelectChangeEvent) => onChange(e.target.value))
           }
+          required={required}
         >
           {items.map(({ value, label }, key) => (
             <MenuItem value={value} key={key}>
