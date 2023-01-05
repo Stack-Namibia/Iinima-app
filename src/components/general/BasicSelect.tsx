@@ -7,19 +7,15 @@ import {
   InputLabel,
   MenuItem,
 } from "@mui/material";
+import { Dispatch, SetStateAction } from "react";
 
 interface SelectProps {
   items: { value: string; label: string }[];
-  onChange?: (event: SelectChangeEvent) => void;
+  onChange?: Dispatch<SetStateAction<string>>;
+  value?: string;
   text: string;
 }
-export function BasicSelect({ items, onChange, text }: SelectProps) {
-  const [age, setAge] = React.useState("");
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string);
-  };
-
+export function BasicSelect({ items, onChange, value, text }: SelectProps) {
   return (
     <Box sx={{ minWidth: 120, marginTop: 1 }}>
       <FormControl fullWidth>
@@ -27,9 +23,11 @@ export function BasicSelect({ items, onChange, text }: SelectProps) {
         <Select
           labelId='demo-simple-select-label'
           id='demo-simple-select'
-          value={age}
+          value={value}
           label={text}
-          onChange={handleChange}
+          onChange={
+            onChange && ((e: SelectChangeEvent) => onChange(e.target.value))
+          }
         >
           {items.map(({ value, label }, key) => (
             <MenuItem value={value} key={key}>
