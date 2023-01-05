@@ -78,6 +78,7 @@ const Form = () => {
       user_id: user.uid,
     });
     setLoading(false);
+    handleCancel();
   };
 
   const handleCancel = () => {
