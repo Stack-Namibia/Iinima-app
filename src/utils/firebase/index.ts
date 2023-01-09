@@ -29,6 +29,7 @@ export const signupWithEmailAndPassword = async ({
 }: EmailSignUp) => {
   try {
     const reponse = await createUserWithEmailAndPassword(auth, email, password);
+    sessionStorage.removeItem("firebaseToken");
     sessionStorage.setItem("firebaseToken", await reponse.user.getIdToken());
 
     usersApi
@@ -52,13 +53,8 @@ export const signupWithEmailAndPassword = async ({
             email,
           };
 
-          return await usersApi.createUserApiV1Post(user, {
-            headers: {
-              Authorization: `Bearer ${await reponse.user.getIdToken()}`,
-            },
-          });
+          return await usersApi.createUserApiV1Post(user);
         }
-        console.log(error);
       });
 
     return reponse.user;
@@ -73,6 +69,7 @@ export const signupWithEmailAndPassword = async ({
 export const login = async (email: string, password: string) => {
   try {
     const response = await signInWithEmailAndPassword(auth, email, password);
+    sessionStorage.removeItem("firebaseToken");
     sessionStorage.setItem("firebaseToken", await response.user.getIdToken());
     return response.user;
   } catch (error: any) {
@@ -88,11 +85,12 @@ export const login = async (email: string, password: string) => {
 export const signInWithGoogle = async () => {
   try {
     const response: any = await signInWithPopup(auth, googleProvider);
+    sessionStorage.removeItem("firebaseToken");
     sessionStorage.setItem("firebaseToken", await response.user.getIdToken());
     const [firstName, lastName] = response.user.displayName.split(" ");
 
     // Create user exists in the database
-    usersApi
+    const user = usersApi
       .getUserByEmailApiV1EmailEmailGet(response.user.email)
       .then(async (user) => {
         return response.user;
@@ -100,22 +98,23 @@ export const signInWithGoogle = async () => {
       .catch(async (error) => {
         // Create user if it does not exist
         if (error.response.status === 404) {
-          console.log("Creating user");
           const user: User = {
             user_id: response.user.uid,
             firstName,
             lastName,
             email: response.user.email,
           };
-          usersApi
-            .createUserApiV1Post(user)
-            .catch((error) => {
-              console.log(error);
-            });
+          await usersApi.createUserApiV1Post(user).catch((error) => {
+            console.log(error);
+          });
+        }
+
+        if (error.response.status === 401) {
+          return "unauthorized";
         }
       });
 
-    return response.user;
+    return user;
   } catch (error) {
     return error;
   }
@@ -127,6 +126,7 @@ export const signInWithFacebook = async () => {
       auth,
       new FacebookAuthProvider()
     );
+    sessionStorage.removeItem("firebaseToken");
     sessionStorage.setItem("firebaseToken", await response.user.getIdToken());
     const [firstName, lastName] = response.user.displayName.split(" ");
 
