@@ -1,9 +1,10 @@
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { ItemsApi } from "../../../api/items";
 import { storage } from "../../../plugins/firebase";
+import { getApiConfig } from "../../firebase/api-config";
 
-const itemsApi = new ItemsApi();
-const apiToken = `Bearer ${sessionStorage.getItem("firebaseToken")}`;
+const itemsApi = new ItemsApi(getApiConfig());
+// const apiToken = `Bearer ${sessionStorage.getItem("firebaseToken")}`;
 
 export const createItem = async (item: any) => {
   // This function creates an item by making a call to the api
@@ -27,11 +28,7 @@ export const createItem = async (item: any) => {
 
     console.log(item);
 
-    const response = await itemsApi.createItemApiV1Post(item, {
-      headers: {
-        Authorization: apiToken,
-      },
-    });
+    const response = await itemsApi.createItemApiV1Post(item);
 
     return response;
   } catch (error) {

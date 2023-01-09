@@ -29,13 +29,10 @@ export const signupWithEmailAndPassword = async ({
 }: EmailSignUp) => {
   try {
     const reponse = await createUserWithEmailAndPassword(auth, email, password);
+    sessionStorage.setItem("firebaseToken", await reponse.user.getIdToken());
 
     usersApi
-      .getUserByEmailApiV1EmailEmailGet(email, {
-        headers: {
-          Authorization: `Bearer ${await reponse.user.getIdToken()}`,
-        },
-      })
+      .getUserByEmailApiV1EmailEmailGet(email)
       .then(async (user) => {
         if (user) {
           return "user-exists";
@@ -91,15 +88,12 @@ export const login = async (email: string, password: string) => {
 export const signInWithGoogle = async () => {
   try {
     const response: any = await signInWithPopup(auth, googleProvider);
+    sessionStorage.setItem("firebaseToken", await response.user.getIdToken());
     const [firstName, lastName] = response.user.displayName.split(" ");
 
     // Create user exists in the database
     usersApi
-      .getUserByEmailApiV1EmailEmailGet(response.user.email, {
-        headers: {
-          Authorization: `Bearer ${await response.user.getIdToken()}`,
-        },
-      })
+      .getUserByEmailApiV1EmailEmailGet(response.user.email)
       .then(async (user) => {
         return response.user;
       })
@@ -114,11 +108,7 @@ export const signInWithGoogle = async () => {
             email: response.user.email,
           };
           usersApi
-            .createUserApiV1Post(user, {
-              headers: {
-                Authorization: `Bearer ${await response.user.getIdToken()}`,
-              },
-            })
+            .createUserApiV1Post(user)
             .catch((error) => {
               console.log(error);
             });
@@ -137,6 +127,7 @@ export const signInWithFacebook = async () => {
       auth,
       new FacebookAuthProvider()
     );
+    sessionStorage.setItem("firebaseToken", await response.user.getIdToken());
     const [firstName, lastName] = response.user.displayName.split(" ");
 
     const user: User = {
@@ -146,11 +137,7 @@ export const signInWithFacebook = async () => {
       email: response.user.email,
     };
 
-    const newUser = await usersApi.createUserApiV1Post(user, {
-      headers: {
-        Authorization: `Bearer ${await response.user.getIdToken()}`,
-      },
-    });
+    const newUser = await usersApi.createUserApiV1Post(user);
 
     return newUser;
   } catch (error) {
@@ -174,11 +161,7 @@ export const signInWithTwitter = async () => {
       email: response.user.email,
     };
 
-    const newUser = await usersApi.createUserApiV1Post(user, {
-      headers: {
-        Authorization: `Bearer ${await response.user.getIdToken()}`,
-      },
-    });
+    const newUser = await usersApi.createUserApiV1Post(user);
 
     return newUser;
   } catch (error) {
