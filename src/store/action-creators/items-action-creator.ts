@@ -2,7 +2,7 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { Item } from "../../api/items";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../plugins/firebase";
-import { fetchItems, createItem1 } from "../../utils/api/items-service";
+import { fetchItems, createItem1, fetchItem } from "../../utils/api/items-service";
 import { ItemsActionTypes } from "../action-types/items-action-type";
 import { ItemsAction } from "../actions/items-actions";
 
@@ -54,6 +54,21 @@ export const getItems = () => {
       console.log(error);
     }
   };
+};
+
+export const getItem = (id: string) => {
+    return async (dispatch: Dispatch<ItemsAction>) => {
+        try {
+            const data = await fetchItem(id);
+            dispatch({
+                type: ItemsActionTypes.GET_SELECTED_ITEM,
+                payload: data,
+            });
+        } catch (error) {
+            //alert here
+            console.log(error);
+        }
+    };
 };
 
 function uploadImages(

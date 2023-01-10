@@ -24,5 +24,10 @@ interface GetItemsAction {
     payload?: Item[];
 }
 
+interface GetSelectedItemAction {
+    type: ItemsActionTypes.GET_SELECTED_ITEM;
+    payload?: Item;
+}
 
-export type ItemsAction = GetItemsAction | CreateItemAction | ItemAddedSuccessAction;
+
+export type ItemsAction = GetItemsAction | CreateItemAction | ItemAddedSuccessAction | GetSelectedItemAction;

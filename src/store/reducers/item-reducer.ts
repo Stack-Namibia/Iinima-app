@@ -14,7 +14,8 @@ export interface ItemsState {
   isLoading: boolean;
   isError: boolean;
   itemResponse?: Item;
-  item?: Array<Item>;
+  items?: Array<Item>;
+  item?:Item;
 }
 
 const initialState: ItemsState = { isLoading: false, isError: false };
@@ -25,7 +26,9 @@ function reducer(
 ): ItemsState {
   switch (action.type) {
     case ItemsActionTypes.GET_ALL_ITEMS:
-      return { isLoading: true, isError: false, item: action.payload };
+      return { isLoading: true, isError: false, items: action.payload };
+    case ItemsActionTypes.GET_SELECTED_ITEM:
+        return { isLoading: true, isError: false, item: action.payload };
     case ItemsActionTypes.CREATE_ITEM:
         return { isLoading: true, isError: false };
     case ItemsActionTypes.ITEM_SUCCESS:
