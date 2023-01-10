@@ -13,10 +13,11 @@ import { ItemsAction } from "../actions/items-actions";
 export interface ItemsState {
   isLoading: boolean;
   isError: boolean;
+  itemResponse?: Item;
   item?: Array<Item>;
 }
 
-const initialState: ItemsState = { isLoading: true, isError: false };
+const initialState: ItemsState = { isLoading: false, isError: false };
 
 function reducer(
   state: ItemsState = initialState,
@@ -24,7 +25,11 @@ function reducer(
 ): ItemsState {
   switch (action.type) {
     case ItemsActionTypes.GET_ALL_ITEMS:
-      return { isLoading: false, isError: false, item: action.payload };
+      return { isLoading: true, isError: false, item: action.payload };
+    case ItemsActionTypes.CREATE_ITEM:
+        return { isLoading: true, isError: false };
+    case ItemsActionTypes.ITEM_SUCCESS:
+        return { isLoading: false, isError: false, itemResponse: action.payload };
     default:
       return state;
   }
