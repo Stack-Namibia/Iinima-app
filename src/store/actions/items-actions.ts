@@ -29,5 +29,13 @@ interface GetSelectedItemAction {
     payload?: Item;
 }
 
+interface UpdateItemAction {
+    type: ItemsActionTypes.UPDATE_ITEM;
+    payload?: {
+        id: string;
+        item: Item;
+    }
+}
 
-export type ItemsAction = GetItemsAction | CreateItemAction | ItemAddedSuccessAction | GetSelectedItemAction;
+
+export type ItemsAction = GetItemsAction | CreateItemAction | ItemAddedSuccessAction | GetSelectedItemAction | UpdateItemAction;

@@ -59,7 +59,7 @@ export const fetchItem = async (id: string) => {
   return data;
 };
 
-export const updateItem = async (item: Item, id: string) => {
+export const updateItemById = async (item: Item, id: string) => {
   // This function updates an item by making a call to the api
   const { data } = await itemsApi.updateItemApiV1IdPut(item, id);
   return data;

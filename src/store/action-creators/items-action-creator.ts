@@ -2,7 +2,7 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { Item } from "../../api/items";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../plugins/firebase";
-import { fetchItems, createItem1, fetchItem } from "../../utils/api/items-service";
+import { fetchItems, createItem1, fetchItem, updateItemById } from "../../utils/api/items-service";
 import { ItemsActionTypes } from "../action-types/items-action-type";
 import { ItemsAction } from "../actions/items-actions";
 
@@ -71,6 +71,27 @@ export const getItem = (id: string) => {
     };
 };
 
+export const updateItem = (id: string, item: Item) => {
+    return async (dispatch: Dispatch<ItemsAction>) => {
+        try {
+            dispatch({
+                type: ItemsActionTypes.UPDATE_ITEM,
+                payload: {
+                    id,
+                    item
+                }
+            });
+            const data = await updateItemById(item, id);
+            dispatch({
+                type: ItemsActionTypes.ITEM_SUCCESS,
+                payload: data,
+            });
+        } catch (error) {
+            //alert here
+            console.log(error);
+        }
+    };
+};
 function uploadImages(
   files: any[],
   userId: string,

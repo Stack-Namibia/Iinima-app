@@ -16,6 +16,10 @@ export interface ItemsState {
   itemResponse?: Item;
   items?: Array<Item>;
   item?:Item;
+  updateItem?:{
+        id: string;
+        item: Item;
+  }
 }
 
 const initialState: ItemsState = { isLoading: false, isError: false };
@@ -33,6 +37,8 @@ function reducer(
         return { isLoading: true, isError: false };
     case ItemsActionTypes.ITEM_SUCCESS:
         return { isLoading: false, isError: false, itemResponse: action.payload };
+    case ItemsActionTypes.UPDATE_ITEM:
+        return { isLoading: true, isError: false, updateItem: action.payload};
     default:
       return state;
   }
