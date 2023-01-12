@@ -20,6 +20,7 @@ export interface ItemsState {
         id: string;
         item: Item;
   }
+  errResponse?: any;
 }
 
 const initialState: ItemsState = { isLoading: false, isError: false };
@@ -39,6 +40,8 @@ function reducer(
         return { isLoading: false, isError: false, itemResponse: action.payload };
     case ItemsActionTypes.UPDATE_ITEM:
         return { isLoading: true, isError: false, updateItem: action.payload};
+    case ItemsActionTypes.CREATE_ITEM_ERROR:
+        return { isLoading: false, isError: true, errResponse: action.payload };
     default:
       return state;
   }

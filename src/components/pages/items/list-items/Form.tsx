@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Input } from "../../../general/Input";
+import { RootState } from "../../../../store/reducers";
 import { Button } from "../../../general/Button";
 import Grid from "@mui/material/Grid";
 import photoUploadImage from "../../../../assets/photo-upload.svg";
@@ -7,8 +8,10 @@ import { InfoText } from "../../../general/InfoText";
 import { BasicSelect } from "../../../general/BasicSelect";
 import { useState } from "react";
 import ReactDropzone from "react-dropzone";
-import { createItem } from "../../../../utils/api/items-service";
-import { useSelector } from "react-redux";
+//import { createItem } from "../../../../utils/api/items-service";
+import { useSelector, useDispatch } from "react-redux";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import * as ItemActionsCreator from "../../../../store/action-creators/items-action-creator";
 
 const categoriesMock = [
   {
@@ -42,6 +45,10 @@ const addressesMock = [
 
 const Form = () => {
   const { user } = useSelector((state: any) => state.authUser);
+  const itemState = useSelector((state: RootState) => state.item);
+  const dispatch = useDispatch();
+
+  const { createItem } = bindActionCreators(ItemActionsCreator, dispatch);
 
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
@@ -61,9 +68,9 @@ const Form = () => {
   const handleSubmit = async (e: any) => {
     // This function sends the data to the backend
     e.preventDefault();
-    setLoading(true);
+    setLoading(itemState.isLoading);
 
-    await createItem({
+    createItem({
       title,
       category,
       location,
@@ -77,8 +84,9 @@ const Form = () => {
       photos,
       user_id: user.uid,
     });
-    setLoading(false);
-    // handleCancel();
+    setLoading(itemState.isLoading);
+    console.log(itemState);
+    handleCancel();
   };
 
   const handleCancel = () => {

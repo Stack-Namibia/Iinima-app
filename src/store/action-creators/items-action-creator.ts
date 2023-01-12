@@ -2,7 +2,7 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { Item } from "../../api/items";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../plugins/firebase";
-import { fetchItems, createItem1, fetchItem, updateItemById } from "../../utils/api/items-service";
+import { fetchItems, listItem, fetchItem, updateItemById } from "../../utils/api/items-service";
 import { ItemsActionTypes } from "../action-types/items-action-type";
 import { ItemsAction } from "../actions/items-actions";
 
@@ -29,13 +29,16 @@ export const createItem = (item: any) => {
 
       item.photos = photoUrls;
 
-      const data = await createItem1(item);
+      const data = await listItem(item);
       dispatch({
         type: ItemsActionTypes.ITEM_SUCCESS,
         payload: data as any,
       });
     } catch (error) {
-      //alert here
+      dispatch({
+        type: ItemsActionTypes.CREATE_ITEM_ERROR,
+        payload: error,
+      });
       console.log(error);
     }
   };
