@@ -23,6 +23,13 @@ export interface Item {
      * @memberof Item
      */
     id?: string;
+
+    /**
+     * 
+     * @type {string}
+     * @memberof Item
+     */
+    user_id?: string;
     /**
      * 
      * @type {string}

@@ -4,7 +4,9 @@ import { Configuration } from "../../api/accounts";
 
 export function getApiConfig() {
   return new Configuration({
-    basePath: process.env.REACT_APP_BASE_URL,
+    accessToken: () => {
+      return sessionStorage.getItem("firebaseToken") || "";
+    },
     baseOptions: {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("firebaseToken")}`,

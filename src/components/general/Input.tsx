@@ -47,7 +47,7 @@ export const Input = ({
     }
     value={value}
     required={required}
-    onChange={onChange}
+    onChange={(e) => onChange && onChange(e.target.value)}
     {...error}
   />
 );

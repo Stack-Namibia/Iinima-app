@@ -77,6 +77,7 @@ const Form = (props: any) => {
     signInWithGoogle().then((res: any) => {
       setAuthUser(res.data);
       setLoading(false);
+      props.history.push("/");
       clearData();
     });
   };
@@ -85,6 +86,7 @@ const Form = (props: any) => {
     signInWithFacebook().then((res: any) => {
       setAuthUser(res.data);
       setLoading(false);
+      props.history.push("/");
       clearData();
     });
   };
@@ -93,6 +95,7 @@ const Form = (props: any) => {
     signInWithTwitter().then((res: any) => {
       setAuthUser(res.data);
       setLoading(false);
+      props.history.push("/");
       clearData();
     });
   };

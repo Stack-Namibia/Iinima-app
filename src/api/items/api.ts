@@ -54,9 +54,12 @@ export const ItemsApiAxiosParamCreator = function (
           "Required parameter body was null or undefined when calling createItemApiV1Post."
         );
       }
-      const localVarPath = `/api/v1/`;
+      const localVarPath = `/`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      const localVarUrlObj = new URL(
+        localVarPath,
+        "https://localhost:3001/items"
+      );
       let baseOptions;
       if (configuration) {
         baseOptions = configuration.baseOptions;
@@ -117,12 +120,15 @@ export const ItemsApiAxiosParamCreator = function (
           "Required parameter id was null or undefined when calling deleteItemApiV1IdDelete."
         );
       }
-      const localVarPath = `/api/v1/{id}`.replace(
+      const localVarPath = `/{id}`.replace(
         `{${"id"}}`,
         encodeURIComponent(String(id))
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      const localVarUrlObj = new URL(
+        localVarPath,
+        "https://localhost:3001/items"
+      );
       let baseOptions;
       if (configuration) {
         baseOptions = configuration.baseOptions;
@@ -175,12 +181,15 @@ export const ItemsApiAxiosParamCreator = function (
           "Required parameter id was null or undefined when calling getItemByIdApiV1IdGet."
         );
       }
-      const localVarPath = `/api/v1/{id}`.replace(
+      const localVarPath = `/{id}`.replace(
         `{${"id"}}`,
         encodeURIComponent(String(id))
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      const localVarUrlObj = new URL(
+        localVarPath,
+        "https://localhost:3001/items"
+      );
       let baseOptions;
       if (configuration) {
         baseOptions = configuration.baseOptions;
@@ -228,9 +237,12 @@ export const ItemsApiAxiosParamCreator = function (
       limit?: number,
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
-      const localVarPath = `/api/v1/`;
+      const localVarPath = `/`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      const localVarUrlObj = new URL(
+        localVarPath,
+        "https://localhost:3001/items"
+      );
       let baseOptions;
       if (configuration) {
         baseOptions = configuration.baseOptions;
@@ -282,9 +294,12 @@ export const ItemsApiAxiosParamCreator = function (
     healthcheckApiV1HealthcheckGet: async (
       options: AxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
-      const localVarPath = `/api/v1/healthcheck`;
+      const localVarPath = `/healthcheck`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      const localVarUrlObj = new URL(
+        localVarPath,
+        "https://localhost:3001/items"
+      );
       let baseOptions;
       if (configuration) {
         baseOptions = configuration.baseOptions;
@@ -351,7 +366,10 @@ export const ItemsApiAxiosParamCreator = function (
         encodeURIComponent(String(id))
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      const localVarUrlObj = new URL(
+        localVarPath,
+        "https://localhost:3001/items"
+      );
       let baseOptions;
       if (configuration) {
         baseOptions = configuration.baseOptions;
