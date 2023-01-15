@@ -1,14 +1,20 @@
-import { User } from "../../api/accounts";
 import { AuthActionTypes } from "../action-types/auth-action-type";
 
-interface LoginAction {
-  type: AuthActionTypes.LOGIN;
-  payload: User;
+interface LoginRequestAction {
+  type: AuthActionTypes.LOGIN_REQUEST;
+}
+
+interface LoginSucessAction {
+  type: AuthActionTypes.LOGIN_SUCCESS;
+  payload: any;
+}
+
+interface LoginFailureAction {
+  type: AuthActionTypes.LOGIN_FAILURE;
 }
 
 interface LogoutAction {
   type: AuthActionTypes.LOGOUT;
-  payload: null;
 }
 
-export type AuthAction = LoginAction | LogoutAction;
+export type AuthAction = LoginRequestAction  | LoginSucessAction | LoginFailureAction | LogoutAction;

@@ -86,7 +86,7 @@ const Form = () => {
     });
     setLoading(itemState.isLoading);
     console.log(itemState);
-    handleCancel();
+     handleCancel();
   };
 
   const handleCancel = () => {

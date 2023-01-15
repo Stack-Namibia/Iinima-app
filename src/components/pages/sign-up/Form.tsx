@@ -8,12 +8,12 @@ import {
 import { IconButton, Checkbox, TextField, InputAdornment } from "@mui/material";
 import { Button } from "../../general/Button";
 import { Link } from "react-router-dom";
+import { RootState } from "../../../store/reducers";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { withRouter } from "react-router-dom";
 import {
-  signupWithEmailAndPassword,
   signInWithGoogle,
   signInWithFacebook,
   signInWithTwitter,
@@ -21,8 +21,9 @@ import {
 import * as authActionCreators from "../../../store/action-creators/auth-action-creators";
 
 const Form = (props: any) => {
+  const  userState  = useSelector((state: RootState) => state.authUser);
   const dispatch = useDispatch();
-  const { setAuthUser } = bindActionCreators(authActionCreators, dispatch);
+  const  { authEmailAndPassword, setAuthUser}  = bindActionCreators(authActionCreators, dispatch);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -59,18 +60,12 @@ const Form = (props: any) => {
       email,
       password,
     };
-    setLoading(true);
+    setLoading(userState.isLoading);
     //Replace with call to API and Reduz store to save user data
-    signupWithEmailAndPassword(data).then((res: any) => {
-      if (res === "user-exists") {
-        setLoading(false);
-        return setUserExists(true);
-      }
-      setAuthUser(res);
-      setLoading(false);
+    authEmailAndPassword(data.email, data.password, data.firstName, data.lastName);
       props.history.push("/");
       return clearData();
-    });
+    
   };
 
   const handleGoogleSignIn = () => {

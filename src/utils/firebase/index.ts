@@ -9,9 +9,8 @@ import {
 } from "firebase/auth";
 import { auth } from "../../plugins/firebase";
 import { User, UsersApi } from "../../api/accounts";
-import { getApiConfig } from "./api-config";
 
-const usersApi = new UsersApi(getApiConfig());
+const usersApi = new UsersApi();
 
 interface EmailSignUp {
   firstName: string;
@@ -85,13 +84,13 @@ export const login = async (email: string, password: string) => {
 export const signInWithGoogle = async () => {
   try {
     const response: any = await signInWithPopup(auth, googleProvider);
-    sessionStorage.removeItem("firebaseToken");
     sessionStorage.setItem("firebaseToken", await response.user.getIdToken());
     const [firstName, lastName] = response.user.displayName.split(" ");
+    console.log(response.user);
 
     // Create user exists in the database
-    const user = usersApi
-      .getUserByEmailApiV1EmailEmailGet(response.user.email)
+    const user = await usersApi
+      .getUserByEmailApiV1EmailEmailGet(response.user.email, { headers: { Authorization: `Bearer ${sessionStorage.getItem("firebaseToken")}`} })
       .then(async (user) => {
         return response.user;
       })
@@ -104,7 +103,7 @@ export const signInWithGoogle = async () => {
             lastName,
             email: response.user.email,
           };
-          await usersApi.createUserApiV1Post(user).catch((error) => {
+          await usersApi.createUserApiV1Post(user, { headers: { Authorization: `Bearer ${sessionStorage.getItem("firebaseToken")}`} }).catch((error) => {
             console.log(error);
           });
         }
