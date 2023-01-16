@@ -6,6 +6,7 @@ interface AuthState {
   isLoading: boolean;
   isError: boolean;
   user?: any;
+  error?: any;
 }
 
 const isTokenPresent = sessionStorage.getItem("firebaseToken") !== null;
@@ -38,6 +39,7 @@ function reducer(
         isLoggedIn: false,
         isLoading: false,
         isError: true,
+        error: action.payload,
       };
     case AuthActionTypes.LOGOUT:
       return { isLoggedIn: false, isLoading: false, isError: false };

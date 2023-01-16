@@ -11,9 +11,12 @@ import { IconButton, InputAdornment, TextField } from "@mui/material";
 import { useLocation, useHistory } from "react-router-dom";
 import { Button } from "../../general/Button";
 import { Link } from "react-router-dom";
+import { RootState } from "../../../store/reducers";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { login, signInWithGoogle } from "../../../utils/firebase";
 import * as authActionCreators from "../../../store/action-creators/auth-action-creators";
+
 
 const TextFieldProps: any = {
   variant: "outlined",
@@ -22,10 +25,11 @@ const TextFieldProps: any = {
 };
 
 const Form = () => {
+  const  userState  = useSelector((state: RootState) => state.authUser);
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
-  const { setAuthUser } = bindActionCreators(authActionCreators, dispatch);
+  const { signInGoogle, signInEmail } = bindActionCreators(authActionCreators, dispatch);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -40,31 +44,26 @@ const Form = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
-    login(email, password)
-      .then((res: any) => {
-        if (res === "wrong-password") {
-          setLoading(false);
-          return setPasswordIncorrect(true);
+    setLoading(userState.isLoading);
+    signInEmail(email, password)
+   
+        if (userState.user.code === "wrong-password") {
+          setLoading(userState.isLoading);
+          return setPasswordIncorrect(userState.isError);
         }
-        if (res === "user-not-found") {
-          setLoading(false);
-          return setUserNotFound(true);
+        if (userState.user.code === "user-not-found") {
+          setLoading(userState.isLoading);
+          return setUserNotFound(userState.isError);
         }
-        setLoading(false);
-        setAuthUser(res);
+        setLoading(userState.isLoading);
         handleRedirect();
         clearData();
-      })
-      .catch((err: any) => {
-        setLoading(false);
-        console.log(err);
-      });
+
   };
   const handleGoogleSignIn = () => {
     signInWithGoogle().then((res: any) => {
       if (res.user_id) {
-        setAuthUser(res);
+        signInGoogle(res);
         handleRedirect();
         clearData();
       } else {

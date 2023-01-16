@@ -23,7 +23,7 @@ import * as authActionCreators from "../../../store/action-creators/auth-action-
 const Form = (props: any) => {
   const  userState  = useSelector((state: RootState) => state.authUser);
   const dispatch = useDispatch();
-  const  { authEmailAndPassword, setAuthUser}  = bindActionCreators(authActionCreators, dispatch);
+  const  { authEmailAndPassword, setAuthUser, signInGoogle}  = bindActionCreators(authActionCreators, dispatch);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -70,7 +70,7 @@ const Form = (props: any) => {
 
   const handleGoogleSignIn = () => {
     signInWithGoogle().then((res: any) => {
-      setAuthUser(res.data);
+      signInGoogle(res.data);
       setLoading(false);
       props.history.push("/");
       clearData();

@@ -11,6 +11,7 @@ interface LoginSucessAction {
 
 interface LoginFailureAction {
   type: AuthActionTypes.LOGIN_FAILURE;
+  payload: any;
 }
 
 interface LogoutAction {

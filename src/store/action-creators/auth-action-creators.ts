@@ -4,6 +4,8 @@ import { AuthActionTypes } from "../action-types/auth-action-type";
 import { AuthAction } from "../actions/auth-actions";
 import { logout as signOut } from "../../utils/firebase";
 import { createUserByEmail } from "../../utils/auth/firebase-auth";
+import { googleAuth } from "../../utils/auth/firebase-auth";
+import { emailAuth } from "../../utils/auth/firebase-auth";
 
 export const authEmailAndPassword = (
   email: string,
@@ -30,11 +32,55 @@ export const authEmailAndPassword = (
     } catch (error) {
       dispatch({
         type: AuthActionTypes.LOGIN_FAILURE,
+        payload: error,
       });
       console.log(error);
     }
   };
 };
+
+export const signInGoogle = (user: User) => {
+  return async (dispatch: Dispatch<AuthAction>) => {
+    try {
+      dispatch({
+        type: AuthActionTypes.LOGIN_REQUEST,
+      });
+      const response = await googleAuth();
+
+      dispatch({
+        type: AuthActionTypes.LOGIN_SUCCESS,
+        payload: response,
+      });
+    } catch (error) {
+      dispatch({
+        type: AuthActionTypes.LOGIN_FAILURE,
+        payload: error,
+      });
+    }
+  };
+};
+
+export const signInEmail = (email: string, password: string) => {
+  return async (dispatch: Dispatch<AuthAction>) => {
+    try {
+      dispatch({
+        type: AuthActionTypes.LOGIN_REQUEST,
+      });
+      const response = await emailAuth(email, password);
+
+      dispatch({
+        type: AuthActionTypes.LOGIN_SUCCESS,
+        payload: response,
+      });
+    } catch (error) {
+      dispatch({
+        type: AuthActionTypes.LOGIN_FAILURE,
+        payload: error,
+      });
+    }
+  };
+};
+
 
 export const setAuthUser = (user: User) => {
   return (dispatch: Dispatch<AuthAction>) => {
