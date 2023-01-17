@@ -11,6 +11,14 @@ import Divider from "@mui/material/Divider";
 import ItemsCouresal from "../../../general/ItemsCouresal";
 import SearchInput from "./SearchInput";
 import MultiSelect from "../../../general/MultiSelect";
+import * as ItemActionsCreator from "../../../../store/action-creators/items-action-creator";
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from "../../../../store/reducers";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import { useEffect, useState } from 'react';
+import { Item } from "../../../../api/items";
+
+
 
 const itemsMock = [
   {
@@ -178,6 +186,22 @@ const locations = [
 const categories = ["Tools", "Electronics", "Furniture", "Clothing", "Books"];
 
 const BrowseItems = () => {
+  const itemState = useSelector((state: RootState) => state.item);
+  const dispatch = useDispatch();
+
+  const { getItems } = bindActionCreators(ItemActionsCreator, dispatch);
+
+  const [localItem, setItems] = useState<Array<Item>>([]);
+
+  useEffect(() => {
+    getItems();
+  }, []);
+
+  useEffect(() => {
+    setItems(itemState.items || []);
+  }, [itemState.items]);
+
+
   return (
     <ApplicationWrapper>
       <div className='flex h-screen'>
@@ -218,9 +242,9 @@ const BrowseItems = () => {
                     role='list'
                     className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2'
                   >
-                    {itemsMock.map((item) => (
+                    {localItem.map((item) => (
                       <li
-                        key={item.name}
+                        key={item.user_id}
                         className='col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow'
                       >
                         <ItemsCard item={item} />
