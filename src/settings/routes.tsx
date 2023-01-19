@@ -12,7 +12,10 @@ import { withAuthenticationRequired } from "@auth0/auth0-react";
 import LoadingPage from "../components/pages/loading-page";
 
 const ProtectedRoute = ({ component, ...args }: any) => {
-  const Component = withAuthenticationRequired(component, args);
+  const Component = withAuthenticationRequired(component, {
+    ...args,
+    onRedirecting: () => <LoadingPage />,
+  });
   return <Component />;
 };
 
@@ -78,7 +81,7 @@ const routes = [
     key: "Loading",
   },
   {
-    path: "/*",
+    path: "*",
     exact: true,
     element: <HttpError />,
     key: "HttpError",
