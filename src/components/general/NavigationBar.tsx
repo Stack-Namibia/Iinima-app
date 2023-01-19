@@ -161,7 +161,7 @@ function ResponsiveAppBar() {
               <DaisyButton
                 text='Login or Signup'
                 width='50%'
-                onClick={() => loginWithRedirect()}
+                clickEvent={() => loginWithRedirect()}
               />
             </Box>
           )}

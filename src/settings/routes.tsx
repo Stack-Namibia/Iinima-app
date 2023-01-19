@@ -78,7 +78,7 @@ const routes = [
     key: "Loading",
   },
   {
-    path: "*",
+    path: "/*",
     exact: true,
     element: <HttpError />,
     key: "HttpError",

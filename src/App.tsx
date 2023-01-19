@@ -23,7 +23,6 @@ const Auth0ProviderWithRedirectCallback = ({ children, ...props }: any) => {
 
 function App() {
   const location = useLocation();
-  console.log(window.location.origin);
   return (
     <>
       <AnimatePresence>
@@ -32,11 +31,11 @@ function App() {
             domain='dev-wcqfxo8a0qx5y8su.us.auth0.com'
             clientId='1Uzut7tXOhlpoz8BknEukWXFzAHfRExo'
             authorizationParams={{
-              redirect_uri: window.location.origin,
+              redirect_uri: window.location.origin + location.pathname,
             }}
           >
-            {routes.map(({ key, path, element }) => (
-              <Route path={path} key={key} exact location={location}>
+            {routes.map(({ key, path, element }, index) => (
+              <Route path={path} key={index} exact location={location}>
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: "100%" }}
