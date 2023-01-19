@@ -53,10 +53,8 @@ const Form = () => {
         }
         setLoading(false);
         setAuthUser(res);
-        if (location.pathname === "/signin") {
-          history.push("/");
-          clearData();
-        }
+        handleRedirect();
+        clearData();
       })
       .catch((err: any) => {
         setLoading(false);
@@ -65,13 +63,22 @@ const Form = () => {
   };
   const handleGoogleSignIn = () => {
     signInWithGoogle().then((res: any) => {
-      setAuthUser(res);
+      if (res.user_id) {
+        setAuthUser(res);
+        handleRedirect();
+        clearData();
+      } else {
+        console.log(res);
+      }
     });
   };
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
+  };
+  const handleRedirect = () => {
+    location.pathname === "/signin" && history.push("/");
   };
   return (
     <div className='flex items-center justify-center p-6 sm:p-12 md:w-1/2'>

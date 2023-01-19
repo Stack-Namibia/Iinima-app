@@ -9,6 +9,7 @@ import SignIn from "../components/pages/sign-in";
 import SignUp from "../components/pages/sign-up";
 import HowItWorks from "../components/pages/how-it-works";
 import { withAuthenticationRequired } from "@auth0/auth0-react";
+import LoadingPage from "../components/pages/loading-page";
 
 const ProtectedRoute = ({ component, ...args }: any) => {
   const Component = withAuthenticationRequired(component, args);
@@ -69,6 +70,12 @@ const routes = [
     exact: true,
     element: <BrowseItems />,
     key: "ListItem",
+  },
+  {
+    path: "/loading",
+    exact: true,
+    element: <LoadingPage />,
+    key: "Loading",
   },
   {
     path: "*",

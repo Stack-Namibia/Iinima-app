@@ -5,7 +5,7 @@ interface Props {
   type?: "button" | "submit" | "reset" | undefined;
   disabled?: boolean;
   loading?: boolean;
-  onClick?: () => void;
+  clickEvent?: () => void;
 }
 export const Button = ({
   text,
@@ -14,7 +14,7 @@ export const Button = ({
   type,
   disabled,
   loading,
-  onClick,
+  clickEvent,
 }: Props) => (
   <button
     className={`btn w-full ${
@@ -24,7 +24,7 @@ export const Button = ({
     } ${loading && "loading"}`}
     type={type}
     disabled={disabled}
-    onClick={onClick}
+    onClick={clickEvent}
   >
     {text}
   </button>
