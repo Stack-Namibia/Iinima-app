@@ -1,12 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
-import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/system";
 import { Provider } from "react-redux";
+import { Auth0Provider } from "@auth0/auth0-react";
 import store from "./store";
+import "./index.css";
+import App from "./App";
 
 const theme = createTheme({
   palette: {
@@ -32,7 +33,12 @@ root.render(
   <Provider store={store}>
     <BrowserRouter>
       <ThemeProvider theme={theme}>
-        <App />
+        <Auth0Provider
+          domain='dev-wcqfxo8a0qx5y8su.us.auth0.com'
+          clientId='1Uzut7tXOhlpoz8BknEukWXFzAHfRExo'
+        >
+          <App />
+        </Auth0Provider>
       </ThemeProvider>
     </BrowserRouter>
   </Provider>

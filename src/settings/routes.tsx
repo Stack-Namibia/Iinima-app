@@ -8,6 +8,12 @@ import ProfileEdit from "../components/pages/profile/edit";
 import SignIn from "../components/pages/sign-in";
 import SignUp from "../components/pages/sign-up";
 import HowItWorks from "../components/pages/how-it-works";
+import { withAuthenticationRequired } from "@auth0/auth0-react";
+
+const ProtectedRoute = ({ component, ...args }: any) => {
+  const Component = withAuthenticationRequired(component, args);
+  return <Component />;
+};
 
 const routes = [
   {
@@ -31,13 +37,13 @@ const routes = [
   {
     path: "/profile",
     exact: true,
-    element: <Profile />,
+    element: <ProtectedRoute component={Profile} />,
     key: "Profile",
   },
   {
     path: "/profile/edit",
     exact: true,
-    element: <ProfileEdit />,
+    element: <ProtectedRoute component={ProfileEdit} />,
     key: "Profile-edit",
   },
   {
@@ -49,13 +55,13 @@ const routes = [
   {
     path: "/item/edit",
     exact: true,
-    element: <EditItem />,
+    element: <ProtectedRoute component={EditItem} />,
     key: "EditItem",
   },
   {
     path: "/item/list",
     exact: true,
-    element: <ListItem />,
+    element: <ProtectedRoute component={ListItem} />,
     key: "ListItem",
   },
   {

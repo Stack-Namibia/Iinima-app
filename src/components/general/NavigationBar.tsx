@@ -9,8 +9,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 import logo from "../../assets/logo.svg";
 import { Button as DaisyButton } from "./Button";
 import { AvatarIcon } from "./AvatarIcon";
@@ -44,7 +44,8 @@ export const settings = [
 ];
 
 function ResponsiveAppBar() {
-  const { user } = useSelector((state: any) => state.authUser);
+  const { user, loginWithRedirect } = useAuth0();
+  console.log(user);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -147,7 +148,7 @@ function ResponsiveAppBar() {
             ))}
           </Box>
           {user ? (
-            <AvatarIcon user={user} />
+            <AvatarIcon />
           ) : (
             <Box
               sx={{
@@ -157,9 +158,11 @@ function ResponsiveAppBar() {
                 marginRight: 5,
               }}
             >
-              <Link to={"/signin"}>
-                <DaisyButton text='Login or Signup' width='50%' />
-              </Link>
+              <DaisyButton
+                text='Login or Signup'
+                width='50%'
+                onClick={() => loginWithRedirect()}
+              />
             </Box>
           )}
         </Toolbar>
