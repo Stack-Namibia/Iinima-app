@@ -33,12 +33,7 @@ root.render(
   <Provider store={store}>
     <BrowserRouter>
       <ThemeProvider theme={theme}>
-        <Auth0Provider
-          domain='dev-wcqfxo8a0qx5y8su.us.auth0.com'
-          clientId='1Uzut7tXOhlpoz8BknEukWXFzAHfRExo'
-        >
-          <App />
-        </Auth0Provider>
+        <App />
       </ThemeProvider>
     </BrowserRouter>
   </Provider>
