@@ -9,7 +9,6 @@ import SignUp from "../components/pages/sign-up";
 import HowItWorks from "../components/pages/how-it-works";
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import LoadingPage from "../components/pages/loading-page";
-import HttpError from "../components/pages/http-error";
 
 const ProtectedRoute = ({ component, ...args }: any) => {
   const Component = withAuthenticationRequired(component, {

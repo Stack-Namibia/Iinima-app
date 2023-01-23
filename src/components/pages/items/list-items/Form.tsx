@@ -1,4 +1,9 @@
 import * as React from "react";
+import { useState } from "react";
+import ReactDropzone from "react-dropzone";
+import { useSelector, useDispatch } from "react-redux";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import { useAuth0 } from "@auth0/auth0-react";
 import { Input } from "../../../general/Input";
 import { RootState } from "../../../../store/reducers";
 import { Button } from "../../../general/Button";
@@ -6,11 +11,6 @@ import Grid from "@mui/material/Grid";
 import photoUploadImage from "../../../../assets/photo-upload.svg";
 import { InfoText } from "../../../general/InfoText";
 import { BasicSelect } from "../../../general/BasicSelect";
-import { useState } from "react";
-import ReactDropzone from "react-dropzone";
-//import { createItem } from "../../../../utils/api/items-service";
-import { useSelector, useDispatch } from "react-redux";
-import { bindActionCreators } from "@reduxjs/toolkit";
 import * as ItemActionsCreator from "../../../../store/action-creators/items-action-creator";
 
 const categoriesMock = [
@@ -44,7 +44,7 @@ const addressesMock = [
 ];
 
 const Form = () => {
-  const { user } = useSelector((state: any) => state.authUser);
+  const { user, getAccessTokenSilently } = useAuth0();
   const itemState = useSelector((state: RootState) => state.item);
   const dispatch = useDispatch();
 
@@ -70,20 +70,25 @@ const Form = () => {
     e.preventDefault();
     setLoading(itemState.isLoading);
 
-    createItem({
-      title,
-      category,
-      location,
-      description,
-      dailyPrice,
-      weeklyPrice,
-      monthlyPrice,
-      itemValue,
-      quantity,
-      miniRentalDays,
-      photos,
-      user_id: user.uid,
-    });
+    const token = await getAccessTokenSilently();
+
+    createItem(
+      {
+        title,
+        category,
+        location,
+        description,
+        dailyPrice,
+        weeklyPrice,
+        monthlyPrice,
+        itemValue,
+        quantity,
+        miniRentalDays,
+        photos,
+        user_id: user?.sub,
+      },
+      token
+    );
     setLoading(itemState.isLoading);
     console.log(itemState);
     handleCancel();

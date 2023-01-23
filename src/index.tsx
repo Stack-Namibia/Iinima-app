@@ -4,7 +4,6 @@ import { BrowserRouter } from "react-router-dom";
 import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/system";
 import { Provider } from "react-redux";
-import { Auth0Provider } from "@auth0/auth0-react";
 import store from "./store";
 import "./index.css";
 import App from "./App";

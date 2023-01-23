@@ -5,10 +5,14 @@ import { Item } from "../../../api/items";
 const itemsApi = new ItemsApi(getApiConfig());
 
 /// this will be the way forward for the api calls, the rest of the code should be in the reducers or the components will work on this once carlos reviews the uploads
-export const listItem = async (item: Item) => {
-  const  data  = itemsApi.createItemApiV1Post(item);
+export const listItem = async (item: Item, token: string) => {
+  const data = itemsApi.createItemApiV1Post(item, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return data;
-}
+};
 
 export const fetchItems = async () => {
   // This function fetches items from the api
@@ -26,10 +30,10 @@ export const updateItemById = async (item: Item, id: string) => {
   // This function updates an item by making a call to the api
   const { data } = await itemsApi.updateItemApiV1IdPut(item, id);
   return data;
-}
+};
 
 export const deleteItemById = async (id: string) => {
   // This function deletes an item by making a call to the api
   const { data } = await itemsApi.deleteItemApiV1IdDelete(id);
   return data;
-}
+};

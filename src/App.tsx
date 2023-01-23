@@ -30,6 +30,7 @@ function App() {
           <Auth0ProviderWithRedirectCallback
             domain='dev-wcqfxo8a0qx5y8su.us.auth0.com'
             clientId='1Uzut7tXOhlpoz8BknEukWXFzAHfRExo'
+            audience='https://iinima.com'
             authorizationParams={{
               redirect_uri: window.location.origin + location.pathname,
             }}
