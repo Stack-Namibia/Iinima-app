@@ -6,6 +6,11 @@ module.exports = {
       colors: {
         primary: "#d63e3e",
         secondary: "#799ca9",
+        dot1: "#5B5A55",
+        dot2: "#D1DDD1",
+        dot3: "#5E8797",
+        dot4: "#222E2E",
+        dot5: "#631D16",
       },
       backgroundImage: {
         wave1: "url('/src/assets/wave1.svg')",
