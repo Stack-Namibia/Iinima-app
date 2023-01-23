@@ -45,7 +45,6 @@ export const settings = [
 
 function ResponsiveAppBar() {
   const { user, loginWithRedirect } = useAuth0();
-  console.log(user);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -56,6 +55,9 @@ function ResponsiveAppBar() {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+
+  console.log(user);
+
   return (
     <AppBar
       position='sticky'
