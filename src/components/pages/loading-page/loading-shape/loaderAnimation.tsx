@@ -4,7 +4,7 @@ const Loader = () => {
   return (
     <div>
       <div className="container">
-        <Dot1 className="bg-dot1  animation: pulse 2s infinite ease-in-out alternate" />
+        <Dot1 className="bg-dot1" />
         <Dot2 className="bg-dot2" />
         <Dot3 className="bg-dot3" />
         <Dot4 className="bg-dot4" />
