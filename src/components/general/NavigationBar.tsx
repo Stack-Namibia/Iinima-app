@@ -159,11 +159,13 @@ function ResponsiveAppBar() {
                 marginRight: 5,
               }}
             >
-              <DaisyButton
-                text='Login or Signup'
-                width='50%'
-                clickEvent={() => loginWithRedirect()}
-              />
+              <div>
+                <DaisyButton
+                  text='Login or Signup'
+                  width='50%'
+                  clickEvent={() => loginWithRedirect()}
+                />
+              </div>
             </Box>
           )}
         </Toolbar>

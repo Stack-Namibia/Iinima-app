@@ -9,7 +9,6 @@ import { history } from "./utils";
 import store from "./store";
 import "./index.css";
 import App from "./App";
-import config from "./settings/config";
 
 const theme = createTheme({
   palette: {
