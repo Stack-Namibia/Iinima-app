@@ -14,6 +14,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import logo from "../../assets/logo.svg";
 import { Button as DaisyButton } from "./Button";
 import { AvatarIcon } from "./AvatarIcon";
+import withAuth from "../auth";
 
 const pages = [
   { text: "How it works", to: "/howitworks" },
@@ -55,8 +56,6 @@ function ResponsiveAppBar() {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
-  console.log(user);
 
   return (
     <AppBar

@@ -34,15 +34,15 @@ const onRedirectCallBack = (appState: any) => {
   );
 };
 
-const providerConfig = {
-  domain: config.AUTH0_DOMAIN as string,
-  clientId: config.AUTH0_CLIENT_ID as string,
-  onRedirectCallBack,
-  authorizationParams: {
-    redirect_uri: window.location.origin,
-    audience: config.AUTH0_AUDIENCE,
-  },
-};
+// const providerConfig = {
+//   domain: config.AUTH0_DOMAIN as string,
+//   clientId: config.AUTH0_CLIENT_ID as string,
+//   onRedirectCallBack,
+//   authorizationParams: {
+//     redirect_uri: window.location.origin,
+//     audience: config.AUTH0_AUDIENCE,
+//   },
+// };
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -51,7 +51,18 @@ root.render(
   <Provider store={store}>
     <BrowserRouter>
       <ThemeProvider theme={theme}>
-        <Auth0Provider {...providerConfig}>
+        <Auth0Provider
+          domain='dev-wcqfxo8a0qx5y8su.us.auth0.com'
+          clientId='1Uzut7tXOhlpoz8BknEukWXFzAHfRExo'
+          onRedirectCallback={onRedirectCallBack}
+          authorizationParams={{
+            redirect_uri: window.location.origin,
+            audience: "https://iinima.app",
+          }}
+          cookieDomain='iinima.app'
+          useRefreshTokens={true}
+          cacheLocation='memory'
+        >
           <App />
         </Auth0Provider>
       </ThemeProvider>

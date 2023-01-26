@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import NavigationBar from "./NavigationBar";
+import Footer from "./Footer";
 
 const HowItWorksWrapper = ({ children }: any) => {
   return (
@@ -8,9 +10,11 @@ const HowItWorksWrapper = ({ children }: any) => {
       exit={{ opacity: 0 }}
       className='flex flex-col min-h-screen max-h-full justify-between bg-white pt-0 ml-0 mr-0'
     >
+      <NavigationBar />
       <div className='mb-0 container mx-auto pt-0 bg-white max-w-full'>
         {children}
       </div>
+      <Footer />
     </motion.div>
   );
 };
