@@ -2,39 +2,40 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import { Route, Switch, useLocation, useHistory } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import { useAuth0 } from "@auth0/auth0-react";
 import "./App.css";
 import routes from "./settings/routes";
-import { AnimatePresence } from "framer-motion";
-import { Auth0Provider } from "@auth0/auth0-react";
-
-const Auth0ProviderWithRedirectCallback = ({ children, ...props }: any) => {
-  const navigate = useHistory();
-  const onRedirectCallback = (appState: any) => {
-    navigate.push(appState?.returnTo || window.location.pathname);
-  };
-  return (
-    <Auth0Provider onRedirectCallback={onRedirectCallback} {...props}>
-      {children}
-    </Auth0Provider>
-  );
-};
+import NavigationBar from "./components/general/NavigationBar";
+import Footer from "./components/general/Footer";
+import LoadingPage from "./components/pages/loading-page";
+import HttpError from "./components/pages/http-error";
 
 function App() {
   const location = useLocation();
+  const { isLoading, error } = useAuth0();
+
+  if (error) {
+    return <HttpError />;
+  }
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
   return (
     <>
       <AnimatePresence>
-        <Switch>
-          <Auth0ProviderWithRedirectCallback
-            domain='dev-wcqfxo8a0qx5y8su.us.auth0.com'
-            clientId='1Uzut7tXOhlpoz8BknEukWXFzAHfRExo'
-            audience='https://iinima.com'
-            authorizationParams={{
-              redirect_uri: window.location.origin + location.pathname,
-            }}
-          >
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: "100%" }}
+          exit={{ opacity: 0 }}
+          className='flex flex-col min-h-screen max-h-full justify-between bg-white pt-0 ml-0 mr-0'
+        >
+          <NavigationBar />
+          <Switch>
             {routes.map(({ key, path, element }, index) => (
               <Route path={path} key={index} exact location={location}>
                 <motion.div
@@ -46,8 +47,9 @@ function App() {
                 </motion.div>
               </Route>
             ))}
-          </Auth0ProviderWithRedirectCallback>
-        </Switch>
+          </Switch>
+          <Footer />
+        </motion.div>
       </AnimatePresence>
     </>
   );

@@ -73,12 +73,6 @@ const routes = [
     element: <BrowseItems />,
     key: "ListItem",
   },
-  {
-    path: "/loading",
-    exact: true,
-    element: <LoadingPage />,
-    key: "Loading",
-  },
 ];
 
 export default routes;
