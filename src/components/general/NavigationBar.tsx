@@ -44,7 +44,7 @@ export const settings = [
 ];
 
 function ResponsiveAppBar() {
-  const { user, loginWithRedirect } = useAuth0();
+  const { loginWithRedirect, isAuthenticated } = useAuth0();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -147,7 +147,7 @@ function ResponsiveAppBar() {
               </Link>
             ))}
           </Box>
-          {user ? (
+          {isAuthenticated ? (
             <AvatarIcon />
           ) : (
             <Box
