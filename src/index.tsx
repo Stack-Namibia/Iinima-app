@@ -4,9 +4,12 @@ import { BrowserRouter } from "react-router-dom";
 import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/system";
 import { Provider } from "react-redux";
+import { Auth0Provider } from "@auth0/auth0-react";
+import { history } from "./utils";
 import store from "./store";
 import "./index.css";
 import App from "./App";
+import config from "./settings/config";
 
 const theme = createTheme({
   palette: {
@@ -25,6 +28,22 @@ const theme = createTheme({
   },
 });
 
+const onRedirectCallBack = (appState: any) => {
+  history.push(
+    appState && appState.returnTo ? appState.returnTo : window.location.pathname
+  );
+};
+
+const providerConfig = {
+  domain: config.AUTH0_DOMAIN as string,
+  clientId: config.AUTH0_CLIENT_ID as string,
+  onRedirectCallBack,
+  authorizationParams: {
+    redirect_uri: window.location.origin,
+    audience: config.AUTH0_AUDIENCE,
+  },
+};
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
@@ -32,7 +51,9 @@ root.render(
   <Provider store={store}>
     <BrowserRouter>
       <ThemeProvider theme={theme}>
-        <App />
+        <Auth0Provider {...providerConfig}>
+          <App />
+        </Auth0Provider>
       </ThemeProvider>
     </BrowserRouter>
   </Provider>
