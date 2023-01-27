@@ -6,17 +6,13 @@ import Menu from "@mui/material/Menu";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { useDispatch } from "react-redux";
-import { bindActionCreators } from "@reduxjs/toolkit";
 import { useHistory } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 import { settings } from "./NavigationBar";
-import * as authActionCreators from "../../store/action-creators/auth-action-creators";
-import { User } from "../../api/accounts";
 
-export const AvatarIcon = ({ user }: { user: User }) => {
+export const AvatarIcon = () => {
+  const { logout, user } = useAuth0();
   const history = useHistory();
-  const dispatch = useDispatch();
-  const { logout } = bindActionCreators(authActionCreators, dispatch);
 
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
@@ -34,7 +30,7 @@ export const AvatarIcon = ({ user }: { user: User }) => {
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip title='Open settings'>
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt={user.email} src={""} />
+          <Avatar alt={user?.nickname} src={user?.picture} />
         </IconButton>
       </Tooltip>
       <Menu
@@ -59,7 +55,7 @@ export const AvatarIcon = ({ user }: { user: User }) => {
             onClick={() => {
               handleCloseUserMenu({ text, to });
               if (text === "Logout") {
-                logout();
+                logout({ logoutParams: { returnTo: window.location.origin } });
               }
             }}
           >

@@ -1,4 +1,9 @@
 import * as React from "react";
+import { useState } from "react";
+import ReactDropzone from "react-dropzone";
+import { useSelector, useDispatch } from "react-redux";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import { useAuth0 } from "@auth0/auth0-react";
 import { Input } from "../../../general/Input";
 import { RootState } from "../../../../store/reducers";
 import { Button } from "../../../general/Button";
@@ -6,11 +11,6 @@ import Grid from "@mui/material/Grid";
 import photoUploadImage from "../../../../assets/photo-upload.svg";
 import { InfoText } from "../../../general/InfoText";
 import { BasicSelect } from "../../../general/BasicSelect";
-import { useState } from "react";
-import ReactDropzone from "react-dropzone";
-//import { createItem } from "../../../../utils/api/items-service";
-import { useSelector, useDispatch } from "react-redux";
-import { bindActionCreators } from "@reduxjs/toolkit";
 import * as ItemActionsCreator from "../../../../store/action-creators/items-action-creator";
 
 const categoriesMock = [
@@ -44,7 +44,7 @@ const addressesMock = [
 ];
 
 const Form = () => {
-  const { user } = useSelector((state: any) => state.authUser);
+  const { user } = useAuth0();
   const itemState = useSelector((state: RootState) => state.item);
   const dispatch = useDispatch();
 
@@ -60,7 +60,6 @@ const Form = () => {
   const [itemValue, setItemValue] = useState("");
   const [quantity, setQuantity] = useState("");
   const [miniRentalDays, setMiniRentalDays] = useState("");
-  const [loading, setLoading] = useState(false);
   const [photos, setPhotos] = useState<{ file: any; preview: string }[]>(
     Array(4).fill({ file: null, preview: "" })
   ); // This is the array that will hold the images
@@ -68,7 +67,6 @@ const Form = () => {
   const handleSubmit = async (e: any) => {
     // This function sends the data to the backend
     e.preventDefault();
-    setLoading(itemState.isLoading);
 
     createItem({
       title,
@@ -82,11 +80,9 @@ const Form = () => {
       quantity,
       miniRentalDays,
       photos,
-      user_id: user.uid,
+      user_id: user?.sub,
     });
-    setLoading(itemState.isLoading);
-    console.log(itemState);
-     handleCancel();
+    handleCancel();
   };
 
   const handleCancel = () => {
@@ -352,7 +348,11 @@ const Form = () => {
               />
             </Grid>
             <Grid item xs={6}>
-              <Button text='List item' type='submit' loading={loading} />
+              <Button
+                text='List item'
+                type='submit'
+                loading={itemState.isLoading}
+              />
             </Grid>
           </Grid>
         </form>

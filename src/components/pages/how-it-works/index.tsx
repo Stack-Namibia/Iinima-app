@@ -13,9 +13,19 @@ const HowItWorks = () => {
           <div className='hero-content flex-col lg:flex-row-reverse'>
             <img src={undraw} className='max-w-sm' alt='undraw' />
             <div>
-              <h1 className='font-bold text-5xl md:text-5xl lg:text-7xl text-black'>
-                How to rent <MarkText>Anything</MarkText>
-              </h1>
+            <InnerHeading className="flex flex-col lg:flex-row">
+            <p className='font-bold text-7xl text-black mr-5'>
+              How to Rent
+            </p>
+            <Words className="">
+            <MarkText className="font-bold text-7xl">Anything</MarkText>
+            <MarkText className="font-bold text-7xl">Tools</MarkText>
+            <MarkText className="font-bold text-7xl">Furniture</MarkText>
+            <MarkText className="font-bold text-7xl">Clothing</MarkText>
+            <MarkText className="font-bold text-7xl">Electronics</MarkText>
+            <MarkText className="font-bold text-7xl">Anything</MarkText>
+            </Words>
+            </InnerHeading>
               <div
                 className='font-bold text-2xl md:text-4xl text-gray-500 whitespace-pre-line w-3/4 mt-3
                '
@@ -138,8 +148,56 @@ const Headers = styled.h1`
 const SecondHeaders = styled.h2`
   color: #545454;
 `;
-const MarkText = styled.mark`
+const MarkText = styled.span`
   background-color: transparent;
   border: none;
+  height: 100%;
   color: #c13327;
+  display: block;
+  animation: spin_words 16s 1s ease infinite;
+  @keyframes spin_words {
+    10% {
+      transform: translateY(-100%)
+    }
+    20% {
+      transform: translateY(-100%)
+    }
+    30% {
+      transform: translateY(-200%)
+    }
+    40% {
+      transform: translateY(-200%)
+    }
+    50% {
+      transform: translateY(-300%)
+    }
+    60% {
+      transform: translateY(-300%)
+    }
+    70% {
+      transform: translateY(-400%)
+    }
+    80% {
+      transform: translateY(-400%)
+    }
+    90% {
+      transform: translateY(-500%)
+    }
+    100% {
+      transform: translateY(-500%)
+    }
+  }
+`;
+
+const InnerHeading = styled.div`
+  box-sizing: box-border;
+  display: flex;
+  height: 100px;
+  @media (min-height: 300px) and (max-height: 1000px) {
+    height: 230px;
+}
+`;
+
+const Words = styled.div`
+overflow: hidden;
 `;

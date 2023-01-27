@@ -2,7 +2,12 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { Item } from "../../api/items";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../plugins/firebase";
-import { fetchItems, listItem, fetchItem, updateItemById } from "../../utils/api/items-service";
+import {
+  fetchItems,
+  listItem,
+  fetchItem,
+  updateItemById,
+} from "../../utils/api/items-service";
 import { ItemsActionTypes } from "../action-types/items-action-type";
 import { ItemsAction } from "../actions/items-actions";
 
@@ -60,40 +65,40 @@ export const getItems = () => {
 };
 
 export const getItem = (id: string) => {
-    return async (dispatch: Dispatch<ItemsAction>) => {
-        try {
-            const data = await fetchItem(id);
-            dispatch({
-                type: ItemsActionTypes.GET_SELECTED_ITEM,
-                payload: data,
-            });
-        } catch (error) {
-            //alert here
-            console.log(error);
-        }
-    };
+  return async (dispatch: Dispatch<ItemsAction>) => {
+    try {
+      const data = await fetchItem(id);
+      dispatch({
+        type: ItemsActionTypes.GET_SELECTED_ITEM,
+        payload: data,
+      });
+    } catch (error) {
+      //alert here
+      console.log(error);
+    }
+  };
 };
 
 export const updateItem = (id: string, item: Item) => {
-    return async (dispatch: Dispatch<ItemsAction>) => {
-        try {
-            dispatch({
-                type: ItemsActionTypes.UPDATE_ITEM,
-                payload: {
-                    id,
-                    item
-                }
-            });
-            const data = await updateItemById(item, id);
-            dispatch({
-                type: ItemsActionTypes.ITEM_SUCCESS,
-                payload: data,
-            });
-        } catch (error) {
-            //alert here
-            console.log(error);
-        }
-    };
+  return async (dispatch: Dispatch<ItemsAction>) => {
+    try {
+      dispatch({
+        type: ItemsActionTypes.UPDATE_ITEM,
+        payload: {
+          id,
+          item,
+        },
+      });
+      const data = await updateItemById(item, id);
+      dispatch({
+        type: ItemsActionTypes.ITEM_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      //alert here
+      console.log(error);
+    }
+  };
 };
 function uploadImages(
   files: any[],
