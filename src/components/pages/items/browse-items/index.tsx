@@ -195,7 +195,7 @@ const BrowseItems = () => {
 
   useEffect(() => {
     getItems();
-  }, []);
+  });
 
   useEffect(() => {
     setItems(itemState || []);

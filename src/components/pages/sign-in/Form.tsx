@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 import { RootState } from "../../../store/reducers";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { login, signInWithGoogle } from "../../../utils/firebase";
+import { signInWithGoogle } from "../../../utils/firebase";
 import * as authActionCreators from "../../../store/action-creators/auth-action-creators";
 
 
