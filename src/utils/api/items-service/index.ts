@@ -5,12 +5,8 @@ import { Item } from "../../../api/items";
 const itemsApi = new ItemsApi(getApiConfig());
 
 /// this will be the way forward for the api calls, the rest of the code should be in the reducers or the components will work on this once carlos reviews the uploads
-export const listItem = async (item: Item, token: string) => {
-  const data = itemsApi.createItemApiV1Post(item, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+export const listItem = async (item: Item) => {
+  const data = itemsApi.createItemApiV1Post(item);
   return data;
 };
 

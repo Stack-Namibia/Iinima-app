@@ -44,7 +44,7 @@ const addressesMock = [
 ];
 
 const Form = () => {
-  const { user, getAccessTokenSilently } = useAuth0();
+  const { user } = useAuth0();
   const itemState = useSelector((state: RootState) => state.item);
   const dispatch = useDispatch();
 
@@ -60,7 +60,6 @@ const Form = () => {
   const [itemValue, setItemValue] = useState("");
   const [quantity, setQuantity] = useState("");
   const [miniRentalDays, setMiniRentalDays] = useState("");
-  const [loading, setLoading] = useState(false);
   const [photos, setPhotos] = useState<{ file: any; preview: string }[]>(
     Array(4).fill({ file: null, preview: "" })
   ); // This is the array that will hold the images
@@ -68,29 +67,21 @@ const Form = () => {
   const handleSubmit = async (e: any) => {
     // This function sends the data to the backend
     e.preventDefault();
-    setLoading(itemState.isLoading);
 
-    const token = await getAccessTokenSilently();
-
-    createItem(
-      {
-        title,
-        category,
-        location,
-        description,
-        dailyPrice,
-        weeklyPrice,
-        monthlyPrice,
-        itemValue,
-        quantity,
-        miniRentalDays,
-        photos,
-        user_id: user?.sub,
-      },
-      token
-    );
-    setLoading(itemState.isLoading);
-    console.log(itemState);
+    createItem({
+      title,
+      category,
+      location,
+      description,
+      dailyPrice,
+      weeklyPrice,
+      monthlyPrice,
+      itemValue,
+      quantity,
+      miniRentalDays,
+      photos,
+      user_id: user?.sub,
+    });
     handleCancel();
   };
 
@@ -357,7 +348,11 @@ const Form = () => {
               />
             </Grid>
             <Grid item xs={6}>
-              <Button text='List item' type='submit' loading={loading} />
+              <Button
+                text='List item'
+                type='submit'
+                loading={itemState.isLoading}
+              />
             </Grid>
           </Grid>
         </form>

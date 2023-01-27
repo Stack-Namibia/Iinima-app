@@ -7,16 +7,6 @@ import ProfileEdit from "../components/pages/profile/edit";
 import SignIn from "../components/pages/sign-in";
 import SignUp from "../components/pages/sign-up";
 import HowItWorks from "../components/pages/how-it-works";
-import { withAuthenticationRequired } from "@auth0/auth0-react";
-import LoadingPage from "../components/pages/loading-page";
-
-const ProtectedRoute = ({ component, ...args }: any) => {
-  const Component = withAuthenticationRequired(component, {
-    ...args,
-    onRedirecting: () => <LoadingPage />,
-  });
-  return <Component />;
-};
 
 const routes = [
   {
@@ -40,13 +30,13 @@ const routes = [
   {
     path: "/profile",
     exact: true,
-    element: <ProtectedRoute component={Profile} />,
+    element: <Profile />,
     key: "Profile",
   },
   {
     path: "/profile/edit",
     exact: true,
-    element: <ProtectedRoute component={ProfileEdit} />,
+    element: <ProfileEdit />,
     key: "Profile-edit",
   },
   {
@@ -58,13 +48,12 @@ const routes = [
   {
     path: "/item/edit",
     exact: true,
-    element: <ProtectedRoute component={EditItem} />,
+    element: <EditItem />,
     key: "EditItem",
   },
   {
     path: "/item/list",
-    exact: true,
-    element: <ProtectedRoute component={ListItem} />,
+    element: <ListItem />,
     key: "ListItem",
   },
   {
@@ -72,12 +61,6 @@ const routes = [
     exact: true,
     element: <BrowseItems />,
     key: "ListItem",
-  },
-  {
-    path: "/loading",
-    exact: true,
-    element: <LoadingPage />,
-    key: "Loading",
   },
 ];
 

@@ -44,8 +44,7 @@ export const settings = [
 ];
 
 function ResponsiveAppBar() {
-  const { user, loginWithRedirect } = useAuth0();
-  console.log(user);
+  const { loginWithRedirect, isAuthenticated } = useAuth0();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -56,6 +55,7 @@ function ResponsiveAppBar() {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+
   return (
     <AppBar
       position='sticky'
@@ -147,7 +147,7 @@ function ResponsiveAppBar() {
               </Link>
             ))}
           </Box>
-          {user ? (
+          {isAuthenticated ? (
             <AvatarIcon />
           ) : (
             <Box
@@ -158,11 +158,13 @@ function ResponsiveAppBar() {
                 marginRight: 5,
               }}
             >
-              <DaisyButton
-                text='Login or Signup'
-                width='50%'
-                clickEvent={() => loginWithRedirect()}
-              />
+              <div>
+                <DaisyButton
+                  text='Login or Signup'
+                  width='50%'
+                  clickEvent={() => loginWithRedirect()}
+                />
+              </div>
             </Box>
           )}
         </Toolbar>

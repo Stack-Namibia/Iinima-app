@@ -1,6 +1,6 @@
-import Footer from "./Footer";
-import NavigationBar from "./NavigationBar";
 import { motion } from "framer-motion";
+import NavigationBar from "./NavigationBar";
+import Footer from "./Footer";
 
 const HowItWorksWrapper = ({ children }: any) => {
   return (

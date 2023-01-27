@@ -2,51 +2,58 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import { Route, Switch, useLocation, useHistory } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import { useAuth0 } from "@auth0/auth0-react";
 import "./App.css";
 import routes from "./settings/routes";
-import { AnimatePresence } from "framer-motion";
-import { Auth0Provider } from "@auth0/auth0-react";
-
-const Auth0ProviderWithRedirectCallback = ({ children, ...props }: any) => {
-  const navigate = useHistory();
-  const onRedirectCallback = (appState: any) => {
-    navigate.push(appState?.returnTo || window.location.pathname);
-  };
-  return (
-    <Auth0Provider onRedirectCallback={onRedirectCallback} {...props}>
-      {children}
-    </Auth0Provider>
-  );
-};
+import LoadingPage from "./components/pages/loading-page";
+import HttpError from "./components/pages/http-error";
+import { useEffect } from "react";
 
 function App() {
   const location = useLocation();
+  const { isLoading, error, getAccessTokenSilently } = useAuth0();
+
+  useEffect(() => {
+    const getToken = async () => {
+      try {
+        const token = await getAccessTokenSilently();
+        sessionStorage.setItem("auth0_token", token);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getToken();
+  }, [getAccessTokenSilently]);
+
+  if (error) {
+    return <HttpError />;
+  }
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  console.log(sessionStorage.getItem("auth0_token"));
+
   return (
     <>
       <AnimatePresence>
         <Switch>
-          <Auth0ProviderWithRedirectCallback
-            domain='dev-wcqfxo8a0qx5y8su.us.auth0.com'
-            clientId='1Uzut7tXOhlpoz8BknEukWXFzAHfRExo'
-            audience='https://iinima.com'
-            authorizationParams={{
-              redirect_uri: window.location.origin + location.pathname,
-            }}
-          >
-            {routes.map(({ key, path, element }, index) => (
-              <Route path={path} key={index} exact location={location}>
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: "100%" }}
-                  exit={{ opacity: 0 }}
-                >
-                  {element}
-                </motion.div>
-              </Route>
-            ))}
-          </Auth0ProviderWithRedirectCallback>
+          {routes.map(({ key, path, element }, index) => (
+            <Route path={path} key={index} exact location={location}>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: "100%" }}
+                exit={{ opacity: 0 }}
+              >
+                {element}
+              </motion.div>
+            </Route>
+          ))}
         </Switch>
       </AnimatePresence>
     </>
