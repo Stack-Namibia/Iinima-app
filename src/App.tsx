@@ -10,10 +10,24 @@ import "./App.css";
 import routes from "./settings/routes";
 import LoadingPage from "./components/pages/loading-page";
 import HttpError from "./components/pages/http-error";
+import { useEffect } from "react";
 
 function App() {
   const location = useLocation();
-  const { isLoading, error } = useAuth0();
+  const { isLoading, error, getAccessTokenSilently } = useAuth0();
+
+  useEffect(() => {
+    const getToken = async () => {
+      try {
+        const token = await getAccessTokenSilently();
+        sessionStorage.setItem("auth0_token", token);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getToken();
+  }, [getAccessTokenSilently]);
 
   if (error) {
     return <HttpError />;
@@ -22,6 +36,8 @@ function App() {
   if (isLoading) {
     return <LoadingPage />;
   }
+
+  console.log(sessionStorage.getItem("auth0_token"));
 
   return (
     <>

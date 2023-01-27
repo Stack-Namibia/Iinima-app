@@ -11,7 +11,7 @@ import {
 import { ItemsActionTypes } from "../action-types/items-action-type";
 import { ItemsAction } from "../actions/items-actions";
 
-export const createItem = (item: any, token: string) => {
+export const createItem = (item: any) => {
   return async (dispatch: Dispatch<ItemsAction>) => {
     try {
       dispatch({
@@ -34,7 +34,7 @@ export const createItem = (item: any, token: string) => {
 
       item.photos = photoUrls;
 
-      const data = await listItem(item, token);
+      const data = await listItem(item);
       dispatch({
         type: ItemsActionTypes.ITEM_SUCCESS,
         payload: data as any,
@@ -49,7 +49,7 @@ export const createItem = (item: any, token: string) => {
   };
 };
 
-export const getItems = (token: string) => {
+export const getItems = () => {
   return async (dispatch: Dispatch<ItemsAction>) => {
     try {
       const data = await fetchItems();
@@ -64,7 +64,7 @@ export const getItems = (token: string) => {
   };
 };
 
-export const getItem = (id: string, token: string) => {
+export const getItem = (id: string) => {
   return async (dispatch: Dispatch<ItemsAction>) => {
     try {
       const data = await fetchItem(id);
@@ -79,7 +79,7 @@ export const getItem = (id: string, token: string) => {
   };
 };
 
-export const updateItem = (id: string, item: Item, token: string) => {
+export const updateItem = (id: string, item: Item) => {
   return async (dispatch: Dispatch<ItemsAction>) => {
     try {
       dispatch({

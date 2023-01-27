@@ -5,10 +5,10 @@ import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/system";
 import { Provider } from "react-redux";
 import { Auth0Provider } from "@auth0/auth0-react";
-import { history } from "./utils";
 import store from "./store";
 import "./index.css";
 import App from "./App";
+import { configs } from "./settings/configs";
 
 const theme = createTheme({
   palette: {
@@ -27,22 +27,6 @@ const theme = createTheme({
   },
 });
 
-const onRedirectCallBack = (appState: any) => {
-  history.push(
-    appState && appState.returnTo ? appState.returnTo : window.location.pathname
-  );
-};
-
-// const providerConfig = {
-//   domain: config.AUTH0_DOMAIN as string,
-//   clientId: config.AUTH0_CLIENT_ID as string,
-//   onRedirectCallBack,
-//   authorizationParams: {
-//     redirect_uri: window.location.origin,
-//     audience: config.AUTH0_AUDIENCE,
-//   },
-// };
-
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
@@ -51,13 +35,7 @@ root.render(
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <Auth0Provider
-          domain='dev-wcqfxo8a0qx5y8su.us.auth0.com'
-          clientId='1Uzut7tXOhlpoz8BknEukWXFzAHfRExo'
-          onRedirectCallback={onRedirectCallBack}
-          authorizationParams={{
-            redirect_uri: window.location.origin,
-            audience: "https://iinima.app",
-          }}
+          {...configs.auth0}
           cookieDomain='iinima.app'
           useRefreshTokens={true}
           cacheLocation='memory'
