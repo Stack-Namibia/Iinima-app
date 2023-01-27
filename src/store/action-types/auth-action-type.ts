@@ -1,4 +1,6 @@
 export enum AuthActionTypes {
-  LOGIN = "set_auth_user",
-  LOGOUT = "logout",
+  LOGIN_REQUEST = 'login',
+  LOGIN_SUCCESS = 'login-success',
+  LOGIN_FAILURE = 'login-failure',
+  LOGOUT = 'logout',
 }

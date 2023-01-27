@@ -11,30 +11,30 @@ import {
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Link } from "react-router-dom";
 
-interface Props {
-  item: {
-    id: string;
-    name: string;
-    images: string[];
-    location: string;
-    price: {
-      day: number;
-      week: number;
-      month: number;
-    };
-    description: string;
-    category: string;
-    likes: number;
-    user: {
-      name: string;
-      avatar: string;
-      id: string;
-    };
-    liked: boolean;
-  };
-}
+// interface Props {
+//   item: {
+//     id: string;
+//     name: string;
+//     images: string[];
+//     location: string;
+//     price: {
+//       day: number;
+//       week: number;
+//       month: number;
+//     };
+//     description: string;
+//     category: string;
+//     likes: number;
+//     user: {
+//       name: string;
+//       avatar: string;
+//       id: string;
+//     };
+//     liked: boolean;
+//   };
+// }
 
-export default function ItemCard({ item }: Props) {
+export default function ItemCard({ item }: any) {
   return (
     <Link to={`/item/browse/`}>
       <Card
@@ -48,7 +48,7 @@ export default function ItemCard({ item }: Props) {
         <CardActionArea>
           <CardMedia
             component='img'
-            image={item.images[0]}
+            image={item.photos[0]}
             alt={item.name}
             sx={{
               height: 150,
@@ -61,7 +61,7 @@ export default function ItemCard({ item }: Props) {
             }}
           >
             <Typography gutterBottom variant='h5' component='div'>
-              {item.name}
+              {item.title}
             </Typography>
             <Typography variant='body2' color='text.secondary'>
               {item.description}
