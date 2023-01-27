@@ -11,6 +11,14 @@ import Divider from "@mui/material/Divider";
 import ItemsCouresal from "../../../general/ItemsCouresal";
 import SearchInput from "./SearchInput";
 import MultiSelect from "../../../general/MultiSelect";
+import * as ItemActionsCreator from "../../../../store/action-creators/items-action-creator";
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from "../../../../store/reducers";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import { useEffect, useState } from 'react';
+import { Item } from "../../../../api/items";
+
+
 
 const itemsMock = [
   {
@@ -178,6 +186,22 @@ const locations = [
 const categories = ["Tools", "Electronics", "Furniture", "Clothing", "Books"];
 
 const BrowseItems = () => {
+  const itemState = useSelector((state: RootState) => state.item.items);
+  const dispatch = useDispatch();
+
+  const { getItems } = bindActionCreators(ItemActionsCreator, dispatch);
+
+  const [localItem, setItems] = useState<Array<Item>>([]);
+
+  useEffect(() => {
+    getItems();
+  });
+
+  useEffect(() => {
+    setItems(itemState || []);
+  }, [itemState]);
+
+
   return (
     <ApplicationWrapper>
       <div className='flex h-screen'>
@@ -187,7 +211,7 @@ const BrowseItems = () => {
             <div className='relative z-10 flex h-16 flex-shrink-0 bg-white'>
               <div className='flex flex-1 justify-between px-4 sm:px-6'>
                 <div className='flex flex-1'>
-                  <SearchInput data={itemsMock.map((item) => item.name)} />
+                  <SearchInput data={localItem.map((item) => item.title)} />
                 </div>
               </div>
             </div>
@@ -218,9 +242,9 @@ const BrowseItems = () => {
                     role='list'
                     className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2'
                   >
-                    {itemsMock.map((item) => (
+                    {localItem.map((item) => (
                       <li
-                        key={item.name}
+                        key={item.user_id}
                         className='col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow'
                       >
                         <ItemsCard item={item} />
@@ -236,7 +260,7 @@ const BrowseItems = () => {
               <div className='space-y-6 pb-16'>
                 {/* select items details here */}
                 <div className='flex-row'>
-                  <Couresal data={itemsMock[0].images} maxWidth={400} />
+                  <Couresal data={localItem.length>0 ? localItem[0].photos : []} maxWidth={400} />
                   <div className='flex justify-between mt-2'>
                     <div className='flex-row'>
                       <h1 className='text-2xl font-bold text-gray-900'>

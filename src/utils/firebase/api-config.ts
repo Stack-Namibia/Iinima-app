@@ -4,9 +4,6 @@ import { Configuration } from "../../api/accounts";
 
 export function getApiConfig() {
   return new Configuration({
-    accessToken: () => {
-      return sessionStorage.getItem("firebaseToken") || "";
-    },
     baseOptions: {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("firebaseToken")}`,
