@@ -13,7 +13,7 @@ const HowItWorks = () => {
           <div className="hero-content flex-col lg:flex-row-reverse">
             <img src={undraw} className="max-w-sm" alt="undraw" />
             <div>
-              <InnerHeading className="flex flex-col lg:flex-row">
+              <InnerHeading className="flex flex-col lg:flex-col xl:flex-row">
                 <p className="font-bold text-7xl text-black mr-5">
                   How to Rent
                 </p>
