@@ -18,18 +18,30 @@ export const fetchItems = async () => {
 
 export const fetchItem = async (id: string) => {
   // This function fetches a single item from the api
-  const { data } = await itemsApi.getItemByIdApiV1IdGet(id);
+  const { data } = await itemsApi.getItemByIdApiV1IdGet(id, {
+    headers: {
+      Authorization: `Bearer ${sessionStorage.getItem("firebaseToken")}`,
+    },
+  });
   return data;
 };
 
 export const updateItemById = async (item: Item, id: string) => {
   // This function updates an item by making a call to the api
-  const { data } = await itemsApi.updateItemApiV1IdPut(item, id);
+  const { data } = await itemsApi.updateItemApiV1IdPut(item, id, {
+    headers: {
+      Authorization: `Bearer ${sessionStorage.getItem("firebaseToken")}`,
+    },
+  });
   return data;
 };
 
 export const deleteItemById = async (id: string) => {
   // This function deletes an item by making a call to the api
-  const { data } = await itemsApi.deleteItemApiV1IdDelete(id);
+  const { data } = await itemsApi.deleteItemApiV1IdDelete(id, {
+    headers: {
+      Authorization: `Bearer ${sessionStorage.getItem("firebaseToken")}`,
+    },
+  });
   return data;
 };
