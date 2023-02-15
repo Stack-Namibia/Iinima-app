@@ -14,7 +14,8 @@ import { useEffect } from "react";
 
 function App() {
   const location = useLocation();
-  const { isLoading, error, getAccessTokenSilently } = useAuth0();
+  const { isLoading, error, getAccessTokenSilently, isAuthenticated } =
+    useAuth0();
 
   useEffect(() => {
     const getToken = async () => {
@@ -26,8 +27,10 @@ function App() {
       }
     };
 
-    getToken();
-  }, [getAccessTokenSilently]);
+    if (isAuthenticated) {
+      getToken();
+    }
+  }, [getAccessTokenSilently, isAuthenticated]);
 
   if (error) {
     return <HttpError />;

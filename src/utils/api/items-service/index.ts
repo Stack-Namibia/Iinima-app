@@ -1,7 +1,8 @@
 import { ItemsApi } from "../../../api/items";
 import { Item } from "../../../api/items";
+import { getApiConfig } from "../../firebase/api-config";
 
-const itemsApi = new ItemsApi();
+const itemsApi = new ItemsApi(getApiConfig());
 
 /// this will be the way forward for the api calls, the rest of the code should be in the reducers or the components will work on this once carlos reviews the uploads
 export const listItem = async (item: Item) => {
