@@ -1,30 +1,30 @@
-import ApplicationWrapper from "../../../general/ApplicationWrapper";
 import { Phone, WhatsApp } from "@mui/icons-material";
-import ItemsCard from "../../../general/ItemCard";
-import Couresal from "../../../general/Couresal";
+import { useDispatch, useSelector } from "react-redux";
 import { IconButton, Typography } from "@mui/material";
 import { Favorite } from "@mui/icons-material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
+import { useEffect, useState } from "react";
+import { bindActionCreators } from "@reduxjs/toolkit";
+
+import ApplicationWrapper from "../../../general/ApplicationWrapper";
+import ItemsCard from "../../../general/ItemCard";
+import Couresal from "../../../general/Couresal";
 import ItemsCouresal from "../../../general/ItemsCouresal";
 import SearchInput from "./SearchInput";
 import MultiSelect from "../../../general/MultiSelect";
-import * as ItemActionsCreator from "../../../../store/action-creators/items-action-creator";
-import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../../../../store/reducers";
-import { bindActionCreators } from "@reduxjs/toolkit";
-import { useEffect, useState } from 'react';
+import * as ItemActionsCreator from "../../../../store/action-creators/items-action-creator";
+import LoadingPage from "../../loading-page";
 import { Item } from "../../../../api/items";
-
-
 
 const itemsMock = [
   {
     id: "ajsdlkadsubia",
-    name: "Drill Machine",
-    images: [
+    title: "Drill Machine",
+    photos: [
       "https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60",
       "https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60",
       "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
@@ -44,14 +44,14 @@ const itemsMock = [
       name: "John Doe",
       avatar:
         "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
-      id: "dsjhkgfsk",
+      userId: "dsjhkgfsk",
     },
     liked: false,
   },
   {
     id: "ajsdlkadsubiaas",
-    name: "Electric Drill Machine",
-    images: [
+    title: "Electric Drill Machine",
+    photos: [
       "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
     ],
     location: "Windhoek",
@@ -68,14 +68,14 @@ const itemsMock = [
       name: "John Doe",
       avatar:
         "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
-      id: "dsjhkgfsk",
+      userId: "dsjhkgfsk",
     },
     liked: true,
   },
   {
     id: "ajsdlkadsubia",
-    name: "Drill Machine",
-    images: [
+    title: "Drill Machine",
+    photos: [
       "https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60",
       "https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60",
       "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
@@ -95,14 +95,14 @@ const itemsMock = [
       name: "John Doe",
       avatar:
         "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
-      id: "dsjhkgfsk",
+      userId: "dsjhkgfsk",
     },
     liked: true,
   },
   {
     id: "ajsdlkadsubiaas",
-    name: "Electric Drill Machine",
-    images: [
+    title: "Electric Drill Machine",
+    photos: [
       "https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60",
     ],
     location: "Windhoek",
@@ -119,14 +119,14 @@ const itemsMock = [
       name: "John Doe",
       avatar:
         "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
-      id: "dsjhkgfsk",
+      userId: "dsjhkgfsk",
     },
     liked: false,
   },
   {
     id: "ajsdlkadsubia",
-    name: "Drill Machine",
-    images: [
+    title: "Drill Machine",
+    photos: [
       "https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60",
       "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
       "https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60",
@@ -145,14 +145,14 @@ const itemsMock = [
       name: "John Doe",
       avatar:
         "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
-      id: "dsjhkgfsk",
+      userId: "dsjhkgfsk",
     },
     liked: false,
   },
   {
     id: "ajsdlkadsubiaas",
-    name: "Electric Drill Machine",
-    images: [
+    title: "Electric Drill Machine",
+    photos: [
       "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
     ],
     location: "Windhoek",
@@ -169,7 +169,7 @@ const itemsMock = [
       name: "John Doe",
       avatar:
         "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
-      id: "dsjhkgfsk",
+      userId: "dsjhkgfsk",
     },
     liked: false,
   },
@@ -186,21 +186,23 @@ const locations = [
 const categories = ["Tools", "Electronics", "Furniture", "Clothing", "Books"];
 
 const BrowseItems = () => {
-  const itemState = useSelector((state: RootState) => state.item.items);
+  const itemsState = useSelector((state: RootState) => state.item);
   const dispatch = useDispatch();
-
   const { getItems } = bindActionCreators(ItemActionsCreator, dispatch);
+  const [items, setItemsMock] = useState<Item[]>([]);
 
-  const [localItem, setItems] = useState<Array<Item>>([]);
-
-  useEffect(() => {
+  const onGetAllItems = () => {
     getItems();
-  });
+    setItemsMock(itemsState.items || []);
+  };
 
   useEffect(() => {
-    setItems(itemState || []);
-  }, [itemState]);
+    onGetAllItems();
+  }, []);
 
+  if (itemsState.isLoading) {
+    return <LoadingPage />;
+  }
 
   return (
     <ApplicationWrapper>
@@ -211,7 +213,7 @@ const BrowseItems = () => {
             <div className='relative z-10 flex h-16 flex-shrink-0 bg-white'>
               <div className='flex flex-1 justify-between px-4 sm:px-6'>
                 <div className='flex flex-1'>
-                  <SearchInput data={localItem.map((item) => item.title)} />
+                  <SearchInput data={itemsMock.map((item) => item.title)} />
                 </div>
               </div>
             </div>
@@ -242,9 +244,9 @@ const BrowseItems = () => {
                     role='list'
                     className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2'
                   >
-                    {localItem.map((item) => (
+                    {items.map((item, indx) => (
                       <li
-                        key={item.user_id}
+                        key={indx}
                         className='col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow'
                       >
                         <ItemsCard item={item} />
@@ -260,11 +262,14 @@ const BrowseItems = () => {
               <div className='space-y-6 pb-16'>
                 {/* select items details here */}
                 <div className='flex-row'>
-                  <Couresal data={localItem.length>0 ? localItem[0].photos : []} maxWidth={400} />
+                  <Couresal
+                    data={itemsMock.length > 0 ? itemsMock[0].photos : []}
+                    maxWidth={400}
+                  />
                   <div className='flex justify-between mt-2'>
                     <div className='flex-row'>
                       <h1 className='text-2xl font-bold text-gray-900'>
-                        {itemsMock[0].name}
+                        {itemsMock[0].title}
                       </h1>
                       <span className='font-semibold text-gray-400 text-sm'>
                         {itemsMock[0].location}

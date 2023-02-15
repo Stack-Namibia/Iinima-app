@@ -15,15 +15,15 @@ export interface ItemsState {
   isError: boolean;
   itemResponse?: Item;
   items?: Array<Item>;
-  item?:Item;
-  updateItem?:{
-        id: string;
-        item: Item;
-  }
+  item?: Item;
+  updateItem?: {
+    id: string;
+    item: Item;
+  };
   errResponse?: any;
 }
 
-const initialState: ItemsState = { isLoading: false, isError: false };
+const initialState: ItemsState = { isLoading: true, isError: false, items: [] };
 
 function reducer(
   state: ItemsState = initialState,
@@ -31,17 +31,17 @@ function reducer(
 ): ItemsState {
   switch (action.type) {
     case ItemsActionTypes.GET_ALL_ITEMS:
-      return { isLoading: true, isError: false, items: action.payload };
+      return { isLoading: false, isError: false, items: action.payload };
     case ItemsActionTypes.GET_SELECTED_ITEM:
-        return { isLoading: true, isError: false, item: action.payload };
+      return { isLoading: false, isError: false, item: action.payload };
     case ItemsActionTypes.CREATE_ITEM:
-        return { isLoading: true, isError: false };
+      return { isLoading: false, isError: false };
     case ItemsActionTypes.ITEM_SUCCESS:
-        return { isLoading: false, isError: false, itemResponse: action.payload };
+      return { isLoading: false, isError: false, itemResponse: action.payload };
     case ItemsActionTypes.UPDATE_ITEM:
-        return { isLoading: true, isError: false, updateItem: action.payload};
+      return { isLoading: false, isError: false, updateItem: action.payload };
     case ItemsActionTypes.CREATE_ITEM_ERROR:
-        return { isLoading: false, isError: true, errResponse: action.payload };
+      return { isLoading: false, isError: true, errResponse: action.payload };
     default:
       return state;
   }

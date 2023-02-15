@@ -15,8 +15,8 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 interface Props {
   items: {
     id: string;
-    name: string;
-    images: string[];
+    title: string;
+    photos: string[];
     location: string;
     price: {
       day: number;
@@ -29,7 +29,7 @@ interface Props {
     user: {
       name: string;
       avatar: string;
-      id: string;
+      userId: string;
     };
     liked: boolean;
   }[];
@@ -67,7 +67,7 @@ function ItemsCouresal({ items, maxWidth }: Props) {
           justifyContent: "space-between",
         }}
       >
-        <Typography>{items[activeStep].name}</Typography>
+        <Typography>{items[activeStep].title}</Typography>
         <Typography variant='body2' className='text-primary'>
           N$ {items[activeStep].price.day}
           <span className='text-black'>/day</span>
@@ -93,8 +93,8 @@ function ItemsCouresal({ items, maxWidth }: Props) {
                       overflow: "hidden",
                       width: "100%",
                     }}
-                    src={item.images[0]}
-                    alt={item.name}
+                    src={item.photos[0]}
+                    alt={item.title}
                   />
                 </CardActionArea>
               </Link>
