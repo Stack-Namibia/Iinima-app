@@ -224,7 +224,7 @@ const BrowseItems = () => {
           </header>
 
           {/* Main content */}
-          <div className='flex flex-1 items-stretch overflow-hidden'>
+          <div className='flex flex-1 items-stretch overflow-hidden bg-gray-50'>
             <main className='flex-1 overflow-y-auto'>
               <div className='mx-auto max-w-4xl px-4 pt-8 sm:px-4 lg:px-4'>
                 <div className='flex'>
@@ -245,12 +245,7 @@ const BrowseItems = () => {
                     className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2'
                   >
                     {items.map((item, indx) => (
-                      <li
-                        key={indx}
-                        className='col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow'
-                      >
-                        <ItemsCard item={item} />
-                      </li>
+                      <ItemsCard item={item} key={indx} />
                     ))}
                   </div>
                 </section>

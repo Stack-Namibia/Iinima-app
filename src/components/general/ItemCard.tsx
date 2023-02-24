@@ -1,14 +1,5 @@
-import Card from "@mui/material/Card";
-import {
-  CardActionArea,
-  CardMedia,
-  CardActions,
-  CardContent,
-  Typography,
-  IconButton,
-  Box,
-} from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import PlaceIcon from "@mui/icons-material/Place";
 import { Link } from "react-router-dom";
 
 // interface Props {
@@ -34,63 +25,31 @@ import { Link } from "react-router-dom";
 //   };
 // }
 
-export default function ItemCard({ item }: any) {
+export default function ItemCard({ item, key }: { item: any; key: any }) {
   return (
-    <Link to={`/item/browse/`}>
-      <Card
-        sx={{
-          minHeight: 385,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-        }}
-      >
-        <CardActionArea>
-          <CardMedia
-            component='img'
-            image={item.photos[0]}
-            alt={item.name}
-            sx={{
-              height: 150,
-            }}
-          />
-          <CardContent
-            sx={{
-              textAlign: "left",
-              height: 200,
-            }}
-          >
-            <Typography gutterBottom variant='h5' component='div'>
-              {item.title}
-            </Typography>
-            <Typography variant='body2' color='text.secondary'>
-              {item.description}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions
-          sx={{
-            justifyContent: "space-between",
-            padding: "0 16px",
-          }}
-          disableSpacing
-        >
-          <Typography color='primary'>{item.location}</Typography>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <IconButton aria-label='add to favorites'>
-              <FavoriteIcon color={item.liked ? "error" : "disabled"} />
-            </IconButton>
-            <Typography fontSize={12} color='primary'>
-              {item.likes} {item.likes === 1 ? "Like" : "Likes"}
-            </Typography>
-          </Box>
-        </CardActions>
-      </Card>
+    <Link to={`/item/browse/`} key={key}>
+      <div className='rounded-xl shadow-sm bg-white max-h-5'>
+        <img src={item.photos[0]} className='w-50 h-50 rounded-t-xl' alt='i' />
+        <div className='m-4'>
+          <div className='flex-row mt-5 text-gray-500'>
+            <span className='overflow-auto'>
+              Some long description about an item that i could not think of so
+              quickly Some long description about an item that i could not think
+              of so quickly Some long description about an item that i could not
+              think of so quickly Some long description about an item that i
+              could not think of so quickly Some long description about an item
+              that i could not think of so quickly
+            </span>
+            <div>
+              <div className='flex justify-between my-5 p-1 text-sm font-bold text-gray-500'>
+                <span>N$ 100.00</span>
+                <span>Windhoek</span>
+                <span>0 likes</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </Link>
   );
 }
