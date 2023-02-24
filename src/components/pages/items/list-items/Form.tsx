@@ -63,7 +63,7 @@ const Form = () => {
   const [photos, setPhotos] = useState<{ file: any; preview: string }[]>(
     Array(4).fill({ file: null, preview: "" })
   ); // This is the array that will hold the images
-
+  const [isLoading, setIsLoading] = useState(false);
   const handleSubmit = async (e: any) => {
     // This function sends the data to the backend
     e.preventDefault();
@@ -82,6 +82,7 @@ const Form = () => {
       photos,
       user_id: user?.sub,
     });
+    setIsLoading(false);
     handleCancel();
   };
 
@@ -348,11 +349,7 @@ const Form = () => {
               />
             </Grid>
             <Grid item xs={6}>
-              <Button
-                text='List item'
-                type='submit'
-                loading={itemState.isLoading}
-              />
+              <Button text='List item' type='submit' loading={isLoading} />
             </Grid>
           </Grid>
         </form>
