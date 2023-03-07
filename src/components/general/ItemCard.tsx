@@ -28,24 +28,30 @@ import { Link } from "react-router-dom";
 export default function ItemCard({ item, key }: { item: any; key: any }) {
   return (
     <Link to={`/item/browse/`} key={key}>
-      <div className='rounded-xl shadow-sm bg-white max-h-5'>
+      <div className='rounded-xl shadow-sm bg-white h-100'>
         <img src={item.photos[0]} className='w-50 h-50 rounded-t-xl' alt='i' />
         <div className='m-4'>
-          <div className='flex-row mt-5 text-gray-500'>
-            <span className='overflow-auto'>
+          <div className='mt-5 text-gray-500 h-[150px] overflow-y-auto'>
+            <span>
               Some long description about an item that i could not think of so
               quickly Some long description about an item that i could not think
               of so quickly Some long description about an item that i could not
               think of so quickly Some long description about an item that i
               could not think of so quickly Some long description about an item
-              that i could not think of so quickly
+              that i could not think of so quickly Some long description about
+              an item that i could not think of so quickly Some long description
+              about an item that i could not think of so quickly Some long
+              description about an item that i could not think of so quickly
+              Some long description about an item that i could not think of so
+              quickly Some long description about an item that i could not think
+              of so quickly
             </span>
-            <div>
-              <div className='flex justify-between my-5 p-1 text-sm font-bold text-gray-500'>
-                <span>N$ 100.00</span>
-                <span>Windhoek</span>
-                <span>0 likes</span>
-              </div>
+          </div>
+          <div>
+            <div className='flex justify-between my-5 p-1 text-sm font-bold text-gray-500'>
+              <span>N$ 100.00</span>
+              <span>Windhoek</span>
+              <span>0 likes</span>
             </div>
           </div>
         </div>
