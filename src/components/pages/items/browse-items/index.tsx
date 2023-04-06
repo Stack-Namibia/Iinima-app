@@ -245,7 +245,13 @@ const BrowseItems = () => {
                     className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2'
                   >
                     {items.map((item, indx) => (
-                      <ItemsCard item={item} key={indx} />
+                      <ItemsCard
+                        photos={item.photos}
+                        dailyPrice={item.dailyPrice}
+                        description={item.description ? item.description : ""}
+                        location={item.location}
+                        key={indx}
+                      />
                     ))}
                   </div>
                 </section>
