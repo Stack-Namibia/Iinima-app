@@ -9,6 +9,7 @@ export function getApiConfig() {
     baseOptions: {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("auth0_token")}`,
+        "x-api-key": "testkey",
       },
     },
   });
