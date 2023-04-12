@@ -1,11 +1,9 @@
-import * as React from "react";
 import { useState } from "react";
 import ReactDropzone from "react-dropzone";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Input } from "../../../general/Input";
-import { RootState } from "../../../../store/reducers";
 import { Button } from "../../../general/Button";
 import Grid from "@mui/material/Grid";
 import photoUploadImage from "../../../../assets/photo-upload.svg";

@@ -1,5 +1,3 @@
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import PlaceIcon from "@mui/icons-material/Place";
 import { Link } from "react-router-dom";
 
 interface Props {
@@ -7,7 +5,6 @@ interface Props {
   description: string;
   dailyPrice: number;
   location: string;
-  key: number;
 }
 
 export default function ItemCard({
@@ -15,10 +12,9 @@ export default function ItemCard({
   description,
   dailyPrice,
   location,
-  key,
 }: Props) {
   return (
-    <Link to={`/item/browse/`} key={key}>
+    <Link to={`/item/browse/`}>
       <div className='rounded-xl shadow-sm bg-white h-100'>
         <img src={photos[0]} className='w-50 h-50 rounded-t-xl' alt='i' />
         <div className='m-4'>

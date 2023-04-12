@@ -9,30 +9,12 @@ import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
 import { CardActionArea, Paper, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import { Item } from "../../api/items";
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 interface Props {
-  items: {
-    id: string;
-    title: string;
-    photos: string[];
-    location: string;
-    price: {
-      day: number;
-      week: number;
-      month: number;
-    };
-    description: string;
-    category: string;
-    likes: number;
-    user: {
-      name: string;
-      avatar: string;
-      userId: string;
-    };
-    liked: boolean;
-  }[];
+  items: Item[];
   maxWidth: number;
 }
 
@@ -67,9 +49,9 @@ function ItemsCouresal({ items, maxWidth }: Props) {
           justifyContent: "space-between",
         }}
       >
-        <Typography>{items[activeStep].title}</Typography>
+        <Typography>{items[0].title}</Typography>
         <Typography variant='body2' className='text-primary'>
-          N$ {items[activeStep].price.day}
+          N$ {items[activeStep].dailyPrice}
           <span className='text-black'>/day</span>
         </Typography>
       </Paper>
