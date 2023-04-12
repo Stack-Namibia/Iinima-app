@@ -1,14 +1,5 @@
 import ApplicationWrapper from "../../../general/ApplicationWrapper";
-import { Phone, WhatsApp } from "@mui/icons-material";
 import ItemsCard from "../../../general/ItemCard";
-import Couresal from "../../../general/Couresal";
-import { IconButton, Typography } from "@mui/material";
-import { Favorite } from "@mui/icons-material";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import Divider from "@mui/material/Divider";
-import ItemsCouresal from "../../../general/ItemsCouresal";
 import SearchInput from "./SearchInput";
 import MultiSelect from "../../../general/MultiSelect";
 import { connect } from "react-redux";
@@ -26,156 +17,192 @@ interface Props {
 
 const itemsMock = [
   {
-    id: "ajsdlkadsubia",
-    name: "Drill Machine",
-    images: [
-      "https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60",
-      "https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60",
-      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
-      "https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60",
-    ],
-    location: "Windhoek",
-    price: {
-      day: 300,
-      week: 500,
-      month: 1000,
-    },
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
-    category: "Tools",
-    likes: 200,
-    user: {
-      name: "John Doe",
-      avatar:
-        "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
-      id: "dsjhkgfsk",
-    },
-    liked: false,
+    _id: "63f8738a9e11e088f8d57578",
+    user_id: "auth0|63c9439f97e75e1c36d98b0c",
+    title: "Test",
+    category: "power-tools",
+    photos: [],
+    description: "Some smart ass description that i could not make sense off!",
+    location: "6sdafsid7fshd2",
+    dailyPrice: 10,
+    weeklyPrice: 4,
+    monthlyPrice: 10,
+    miniRentalDays: 10,
+    itemValue: 10,
+    deleted: false,
+    createdAt: "2023-02-24T08:21:30.032000",
+    updatedAt: null,
   },
   {
-    id: "ajsdlkadsubiaas",
-    name: "Electric Drill Machine",
-    images: [
-      "https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80",
+    _id: "63f8738a9e11e088f8d57578",
+    user_id: "auth0|63c9439f97e75e1c36d98b0c",
+    title: "Test",
+    category: "power-tools",
+    photos: [
+      "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
     ],
-    location: "Windhoek",
-    price: {
-      day: 250,
-      week: 500,
-      month: 1000,
-    },
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
-    category: "Tools",
-    likes: 200,
-    user: {
-      name: "John Doe",
-      avatar:
-        "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
-      id: "dsjhkgfsk",
-    },
-    liked: true,
+    description: "Some smart ass description that i could not make sense off!",
+    location: "6sdafsid7fshd2",
+    dailyPrice: 10,
+    weeklyPrice: 4,
+    monthlyPrice: 10,
+    miniRentalDays: 10,
+    itemValue: 10,
+    deleted: false,
+    createdAt: "2023-02-24T08:21:30.032000",
+    updatedAt: null,
   },
   {
-    id: "ajsdlkadsubia",
-    name: "Drill Machine",
-    images: [
-      "https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60",
-      "https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60",
-      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
-      "https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60",
+    _id: "63f8738a9e11e088f8d57578",
+    user_id: "auth0|63c9439f97e75e1c36d98b0c",
+    title: "Test",
+    category: "power-tools",
+    photos: [
+      "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
     ],
-    location: "Windhoek",
-    price: {
-      day: 150,
-      week: 500,
-      month: 1000,
-    },
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
-    category: "Tools",
-    likes: 200,
-    user: {
-      name: "John Doe",
-      avatar:
-        "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
-      id: "dsjhkgfsk",
-    },
-    liked: true,
+    description: "Some smart ass description that i could not make sense off!",
+    location: "6sdafsid7fshd2",
+    dailyPrice: 10,
+    weeklyPrice: 4,
+    monthlyPrice: 10,
+    miniRentalDays: 10,
+    itemValue: 10,
+    deleted: false,
+    createdAt: "2023-02-24T08:21:30.032000",
+    updatedAt: null,
   },
   {
-    id: "ajsdlkadsubiaas",
-    name: "Electric Drill Machine",
-    images: [
-      "https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60",
+    _id: "63f8738a9e11e088f8d57578",
+    user_id: "auth0|63c9439f97e75e1c36d98b0c",
+    title: "Test",
+    category: "power-tools",
+    photos: [
+      "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
     ],
-    location: "Windhoek",
-    price: {
-      day: 250,
-      week: 500,
-      month: 1000,
-    },
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
-    category: "Tools",
-    likes: 200,
-    user: {
-      name: "John Doe",
-      avatar:
-        "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
-      id: "dsjhkgfsk",
-    },
-    liked: false,
+    description: "Some smart ass description that i could not make sense off!",
+    location: "6sdafsid7fshd2",
+    dailyPrice: 10,
+    weeklyPrice: 4,
+    monthlyPrice: 10,
+    miniRentalDays: 10,
+    itemValue: 10,
+    deleted: false,
+    createdAt: "2023-02-24T08:21:30.032000",
+    updatedAt: null,
   },
   {
-    id: "ajsdlkadsubia",
-    name: "Drill Machine",
-    images: [
-      "https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60",
-      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
-      "https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60",
+    _id: "63f8738a9e11e088f8d57578",
+    user_id: "auth0|63c9439f97e75e1c36d98b0c",
+    title: "Test",
+    category: "power-tools",
+    photos: [
+      "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
     ],
-    location: "Windhoek",
-    price: {
-      day: 90,
-      week: 500,
-      month: 1000,
-    },
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
-    category: "Tools",
-    likes: 200,
-    user: {
-      name: "John Doe",
-      avatar:
-        "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
-      id: "dsjhkgfsk",
-    },
-    liked: false,
+    description: "Some smart ass description that i could not make sense off!",
+    location: "6sdafsid7fshd2",
+    dailyPrice: 10,
+    weeklyPrice: 4,
+    monthlyPrice: 10,
+    miniRentalDays: 10,
+    itemValue: 10,
+    deleted: false,
+    createdAt: "2023-02-24T08:21:30.032000",
+    updatedAt: null,
   },
   {
-    id: "ajsdlkadsubiaas",
-    name: "Electric Drill Machine",
-    images: [
-      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
+    _id: "63f8738a9e11e088f8d57578",
+    user_id: "auth0|63c9439f97e75e1c36d98b0c",
+    title: "Test",
+    category: "power-tools",
+    photos: [
+      "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
     ],
-    location: "Windhoek",
-    price: {
-      day: 50,
-      week: 500,
-      month: 1000,
-    },
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
-    category: "Tools",
-    likes: 200,
-    user: {
-      name: "John Doe",
-      avatar:
-        "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
-      id: "dsjhkgfsk",
-    },
-    liked: false,
+    description: "Some smart ass description that i could not make sense off!",
+    location: "6sdafsid7fshd2",
+    dailyPrice: 10,
+    weeklyPrice: 4,
+    monthlyPrice: 10,
+    miniRentalDays: 10,
+    itemValue: 10,
+    deleted: false,
+    createdAt: "2023-02-24T08:21:30.032000",
+    updatedAt: null,
+  },
+  {
+    _id: "63f8738a9e11e088f8d57578",
+    user_id: "auth0|63c9439f97e75e1c36d98b0c",
+    title: "Test",
+    category: "power-tools",
+    photos: [
+      "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
+    ],
+    description: "Some smart ass description that i could not make sense off!",
+    location: "6sdafsid7fshd2",
+    dailyPrice: 10,
+    weeklyPrice: 4,
+    monthlyPrice: 10,
+    miniRentalDays: 10,
+    itemValue: 10,
+    deleted: false,
+    createdAt: "2023-02-24T08:21:30.032000",
+    updatedAt: null,
+  },
+  {
+    _id: "63f8738a9e11e088f8d57578",
+    user_id: "auth0|63c9439f97e75e1c36d98b0c",
+    title: "Test",
+    category: "power-tools",
+    photos: [
+      "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
+    ],
+    description: "Some smart ass description that i could not make sense off!",
+    location: "6sdafsid7fshd2",
+    dailyPrice: 10,
+    weeklyPrice: 4,
+    monthlyPrice: 10,
+    miniRentalDays: 10,
+    itemValue: 10,
+    deleted: false,
+    createdAt: "2023-02-24T08:21:30.032000",
+    updatedAt: null,
+  },
+  {
+    _id: "63f8738a9e11e088f8d57578",
+    user_id: "auth0|63c9439f97e75e1c36d98b0c",
+    title: "Test",
+    category: "power-tools",
+    photos: [
+      "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
+    ],
+    description: "Some smart ass description that i could not make sense off!",
+    location: "6sdafsid7fshd2",
+    dailyPrice: 10,
+    weeklyPrice: 4,
+    monthlyPrice: 10,
+    miniRentalDays: 10,
+    itemValue: 10,
+    deleted: false,
+    createdAt: "2023-02-24T08:21:30.032000",
+    updatedAt: null,
+  },
+  {
+    _id: "63f8738a9e11e088f8d57578",
+    user_id: "auth0|63c9439f97e75e1c36d98b0c",
+    title: "Test",
+    category: "power-tools",
+    photos: [
+      "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
+    ],
+    description: "Some smart ass description that i could not make sense off!",
+    location: "6sdafsid7fshd2",
+    dailyPrice: 10,
+    weeklyPrice: 4,
+    monthlyPrice: 10,
+    miniRentalDays: 10,
+    itemValue: 10,
+    deleted: false,
+    createdAt: "2023-02-24T08:21:30.032000",
+    updatedAt: null,
   },
 ];
 
@@ -195,7 +222,8 @@ export class BrowseItems extends Component<Props> {
   }
 
   render() {
-    const items = this.props.items ?? [];
+    const items = itemsMock;
+    console.log(items);
     return (
       <ApplicationWrapper>
         <div className='flex h-screen'>
@@ -234,16 +262,17 @@ export class BrowseItems extends Component<Props> {
                     </h2>
                     <div
                       role='list'
-                      className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3'
+                      className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3'
                     >
                       {items.map((item) => (
-                        <div key={item.user_id}>
+                        <div key={item.user_id + item.title}>
                           <ItemsCard
                             photos={item.photos}
                             description={item.description || ""}
                             dailyPrice={item.dailyPrice}
                             location={item.location}
-                            key={item.user_id || ""}
+                            title={item.title}
+                            category={item.category}
                           />
                         </div>
                       ))}
