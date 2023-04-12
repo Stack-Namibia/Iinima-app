@@ -38,7 +38,9 @@ export default function ItemCard({
         <div className='card-body'>
           <h2 className='card-title'>
             {title}
-            <div className='badge badge-secondary'>N$ {dailyPrice}</div>
+            <div className='badge bg-primary text-white border-primary'>
+              N$ {dailyPrice}
+            </div>
           </h2>
           <p>{description}</p>
           <div className='card-actions justify-end'>
