@@ -45,7 +45,7 @@ const addressesMock = [
 
 const Form = () => {
   const { user } = useAuth0();
-  const itemState = useSelector((state: RootState) => state.items);
+  const itemState = useSelector((state: RootState) => state.item);
   const dispatch = useDispatch();
 
   const { createItem } = bindActionCreators(ItemActionsCreator, dispatch);
