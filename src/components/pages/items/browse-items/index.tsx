@@ -218,7 +218,7 @@ export class BrowseItems extends Component<Props> {
             {/* Main content */}
             <div className='flex flex-1 items-stretch overflow-hidden'>
               <main className='flex-1 overflow-y-auto'>
-                <div className='mx-auto max-w-4xl px-4 pt-8 sm:px-4 lg:px-4'>
+                <div className='mx-auto max-w-8xl px-4 pt-8 sm:px-4 lg:px-4'>
                   <div className='flex'>
                     <h1 className='flex-1 text-2xl font-bold text-gray-900'>
                       Items
@@ -234,10 +234,10 @@ export class BrowseItems extends Component<Props> {
                     </h2>
                     <div
                       role='list'
-                      className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2'
+                      className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3'
                     >
                       {items.map((item) => (
-                        <li key={item.user_id}>
+                        <div key={item.user_id}>
                           <ItemsCard
                             photos={item.photos}
                             description={item.description || ""}
@@ -245,89 +245,12 @@ export class BrowseItems extends Component<Props> {
                             location={item.location}
                             key={item.user_id || ""}
                           />
-                        </li>
+                        </div>
                       ))}
                     </div>
                   </section>
                 </div>
               </main>
-
-              {/* Details sidebar */}
-              <aside className='hidden w-96 overflow-y-auto border-l border-gray-200 bg-white p-8 lg:block'>
-                <div className='space-y-6 pb-16'>
-                  {/* select items details here */}
-                  <div className='flex-row'>
-                    <Couresal
-                      data={items.length > 0 ? items[0].photos : []}
-                      maxWidth={400}
-                    />
-                    <div className='flex justify-between mt-2'>
-                      <div className='flex-row'>
-                        <h1 className='text-2xl font-bold text-gray-900'>
-                          {itemsMock[0].name}
-                        </h1>
-                        <span className='font-semibold text-gray-400 text-sm'>
-                          {itemsMock[0].location}
-                        </span>
-                      </div>
-                      <div className='flex-col'>
-                        <IconButton aria-label='add to favorites'>
-                          <Favorite />
-                        </IconButton>
-                        <IconButton>
-                          <WhatsApp />
-                        </IconButton>
-                        <IconButton>
-                          <Phone />
-                        </IconButton>
-                      </div>
-                    </div>
-                  </div>
-                  <Typography variant='subtitle1'>Description</Typography>
-                  <div>
-                    <Typography variant='body2' color='text.secondary'>
-                      {itemsMock[0].description}
-                    </Typography>
-                  </div>
-                  <Typography variant='subtitle1'>Prices</Typography>
-                  <List
-                    sx={{
-                      width: "100%",
-                      maxWidth: 360,
-                      bgcolor: "background.paper",
-                      display: "flex",
-                    }}
-                  >
-                    <ListItem>
-                      <ListItemText
-                        primary={`N$ ${itemsMock[0].price.day}`}
-                        secondary='Per Day'
-                        sx={{ textAlign: "center" }}
-                      />
-                    </ListItem>
-                    <Divider component='li' orientation='vertical' flexItem />
-                    <ListItem>
-                      <ListItemText
-                        primary={`N$ ${itemsMock[0].price.week}`}
-                        secondary='Per Week'
-                        sx={{ textAlign: "center" }}
-                      />
-                    </ListItem>
-                    <Divider component='li' orientation='vertical' flexItem />
-                    <ListItem>
-                      <ListItemText
-                        primary={`N$ ${itemsMock[0].price.month}`}
-                        secondary='Per Month'
-                        sx={{ textAlign: "center" }}
-                      />
-                    </ListItem>
-                  </List>
-                  <Typography variant='subtitle1'>Other Items</Typography>
-                  {items.length > 0 && (
-                    <ItemsCouresal items={items} maxWidth={400} />
-                  )}
-                </div>
-              </aside>
             </div>
           </div>
         </div>
