@@ -9,6 +9,7 @@ export interface SingleItemProps {
   weeklyPrice: number;
   monthlyPrice: number;
   location: string;
+  category: string;
   userId: string;
 }
 
@@ -20,6 +21,7 @@ function SingleItem({
   weeklyPrice,
   monthlyPrice,
   location,
+  category,
   userId,
 }: SingleItemProps) {
   return (
@@ -30,10 +32,13 @@ function SingleItem({
       <div className='flex w-full'>
         <div className='flex-row mt-3 w-full'>
           <div className='flex justify-between'>
-            <div className='font-bold text-2xl text-black'>
+            <div className=' flex gap-1 font-bold text-2xl text-black '>
               {title}{" "}
-              <div className='badge badge-outline bg-primary border-primary text-white'>
+              <div className='badge badge-outline bg-primary border-primary text-white my-auto'>
                 {location}
+              </div>
+              <div className='badge badge-outline bg-primary border-primary text-white my-auto'>
+                {category}
               </div>
             </div>
 

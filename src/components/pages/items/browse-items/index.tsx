@@ -256,6 +256,7 @@ export class BrowseItems extends Component<Props> {
       description: selectedItem?.description ?? "",
       photos: selectedItem?.photos ?? [],
       location: selectedItem?.location ?? "",
+      category: selectedItem?.category ?? "",
       dailyPrice: selectedItem?.dailyPrice ?? 0,
       weeklyPrice: selectedItem?.weeklyPrice ?? 0,
       monthlyPrice: selectedItem?.monthlyPrice ?? 0,
