@@ -221,17 +221,26 @@ const categories = ["Tools", "Electronics", "Furniture", "Clothing", "Books"];
 interface ComponentState {
   modalOpen: boolean;
   selectedItem: Item | undefined;
+  searchValue: string;
 }
 
 export class BrowseItems extends Component<Props> {
   state: ComponentState = {
     modalOpen: false,
     selectedItem: undefined,
+    searchValue: "",
   };
 
   componentDidMount(): void {
     this.props.getItems();
   }
+
+  handleSearchValueChange = (e: any) => {
+    this.setState((prevState) => ({
+      ...prevState,
+      searchValue: e.target.value,
+    }));
+  };
 
   setSelectedItem = (item: Item) => {
     this.setState((prevState: ComponentState) => ({
@@ -249,7 +258,7 @@ export class BrowseItems extends Component<Props> {
 
   render() {
     const items = itemsMock;
-    console.log(items);
+    console.log("search value", this.state.searchValue);
     const { selectedItem } = this.state;
     const currentItem: SingleItemProps = {
       title: selectedItem?.title ?? "",
@@ -280,7 +289,11 @@ export class BrowseItems extends Component<Props> {
               <div className='relative z-10 flex h-16 flex-shrink-0 bg-white'>
                 <div className='flex flex-1 justify-between px-4 sm:px-6'>
                   <div className='flex flex-1'>
-                    <SearchInput data={items.map((item) => item.title)} />
+                    <SearchInput
+                      value={this.state.searchValue}
+                      onChange={this.handleSearchValueChange}
+                      handleSearch={() => console.log("searching")}
+                    />
                   </div>
                 </div>
               </div>

@@ -31,8 +31,8 @@ function SingleItem({
       </div>
       <div className='flex w-full'>
         <div className='flex-row mt-3 w-full'>
-          <div className='flex justify-between'>
-            <div className=' flex gap-1 font-bold text-2xl text-black '>
+          <div className='flex-auto justify-between sm:flex'>
+            <div className=' flex-auto space-x-1 font-bold text-2xl text-black '>
               {title}{" "}
               <div className='badge badge-outline bg-primary border-primary text-white my-auto'>
                 {location}
@@ -97,8 +97,8 @@ export const Couresal = ({ photos }: CouresalProps) => {
     <div className='carousel w-full h-full'>
       {photos?.length > 0 ? (
         photos?.map((photo) => (
-          <div id='item1' className='carousel-item w-full'>
-            <img src={photo} className='w-full' alt='name' />
+          <div id='item1' className='carousel-item w-full h-full'>
+            <img src={photo} className='w-full h-full' alt='name' />
           </div>
         ))
       ) : (

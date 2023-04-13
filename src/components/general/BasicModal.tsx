@@ -10,14 +10,11 @@ interface BasicModalProps {
 }
 
 const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
   borderRadius: "10px",
+  margin: 1,
 };
 
 export default function BasicModal({
@@ -34,6 +31,18 @@ export default function BasicModal({
         onClose={handleClose}
         aria-labelledby='modal-modal-title'
         aria-describedby='modal-modal-description'
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          "@media (max-width: 600px)": {
+            "& .MuiPaper-root": {
+              width: "100%",
+              margin: 1,
+            },
+          },
+          margin: 1,
+        }}
       >
         <Box sx={{ ...style, width, height }}>{children}</Box>
       </Modal>
