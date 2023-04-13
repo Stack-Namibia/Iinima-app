@@ -9,6 +9,8 @@ import { Item } from "../../../../api/items";
 import { getItems } from "../../../../store/action-creators/items-action-creator";
 
 import { Component } from "react";
+import BasicModal from "../../../general/BasicModal";
+import SingleItem from "./SingleItem";
 
 interface Props {
   items: Item[] | undefined;
@@ -216,16 +218,48 @@ const locations = [
 ];
 const categories = ["Tools", "Electronics", "Furniture", "Clothing", "Books"];
 
+interface ComponentState {
+  modalOpen: boolean;
+  selectedItem: Item | undefined;
+}
+
 export class BrowseItems extends Component<Props> {
+  state: ComponentState = {
+    modalOpen: false,
+    selectedItem: undefined,
+  };
+
   componentDidMount(): void {
     this.props.getItems();
   }
+
+  setSelectedItem = (item: Item) => {
+    this.setState((prevState: ComponentState) => ({
+      ...prevState,
+      setSelectedItem: item,
+    }));
+  };
+
+  setModalOpen = () => {
+    this.setState((prevState: ComponentState) => ({
+      ...prevState,
+      modalOpen: !prevState.modalOpen,
+    }));
+  };
 
   render() {
     const items = itemsMock;
     console.log(items);
     return (
       <ApplicationWrapper>
+        <BasicModal
+          open={this.state.modalOpen}
+          handleClose={this.setModalOpen}
+          width={700}
+          height={800}
+        >
+          <SingleItem />
+        </BasicModal>
         <div className='flex h-screen'>
           {/* Content area */}
           <div className='flex flex-1 flex-col overflow-hidden'>
@@ -265,7 +299,10 @@ export class BrowseItems extends Component<Props> {
                       className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3'
                     >
                       {items.map((item) => (
-                        <div key={item.user_id + item.title}>
+                        <button
+                          onClick={this.setModalOpen}
+                          className='text-left'
+                        >
                           <ItemsCard
                             photos={item.photos}
                             description={item.description || ""}
@@ -274,7 +311,7 @@ export class BrowseItems extends Component<Props> {
                             title={item.title}
                             category={item.category}
                           />
-                        </div>
+                        </button>
                       ))}
                     </div>
                   </section>
