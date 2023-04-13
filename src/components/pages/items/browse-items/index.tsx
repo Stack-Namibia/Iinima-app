@@ -10,7 +10,7 @@ import { getItems } from "../../../../store/action-creators/items-action-creator
 
 import { Component } from "react";
 import BasicModal from "../../../general/BasicModal";
-import SingleItem from "./SingleItem";
+import SingleItem, { SingleItemProps } from "./SingleItem";
 
 interface Props {
   items: Item[] | undefined;
@@ -236,7 +236,7 @@ export class BrowseItems extends Component<Props> {
   setSelectedItem = (item: Item) => {
     this.setState((prevState: ComponentState) => ({
       ...prevState,
-      setSelectedItem: item,
+      selectedItem: item,
     }));
   };
 
@@ -250,6 +250,18 @@ export class BrowseItems extends Component<Props> {
   render() {
     const items = itemsMock;
     console.log(items);
+    const { selectedItem } = this.state;
+    const currentItem: SingleItemProps = {
+      title: selectedItem?.title ?? "",
+      description: selectedItem?.description ?? "",
+      photos: selectedItem?.photos ?? [],
+      location: selectedItem?.location ?? "",
+      dailyPrice: selectedItem?.dailyPrice ?? 0,
+      weeklyPrice: selectedItem?.weeklyPrice ?? 0,
+      monthlyPrice: selectedItem?.monthlyPrice ?? 0,
+      userId: selectedItem?.user_id ?? "",
+    };
+    console.log("selectedItem", selectedItem);
     return (
       <ApplicationWrapper>
         <BasicModal
@@ -258,7 +270,7 @@ export class BrowseItems extends Component<Props> {
           width={700}
           height={800}
         >
-          <SingleItem />
+          {<SingleItem {...currentItem} />}
         </BasicModal>
         <div className='flex h-screen'>
           {/* Content area */}
@@ -298,9 +310,12 @@ export class BrowseItems extends Component<Props> {
                       role='list'
                       className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3'
                     >
-                      {items.map((item) => (
+                      {items.map((item: any) => (
                         <button
-                          onClick={this.setModalOpen}
+                          onClick={() => {
+                            this.setSelectedItem(item);
+                            this.setModalOpen();
+                          }}
                           className='text-left'
                         >
                           <ItemsCard

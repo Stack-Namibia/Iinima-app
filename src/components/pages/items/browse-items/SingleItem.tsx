@@ -1,17 +1,39 @@
-import { Phone, WhatsApp } from "@mui/icons-material";
+import { CameraAltOutlined, Phone, WhatsApp } from "@mui/icons-material";
 import VerticalDivider from "../../../general/VerticalDivider";
 
-function SingleItem() {
+export interface SingleItemProps {
+  title: string;
+  photos: string[];
+  description: string;
+  dailyPrice: number;
+  weeklyPrice: number;
+  monthlyPrice: number;
+  location: string;
+  userId: string;
+}
+
+function SingleItem({
+  title,
+  photos,
+  description,
+  dailyPrice,
+  weeklyPrice,
+  monthlyPrice,
+  location,
+  userId,
+}: SingleItemProps) {
   return (
     <div className='overflow-auto h-[750px]'>
-      <Couresal />
+      <div className='h-[60%]'>
+        <Couresal photos={photos} />
+      </div>
       <div className='flex w-full'>
         <div className='flex-row mt-3 w-full'>
           <div className='flex justify-between'>
             <div className='font-bold text-2xl text-black'>
-              Sony Alpha A73{" "}
+              {title}{" "}
               <div className='badge badge-outline bg-primary border-primary text-white'>
-                Windhoek
+                {location}
               </div>
             </div>
 
@@ -38,73 +60,54 @@ function SingleItem() {
               </div>
             </div>
           </div>
-          <div>Carlos Sibalatani</div>
+          <div className='mt-3'>{userId}</div>
         </div>
       </div>
       <div className='mt-4'>
-        <span className='text-xl text-black font-bold'>Description</span>
-        <div className='overflow-auto h-[100px]'>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-          </p>
+        <span className='text-xl text-black font-bold'>description</span>
+        <div className='overflow-auto max-h-[100px] mt-1'>
+          <p>{description}</p>
         </div>
       </div>
       <div className='flex-col justify-center w-full mt-3'>
         <span className='text-xl text-black font-bold'>Prices</span>
         <div className='flex flex-col w-full lg:flex-row justify-center gap-10 mt-3'>
-          <PriceDisplay type='Daily' per='day' value={100} />
+          <PriceDisplay type='Daily' per='day' value={dailyPrice} />
           <VerticalDivider text='OR' />
-          <PriceDisplay type='Weekly' per='week' value={100} />
+          <PriceDisplay type='Weekly' per='week' value={weeklyPrice} />
           <VerticalDivider text='OR' />
-          <PriceDisplay type='Monthly' per='month' value={100} />
+          <PriceDisplay type='Monthly' per='month' value={monthlyPrice} />
         </div>
       </div>
     </div>
   );
 }
 
-export const Couresal = () => {
+interface CouresalProps {
+  photos: string[];
+}
+
+export const Couresal = ({ photos }: CouresalProps) => {
   return (
-    <div className='carousel w-full'>
-      <div id='item1' className='carousel-item w-full'>
-        <img
-          src='https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755'
-          className='w-full'
-          alt='name'
-        />
-      </div>
-      <div id='item2' className='carousel-item w-full'>
-        <img
-          src='https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755'
-          className='w-full'
-          alt='name'
-        />
-      </div>
-      <div id='item3' className='carousel-item w-full'>
-        <img
-          src='https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755'
-          className='w-full'
-          alt='name'
-        />
-      </div>
-      <div id='item4' className='carousel-item w-full'>
-        <img
-          src='https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755'
-          className='w-full'
-          alt='name'
-        />
-      </div>
+    <div className='carousel w-full h-full'>
+      {photos?.length > 0 ? (
+        photos?.map((photo) => (
+          <div id='item1' className='carousel-item w-full'>
+            <img src={photo} className='w-full' alt='name' />
+          </div>
+        ))
+      ) : (
+        <div className='flex justify-center w-full'>
+          <div>
+            <CameraAltOutlined
+              style={{
+                width: "100%",
+                height: "100%",
+              }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
