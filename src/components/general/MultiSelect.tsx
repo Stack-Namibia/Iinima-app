@@ -63,7 +63,7 @@ export default function MultiSelect({
               }}
             >
               {selected.map((value) => (
-                <Chip key={value} label={value} onDelete={() => null} />
+                <Chip key={value} label={value} />
               ))}
             </Box>
           )}

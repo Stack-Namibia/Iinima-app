@@ -296,6 +296,20 @@ export class BrowseItems extends Component<Props> {
     return filteredItems;
   };
 
+  removeLocationOption = (option: string) => {
+    this.setState((prevState: ComponentState) => ({
+      ...prevState,
+      locations: prevState.locations.filter((l) => l !== option),
+    }));
+  };
+
+  removeCategoryOption = (option: string) => {
+    this.setState((prevState: ComponentState) => ({
+      ...prevState,
+      categories: prevState.categories.filter((l) => l !== option),
+    }));
+  };
+
   render() {
     const items = this.setFilteredItems();
 
