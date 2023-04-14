@@ -41,16 +41,22 @@ function SingleItem({
                 {category}
               </div>
             </div>
-
-            <div className='flex gap-3 my-auto'>
+            {/* visible only on mobile */}
+            <div className='flex gap-3 my-auto sm:hidden'>
               <div>
                 <button>
-                  <WhatsApp
-                    sx={{
-                      color: "#25D366",
-                      fontSize: "2rem",
-                    }}
-                  />
+                  <a
+                    href={`https://wa.me/264814818769?text=I'm%20interested%20in%20your%20${title}%20https%3A%2F%2F2671-160-242-75-87.ngrok-free.app`}
+                    target='_blank'
+                    rel='noreferrer'
+                  >
+                    <WhatsApp
+                      sx={{
+                        color: "#25D366",
+                        fontSize: "2rem",
+                      }}
+                    />
+                  </a>
                 </button>
               </div>
               <div>
@@ -63,6 +69,9 @@ function SingleItem({
                   />
                 </button>
               </div>
+            </div>
+            <div className='my-auto hidden sm:block'>
+              <span>+264 81 123 4567</span>
             </div>
           </div>
           <div className='mt-3'>{userId}</div>
