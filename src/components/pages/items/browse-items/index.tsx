@@ -21,7 +21,7 @@ const itemsMock = [
   {
     _id: "63f8738a9e11e088f8d57578",
     user_id: "auth0|63c9439f97e75e1c36d98b0c",
-    title: "Test",
+    title: "Test 1",
     category: "power-tools",
     photos: [],
     description: "Some smart ass description that i could not make sense off!",
@@ -32,13 +32,11 @@ const itemsMock = [
     miniRentalDays: 10,
     itemValue: 10,
     deleted: false,
-    createdAt: "2023-02-24T08:21:30.032000",
-    updatedAt: null,
   },
   {
     _id: "63f8738a9e11e088f8d57578",
     user_id: "auth0|63c9439f97e75e1c36d98b0c",
-    title: "Test",
+    title: "Test 2",
     category: "power-tools",
     photos: [
       "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
@@ -51,13 +49,11 @@ const itemsMock = [
     miniRentalDays: 10,
     itemValue: 10,
     deleted: false,
-    createdAt: "2023-02-24T08:21:30.032000",
-    updatedAt: null,
   },
   {
     _id: "63f8738a9e11e088f8d57578",
     user_id: "auth0|63c9439f97e75e1c36d98b0c",
-    title: "Test",
+    title: "Test 3",
     category: "power-tools",
     photos: [
       "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
@@ -70,13 +66,11 @@ const itemsMock = [
     miniRentalDays: 10,
     itemValue: 10,
     deleted: false,
-    createdAt: "2023-02-24T08:21:30.032000",
-    updatedAt: null,
   },
   {
     _id: "63f8738a9e11e088f8d57578",
     user_id: "auth0|63c9439f97e75e1c36d98b0c",
-    title: "Test",
+    title: "Test 4",
     category: "power-tools",
     photos: [
       "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
@@ -89,13 +83,11 @@ const itemsMock = [
     miniRentalDays: 10,
     itemValue: 10,
     deleted: false,
-    createdAt: "2023-02-24T08:21:30.032000",
-    updatedAt: null,
   },
   {
     _id: "63f8738a9e11e088f8d57578",
     user_id: "auth0|63c9439f97e75e1c36d98b0c",
-    title: "Test",
+    title: "Test 5",
     category: "power-tools",
     photos: [
       "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
@@ -108,13 +100,11 @@ const itemsMock = [
     miniRentalDays: 10,
     itemValue: 10,
     deleted: false,
-    createdAt: "2023-02-24T08:21:30.032000",
-    updatedAt: null,
   },
   {
     _id: "63f8738a9e11e088f8d57578",
     user_id: "auth0|63c9439f97e75e1c36d98b0c",
-    title: "Test",
+    title: "Test 6",
     category: "power-tools",
     photos: [
       "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
@@ -127,13 +117,11 @@ const itemsMock = [
     miniRentalDays: 10,
     itemValue: 10,
     deleted: false,
-    createdAt: "2023-02-24T08:21:30.032000",
-    updatedAt: null,
   },
   {
     _id: "63f8738a9e11e088f8d57578",
     user_id: "auth0|63c9439f97e75e1c36d98b0c",
-    title: "Test",
+    title: "Test 7",
     category: "power-tools",
     photos: [
       "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
@@ -146,13 +134,11 @@ const itemsMock = [
     miniRentalDays: 10,
     itemValue: 10,
     deleted: false,
-    createdAt: "2023-02-24T08:21:30.032000",
-    updatedAt: null,
   },
   {
     _id: "63f8738a9e11e088f8d57578",
     user_id: "auth0|63c9439f97e75e1c36d98b0c",
-    title: "Test",
+    title: "Test 8",
     category: "power-tools",
     photos: [
       "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
@@ -165,13 +151,11 @@ const itemsMock = [
     miniRentalDays: 10,
     itemValue: 10,
     deleted: false,
-    createdAt: "2023-02-24T08:21:30.032000",
-    updatedAt: null,
   },
   {
     _id: "63f8738a9e11e088f8d57578",
     user_id: "auth0|63c9439f97e75e1c36d98b0c",
-    title: "Test",
+    title: "Test 9",
     category: "power-tools",
     photos: [
       "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
@@ -184,13 +168,11 @@ const itemsMock = [
     miniRentalDays: 10,
     itemValue: 10,
     deleted: false,
-    createdAt: "2023-02-24T08:21:30.032000",
-    updatedAt: null,
   },
   {
     _id: "63f8738a9e11e088f8d57578",
     user_id: "auth0|63c9439f97e75e1c36d98b0c",
-    title: "Test",
+    title: "Test 10",
     category: "power-tools",
     photos: [
       "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
@@ -203,8 +185,6 @@ const itemsMock = [
     miniRentalDays: 10,
     itemValue: 10,
     deleted: false,
-    createdAt: "2023-02-24T08:21:30.032000",
-    updatedAt: null,
   },
 ];
 
@@ -256,9 +236,29 @@ export class BrowseItems extends Component<Props> {
     }));
   };
 
-  render() {
+  setFilteredItems = () => {
+    const { searchValue } = this.state;
     const items = itemsMock;
-    console.log("search value", this.state.searchValue);
+
+    if (!searchValue) {
+      return items;
+    }
+
+    if (!items) return [];
+
+    const filteredItems = items.filter((item) => {
+      return (
+        item.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+        item.description?.toLowerCase().includes(searchValue.toLowerCase())
+      );
+    });
+
+    return filteredItems;
+  };
+
+  render() {
+    const items = this.setFilteredItems();
+
     const { selectedItem } = this.state;
     const currentItem: SingleItemProps = {
       title: selectedItem?.title ?? "",
@@ -271,7 +271,7 @@ export class BrowseItems extends Component<Props> {
       monthlyPrice: selectedItem?.monthlyPrice ?? 0,
       userId: selectedItem?.user_id ?? "",
     };
-    console.log("selectedItem", selectedItem);
+
     return (
       <ApplicationWrapper>
         <BasicModal
@@ -292,7 +292,7 @@ export class BrowseItems extends Component<Props> {
                     <SearchInput
                       value={this.state.searchValue}
                       onChange={this.handleSearchValueChange}
-                      handleSearch={() => console.log("searching")}
+                      handleSearch={() => this.setFilteredItems()}
                     />
                   </div>
                 </div>
@@ -324,24 +324,28 @@ export class BrowseItems extends Component<Props> {
                       role='list'
                       className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3'
                     >
-                      {items.map((item: any) => (
-                        <button
-                          onClick={() => {
-                            this.setSelectedItem(item);
-                            this.setModalOpen();
-                          }}
-                          className='text-left'
-                        >
-                          <ItemsCard
-                            photos={item.photos}
-                            description={item.description || ""}
-                            dailyPrice={item.dailyPrice}
-                            location={item.location}
-                            title={item.title}
-                            category={item.category}
-                          />
-                        </button>
-                      ))}
+                      {items.length > 0 ? (
+                        items.map((item: any) => (
+                          <button
+                            onClick={() => {
+                              this.setSelectedItem(item);
+                              this.setModalOpen();
+                            }}
+                            className='text-left'
+                          >
+                            <ItemsCard
+                              photos={item.photos}
+                              description={item.description || ""}
+                              dailyPrice={item.dailyPrice}
+                              location={item.location}
+                              title={item.title}
+                              category={item.category}
+                            />
+                          </button>
+                        ))
+                      ) : (
+                        <div>Its lonely here</div>
+                      )}
                     </div>
                   </section>
                 </div>
