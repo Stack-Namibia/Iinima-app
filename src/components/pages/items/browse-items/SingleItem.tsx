@@ -25,7 +25,7 @@ function SingleItem({
   userId,
 }: SingleItemProps) {
   return (
-    <div className='overflow-auto'>
+    <div className='overflow-auto h-full'>
       <div className='h-[60%]'>
         <Couresal photos={photos} />
       </div>
