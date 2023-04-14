@@ -17,178 +17,9 @@ import { arrayUnique } from "../../../../utils/data";
 interface Props {
   items: Item[] | undefined;
   getItems: () => void;
+  categories: string[];
+  locations: string[];
 }
-
-const itemsMock = [
-  {
-    _id: "63f8738a9e11e088f8d57570",
-    user_id: "auth0|63c9439f97e75e1c36d98b0c",
-    title: "Test 1",
-    category: "power-tools",
-    photos: [],
-    description: "Some smart ass description that i could not make sense off!",
-    location: "Windhoek",
-    dailyPrice: 10,
-    weeklyPrice: 4,
-    monthlyPrice: 10,
-    miniRentalDays: 10,
-    itemValue: 10,
-    deleted: false,
-  },
-  {
-    _id: "63f8738a9e11e088f8d57579",
-    user_id: "auth0|63c9439f97e75e1c36d98b0c",
-    title: "Test 2",
-    category: "hand-tools",
-    photos: [
-      "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
-    ],
-    description: "Some smart ass description that i could not make sense off!",
-    location: "Windhoek",
-    dailyPrice: 10,
-    weeklyPrice: 4,
-    monthlyPrice: 10,
-    miniRentalDays: 10,
-    itemValue: 10,
-    deleted: false,
-  },
-  {
-    _id: "63f8738a9e11e088f8d57578",
-    user_id: "auth0|63c9439f97e75e1c36d98b0c",
-    title: "Test 3",
-    category: "power-tools",
-    photos: [
-      "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
-    ],
-    description: "Some smart ass description that i could not make sense off!",
-    location: "6sdafsid7fshd2",
-    dailyPrice: 10,
-    weeklyPrice: 4,
-    monthlyPrice: 10,
-    miniRentalDays: 10,
-    itemValue: 10,
-    deleted: false,
-  },
-  {
-    _id: "63f8738a9e11e088f8d57577",
-    user_id: "auth0|63c9439f97e75e1c36d98b0c",
-    title: "Test 4",
-    category: "power-tools",
-    photos: [
-      "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
-    ],
-    description: "Some smart ass description that i could not make sense off!",
-    location: "6sdafsid7fshd2",
-    dailyPrice: 10,
-    weeklyPrice: 4,
-    monthlyPrice: 10,
-    miniRentalDays: 10,
-    itemValue: 10,
-    deleted: false,
-  },
-  {
-    _id: "63f8738a9e11e088f8d57576",
-    user_id: "auth0|63c9439f97e75e1c36d98b0c",
-    title: "Test 5",
-    category: "power-tools",
-    photos: [
-      "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
-    ],
-    description: "Some smart ass description that i could not make sense off!",
-    location: "6sdafsid7fshd2",
-    dailyPrice: 10,
-    weeklyPrice: 4,
-    monthlyPrice: 10,
-    miniRentalDays: 10,
-    itemValue: 10,
-    deleted: false,
-  },
-  {
-    _id: "63f8738a9e11e088f8d57575",
-    user_id: "auth0|63c9439f97e75e1c36d98b0c",
-    title: "Test 6",
-    category: "power-tools",
-    photos: [
-      "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
-    ],
-    description: "Some smart ass description that i could not make sense off!",
-    location: "6sdafsid7fshd2",
-    dailyPrice: 10,
-    weeklyPrice: 4,
-    monthlyPrice: 10,
-    miniRentalDays: 10,
-    itemValue: 10,
-    deleted: false,
-  },
-  {
-    _id: "63f8738a9e11e088f8d57574",
-    user_id: "auth0|63c9439f97e75e1c36d98b0c",
-    title: "Test 7",
-    category: "power-tools",
-    photos: [
-      "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
-    ],
-    description: "Some smart ass description that i could not make sense off!",
-    location: "6sdafsid7fshd2",
-    dailyPrice: 10,
-    weeklyPrice: 4,
-    monthlyPrice: 10,
-    miniRentalDays: 10,
-    itemValue: 10,
-    deleted: false,
-  },
-  {
-    _id: "63f8738a9e11e088f8d57573",
-    user_id: "auth0|63c9439f97e75e1c36d98b0c",
-    title: "Test 8",
-    category: "power-tools",
-    photos: [
-      "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
-    ],
-    description: "Some smart ass description that i could not make sense off!",
-    location: "6sdafsid7fshd2",
-    dailyPrice: 10,
-    weeklyPrice: 4,
-    monthlyPrice: 10,
-    miniRentalDays: 10,
-    itemValue: 10,
-    deleted: false,
-  },
-  {
-    _id: "63f8738a9e11e088f8d57572",
-    user_id: "auth0|63c9439f97e75e1c36d98b0c",
-    title: "Test 9",
-    category: "power-tools",
-    photos: [
-      "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
-    ],
-    description: "Some smart ass description that i could not make sense off!",
-    location: "6sdafsid7fshd2",
-    dailyPrice: 10,
-    weeklyPrice: 4,
-    monthlyPrice: 10,
-    miniRentalDays: 10,
-    itemValue: 10,
-    deleted: false,
-  },
-  {
-    _id: "63f8738a9e11e088f8d57571",
-    user_id: "auth0|63c9439f97e75e1c36d98b0c",
-    title: "Test 10",
-    category: "power-tools",
-    photos: [
-      "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
-    ],
-    description: "Some smart ass description that i could not make sense off!",
-    location: "6sdafsid7fshd2",
-    dailyPrice: 10,
-    weeklyPrice: 4,
-    monthlyPrice: 10,
-    miniRentalDays: 10,
-    itemValue: 10,
-    deleted: false,
-  },
-];
 
 interface ComponentState {
   modalOpen: boolean;
@@ -199,8 +30,6 @@ interface ComponentState {
 }
 
 export class BrowseItems extends Component<Props> {
-  allLocations = arrayUnique(itemsMock?.map((i) => i.location));
-  allCategories = arrayUnique(itemsMock?.map((i) => i.category));
   state: ComponentState = {
     modalOpen: false,
     selectedItem: undefined,
@@ -222,7 +51,7 @@ export class BrowseItems extends Component<Props> {
       this.setState((prevState: ComponentState) => ({
         ...prevState,
         modalOpen: true,
-        selectedItem: itemsMock.find((i) => i._id === match[1]),
+        selectedItem: this.props.items?.find((i) => i._id === match[1]),
       }));
     }
   }
@@ -276,7 +105,7 @@ export class BrowseItems extends Component<Props> {
 
   setFilteredItems = () => {
     const { searchValue } = this.state;
-    const items = itemsMock;
+    const items = this.props.items;
 
     if (
       !searchValue &&
@@ -367,13 +196,13 @@ export class BrowseItems extends Component<Props> {
               </div>
               <div className='flex-row md:flex lg:flex pl-5 pr-5'>
                 <MultiSelect
-                  data={this.allLocations}
+                  data={arrayUnique(this.props.locations)}
                   label={"Locations"}
                   options={locations}
                   handleChange={this.handleLocationsChange}
                 />
                 <MultiSelect
-                  data={this.allCategories}
+                  data={arrayUnique(this.props.categories)}
                   label={"Categories"}
                   options={categories}
                   handleChange={this.handleCategoriesChange}
@@ -402,7 +231,7 @@ export class BrowseItems extends Component<Props> {
                       role='list'
                       className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3'
                     >
-                      {items.length > 0 ? (
+                      {items ? (
                         items.map((item: any) => (
                           <button
                             onClick={() => {
@@ -438,6 +267,8 @@ export class BrowseItems extends Component<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   items: state.items.items,
+  categories: state.items.items?.map((item) => item.category) ?? [],
+  locations: state.items.items?.map((item) => item.location) ?? [],
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
