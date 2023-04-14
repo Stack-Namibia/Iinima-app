@@ -25,7 +25,7 @@ function SingleItem({
   userId,
 }: SingleItemProps) {
   return (
-    <div className='overflow-auto h-[750px]'>
+    <div className='overflow-auto'>
       <div className='h-[60%]'>
         <Couresal photos={photos} />
       </div>
@@ -94,10 +94,10 @@ interface CouresalProps {
 
 export const Couresal = ({ photos }: CouresalProps) => {
   return (
-    <div className='carousel w-full h-full'>
+    <div className='carousel w-full'>
       {photos?.length > 0 ? (
         photos?.map((photo) => (
-          <div id='item1' className='carousel-item w-full h-full'>
+          <div id='item1' className='carousel-item w-full'>
             <img src={photo} className='w-full h-full' alt='name' />
           </div>
         ))
