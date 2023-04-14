@@ -11,6 +11,8 @@ import { getItems } from "../../../../store/action-creators/items-action-creator
 import { Component } from "react";
 import BasicModal from "../../../general/BasicModal";
 import SingleItem, { SingleItemProps } from "./SingleItem";
+import { SelectChangeEvent } from "@mui/material";
+import { arrayUnique } from "../../../../utils/data";
 
 interface Props {
   items: Item[] | undefined;
@@ -25,7 +27,7 @@ const itemsMock = [
     category: "power-tools",
     photos: [],
     description: "Some smart ass description that i could not make sense off!",
-    location: "6sdafsid7fshd2",
+    location: "Windhoek",
     dailyPrice: 10,
     weeklyPrice: 4,
     monthlyPrice: 10,
@@ -37,12 +39,12 @@ const itemsMock = [
     _id: "63f8738a9e11e088f8d57578",
     user_id: "auth0|63c9439f97e75e1c36d98b0c",
     title: "Test 2",
-    category: "power-tools",
+    category: "hand-tools",
     photos: [
       "https://firebasestorage.googleapis.com/v0/b/iinima.appspot.com/o/items%2Fauth0%7C63c9439f97e75e1c36d98b0c%2FTest%2FImage%202.png?alt=media&token=05cbc218-dc54-467a-8e6e-debbccd93755",
     ],
     description: "Some smart ass description that i could not make sense off!",
-    location: "6sdafsid7fshd2",
+    location: "Windhoek",
     dailyPrice: 10,
     weeklyPrice: 4,
     monthlyPrice: 10,
@@ -188,27 +190,23 @@ const itemsMock = [
   },
 ];
 
-const locations = [
-  "Windhoek",
-  "Swakopmund",
-  "Walvis Bay",
-  "Oshakati",
-  "Otjiwarongo",
-  "Gobabis",
-];
-const categories = ["Tools", "Electronics", "Furniture", "Clothing", "Books"];
-
 interface ComponentState {
   modalOpen: boolean;
   selectedItem: Item | undefined;
   searchValue: string;
+  locations: string[];
+  categories: string[];
 }
 
 export class BrowseItems extends Component<Props> {
+  allLocations = arrayUnique(itemsMock?.map((i) => i.location));
+  allCategories = arrayUnique(itemsMock?.map((i) => i.category));
   state: ComponentState = {
     modalOpen: false,
     selectedItem: undefined,
     searchValue: "",
+    locations: [],
+    categories: [],
   };
 
   componentDidMount(): void {
@@ -219,6 +217,32 @@ export class BrowseItems extends Component<Props> {
     this.setState((prevState) => ({
       ...prevState,
       searchValue: e.target.value,
+    }));
+  };
+
+  handleLocationsChange = (event: SelectChangeEvent<string[]>) => {
+    const {
+      target: { value },
+    } = event;
+
+    console.log(value);
+
+    this.setState((prevState) => ({
+      ...prevState,
+      locations: value,
+    }));
+  };
+
+  handleCategoriesChange = (event: SelectChangeEvent<string[]>) => {
+    const {
+      target: { value },
+    } = event;
+
+    console.log(value);
+
+    this.setState((prevState) => ({
+      ...prevState,
+      categories: value,
     }));
   };
 
@@ -240,18 +264,34 @@ export class BrowseItems extends Component<Props> {
     const { searchValue } = this.state;
     const items = itemsMock;
 
-    if (!searchValue) {
+    if (
+      !searchValue &&
+      this.state.locations.length === 0 &&
+      this.state.categories.length === 0
+    ) {
       return items;
     }
 
     if (!items) return [];
 
-    const filteredItems = items.filter((item) => {
+    let filteredItems = items.filter((item) => {
       return (
         item.title.toLowerCase().includes(searchValue.toLowerCase()) ||
         item.description?.toLowerCase().includes(searchValue.toLowerCase())
       );
     });
+
+    if (this.state.locations.length > 0) {
+      filteredItems = filteredItems.filter((item) => {
+        return this.state.locations.includes(item.location);
+      });
+    }
+
+    if (this.state.categories.length > 0) {
+      filteredItems = filteredItems.filter((item) => {
+        return this.state.categories.includes(item.category);
+      });
+    }
 
     return filteredItems;
   };
@@ -259,7 +299,7 @@ export class BrowseItems extends Component<Props> {
   render() {
     const items = this.setFilteredItems();
 
-    const { selectedItem } = this.state;
+    const { selectedItem, locations, categories } = this.state;
     const currentItem: SingleItemProps = {
       title: selectedItem?.title ?? "",
       description: selectedItem?.description ?? "",
@@ -298,8 +338,18 @@ export class BrowseItems extends Component<Props> {
                 </div>
               </div>
               <div className='flex-row md:flex lg:flex pl-5 pr-5'>
-                <MultiSelect data={locations} label={"Locations"} />
-                <MultiSelect data={categories} label={"Categories"} />
+                <MultiSelect
+                  data={this.allLocations}
+                  label={"Locations"}
+                  options={locations}
+                  handleChange={this.handleLocationsChange}
+                />
+                <MultiSelect
+                  data={this.allCategories}
+                  label={"Categories"}
+                  options={categories}
+                  handleChange={this.handleCategoriesChange}
+                />
               </div>
             </header>
 
