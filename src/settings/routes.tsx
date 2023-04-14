@@ -62,6 +62,12 @@ const routes = [
     element: <BrowseItems />,
     key: "ListItem",
   },
+  {
+    path: "/item/browse/:id",
+    exact: true,
+    element: <BrowseItems />,
+    key: "ListItem",
+  },
 ];
 
 export default routes;

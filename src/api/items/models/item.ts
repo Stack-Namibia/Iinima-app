@@ -22,7 +22,7 @@ export interface Item {
    * @type {string}
    * @memberof Item
    */
-  id?: string;
+  _id?: string;
 
   /**
    *

@@ -11,6 +11,7 @@ export interface SingleItemProps {
   location: string;
   category: string;
   userId: string;
+  itemId: string;
 }
 
 function SingleItem({
@@ -23,6 +24,7 @@ function SingleItem({
   location,
   category,
   userId,
+  itemId,
 }: SingleItemProps) {
   return (
     <div className='overflow-auto h-full'>
@@ -46,7 +48,7 @@ function SingleItem({
               <div>
                 <button>
                   <a
-                    href={`https://wa.me/264814818769?text=I'm%20interested%20in%20your%20${title}%20https%3A%2F%2F2671-160-242-75-87.ngrok-free.app`}
+                    href={`https://wa.me/264814818769?text=I'm%20interested%20in%20your%20${title}%20https%3A%2F%2F2671-160-242-75-87.ngrok-free.app/item/browse/${itemId}`}
                     target='_blank'
                     rel='noreferrer'
                   >

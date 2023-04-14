@@ -21,7 +21,7 @@ interface Props {
 
 const itemsMock = [
   {
-    _id: "63f8738a9e11e088f8d57578",
+    _id: "63f8738a9e11e088f8d57570",
     user_id: "auth0|63c9439f97e75e1c36d98b0c",
     title: "Test 1",
     category: "power-tools",
@@ -36,7 +36,7 @@ const itemsMock = [
     deleted: false,
   },
   {
-    _id: "63f8738a9e11e088f8d57578",
+    _id: "63f8738a9e11e088f8d57579",
     user_id: "auth0|63c9439f97e75e1c36d98b0c",
     title: "Test 2",
     category: "hand-tools",
@@ -70,7 +70,7 @@ const itemsMock = [
     deleted: false,
   },
   {
-    _id: "63f8738a9e11e088f8d57578",
+    _id: "63f8738a9e11e088f8d57577",
     user_id: "auth0|63c9439f97e75e1c36d98b0c",
     title: "Test 4",
     category: "power-tools",
@@ -87,7 +87,7 @@ const itemsMock = [
     deleted: false,
   },
   {
-    _id: "63f8738a9e11e088f8d57578",
+    _id: "63f8738a9e11e088f8d57576",
     user_id: "auth0|63c9439f97e75e1c36d98b0c",
     title: "Test 5",
     category: "power-tools",
@@ -104,7 +104,7 @@ const itemsMock = [
     deleted: false,
   },
   {
-    _id: "63f8738a9e11e088f8d57578",
+    _id: "63f8738a9e11e088f8d57575",
     user_id: "auth0|63c9439f97e75e1c36d98b0c",
     title: "Test 6",
     category: "power-tools",
@@ -121,7 +121,7 @@ const itemsMock = [
     deleted: false,
   },
   {
-    _id: "63f8738a9e11e088f8d57578",
+    _id: "63f8738a9e11e088f8d57574",
     user_id: "auth0|63c9439f97e75e1c36d98b0c",
     title: "Test 7",
     category: "power-tools",
@@ -138,7 +138,7 @@ const itemsMock = [
     deleted: false,
   },
   {
-    _id: "63f8738a9e11e088f8d57578",
+    _id: "63f8738a9e11e088f8d57573",
     user_id: "auth0|63c9439f97e75e1c36d98b0c",
     title: "Test 8",
     category: "power-tools",
@@ -155,7 +155,7 @@ const itemsMock = [
     deleted: false,
   },
   {
-    _id: "63f8738a9e11e088f8d57578",
+    _id: "63f8738a9e11e088f8d57572",
     user_id: "auth0|63c9439f97e75e1c36d98b0c",
     title: "Test 9",
     category: "power-tools",
@@ -172,7 +172,7 @@ const itemsMock = [
     deleted: false,
   },
   {
-    _id: "63f8738a9e11e088f8d57578",
+    _id: "63f8738a9e11e088f8d57571",
     user_id: "auth0|63c9439f97e75e1c36d98b0c",
     title: "Test 10",
     category: "power-tools",
@@ -211,6 +211,20 @@ export class BrowseItems extends Component<Props> {
 
   componentDidMount(): void {
     this.props.getItems();
+
+    const regex = /\/item\/browse\/([a-f0-9-]+)/;
+
+    // eslint-disable-next-line no-restricted-globals
+    const match = location.pathname.match(regex);
+
+    if (match) {
+      console.log(match);
+      this.setState((prevState: ComponentState) => ({
+        ...prevState,
+        modalOpen: true,
+        selectedItem: itemsMock.find((i) => i._id === match[1]),
+      }));
+    }
   }
 
   handleSearchValueChange = (e: any) => {
@@ -324,6 +338,7 @@ export class BrowseItems extends Component<Props> {
       weeklyPrice: selectedItem?.weeklyPrice ?? 0,
       monthlyPrice: selectedItem?.monthlyPrice ?? 0,
       userId: selectedItem?.user_id ?? "",
+      itemId: selectedItem?._id ?? "",
     };
 
     return (
