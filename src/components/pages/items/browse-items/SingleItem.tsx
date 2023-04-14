@@ -62,14 +62,16 @@ function SingleItem({
                 </button>
               </div>
               <div>
-                <button>
-                  <Phone
-                    sx={{
-                      color: "#128C7E",
-                      fontSize: "2rem",
-                    }}
-                  />
-                </button>
+                <a href='tel:+264814818769'>
+                  <button>
+                    <Phone
+                      sx={{
+                        color: "#128C7E",
+                        fontSize: "2rem",
+                      }}
+                    />
+                  </button>
+                </a>
               </div>
             </div>
             <div className='my-auto hidden sm:block'>
