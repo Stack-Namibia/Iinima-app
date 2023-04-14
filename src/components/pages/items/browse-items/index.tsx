@@ -347,7 +347,6 @@ export class BrowseItems extends Component<Props> {
           open={this.state.modalOpen}
           handleClose={this.setModalOpen}
           width={700}
-          height={800}
         >
           {<SingleItem {...currentItem} />}
         </BasicModal>

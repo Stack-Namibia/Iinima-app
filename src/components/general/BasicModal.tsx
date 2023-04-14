@@ -6,7 +6,6 @@ interface BasicModalProps {
   handleClose: () => void;
   children: any;
   width: number;
-  height: number;
 }
 
 const style = {
@@ -22,7 +21,6 @@ export default function BasicModal({
   handleClose,
   children,
   width,
-  height,
 }: BasicModalProps) {
   return (
     <div>
@@ -33,7 +31,6 @@ export default function BasicModal({
         aria-describedby='modal-modal-description'
         sx={{
           display: "flex",
-          alignItems: "center",
           justifyContent: "center",
           "@media (max-width: 600px)": {
             "& .MuiPaper-root": {
@@ -44,7 +41,7 @@ export default function BasicModal({
           margin: 1,
         }}
       >
-        <Box sx={{ ...style, width, height }}>{children}</Box>
+        <Box sx={{ ...style, width }}>{children}</Box>
       </Modal>
     </div>
   );
