@@ -12,13 +12,11 @@ import ItemsCouresal from "../../../general/ItemsCouresal";
 import SearchInput from "./SearchInput";
 import MultiSelect from "../../../general/MultiSelect";
 import * as ItemActionsCreator from "../../../../store/action-creators/items-action-creator";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/reducers";
 import { bindActionCreators } from "@reduxjs/toolkit";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Item } from "../../../../api/items";
-
-
 
 const itemsMock = [
   {
@@ -201,7 +199,6 @@ const BrowseItems = () => {
     setItems(itemState || []);
   }, [itemState]);
 
-
   return (
     <ApplicationWrapper>
       <div className='flex h-screen'>
@@ -260,7 +257,10 @@ const BrowseItems = () => {
               <div className='space-y-6 pb-16'>
                 {/* select items details here */}
                 <div className='flex-row'>
-                  <Couresal data={localItem.length>0 ? localItem[0].photos : []} maxWidth={400} />
+                  <Couresal
+                    data={localItem.length > 0 ? localItem[0].photos : []}
+                    maxWidth={400}
+                  />
                   <div className='flex justify-between mt-2'>
                     <div className='flex-row'>
                       <h1 className='text-2xl font-bold text-gray-900'>
