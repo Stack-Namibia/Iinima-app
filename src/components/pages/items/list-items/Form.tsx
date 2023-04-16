@@ -1,11 +1,9 @@
-import * as React from "react";
 import { useState } from "react";
 import ReactDropzone from "react-dropzone";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Input } from "../../../general/Input";
-import { RootState } from "../../../../store/reducers";
 import { Button } from "../../../general/Button";
 import Grid from "@mui/material/Grid";
 import photoUploadImage from "../../../../assets/photo-upload.svg";
@@ -45,7 +43,6 @@ const addressesMock = [
 
 const Form = () => {
   const { user } = useAuth0();
-  const itemState = useSelector((state: RootState) => state.item);
   const dispatch = useDispatch();
 
   const { createItem } = bindActionCreators(ItemActionsCreator, dispatch);
@@ -63,7 +60,7 @@ const Form = () => {
   const [photos, setPhotos] = useState<{ file: any; preview: string }[]>(
     Array(4).fill({ file: null, preview: "" })
   ); // This is the array that will hold the images
-
+  const [isLoading, setIsLoading] = useState(false);
   const handleSubmit = async (e: any) => {
     // This function sends the data to the backend
     e.preventDefault();
@@ -82,6 +79,7 @@ const Form = () => {
       photos,
       user_id: user?.sub,
     });
+    setIsLoading(false);
     handleCancel();
   };
 
@@ -348,11 +346,7 @@ const Form = () => {
               />
             </Grid>
             <Grid item xs={6}>
-              <Button
-                text='List item'
-                type='submit'
-                loading={itemState.isLoading}
-              />
+              <Button text='List item' type='submit' loading={isLoading} />
             </Grid>
           </Grid>
         </form>

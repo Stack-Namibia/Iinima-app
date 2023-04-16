@@ -1,33 +1,35 @@
-import * as React from "react";
-import TextField from "@mui/material/TextField";
-import Stack from "@mui/material/Stack";
-import Autocomplete from "@mui/material/Autocomplete";
 import { Search } from "@mui/icons-material";
-import { Box } from "@mui/material";
+import { Input } from "react-daisyui";
 
-interface Props {
-  data: any[];
+interface SearchProps {
+  value: string;
+  onChange: (e: any) => void;
+  handleSearch: () => void;
 }
 
-export default function SearchInput({ data }: Props) {
+const SearchInput = ({ value, onChange, handleSearch }: SearchProps) => {
   return (
-    <Stack spacing={2} sx={{ width: "100%" }}>
-      <Autocomplete
-        id='free-solo-demo'
-        freeSolo
-        options={data.map((option) => option)}
-        renderInput={(params) => (
-          <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-            <Search sx={{ color: "action.active", mr: 1, my: 0.5 }} />
-            <TextField
-              {...params}
-              id='search'
-              label='Search for items'
-              variant='standard'
-            />
-          </Box>
-        )}
-      />
-    </Stack>
+    <>
+      <div className='w-full'>
+        <Input
+          type='text'
+          placeholder='Search'
+          value={value}
+          onChange={onChange}
+          className='w-full bg-white border border-gray-300 rounded-lg shadow-sm py-2 pl-10 pr-4 text-base focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary'
+        />
+        <Search
+          sx={{
+            position: "absolute",
+            top: "40%",
+            right: "2rem",
+            transform: "translateY(-50%)",
+            color: "gray.500",
+          }}
+        />
+      </div>
+    </>
   );
-}
+};
+
+export default SearchInput;

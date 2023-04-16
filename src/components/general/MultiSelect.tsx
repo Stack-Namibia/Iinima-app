@@ -31,21 +31,17 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
 interface Props {
   data: any[];
   label: string;
+  options: string[];
+  handleChange: (event: SelectChangeEvent<any>) => void;
 }
 
-export default function MultiSelect({ data, label }: Props) {
+export default function MultiSelect({
+  data,
+  label,
+  options,
+  handleChange,
+}: Props) {
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState<string[]>([]);
-
-  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
-  };
 
   return (
     <div>
@@ -55,7 +51,7 @@ export default function MultiSelect({ data, label }: Props) {
           labelId='demo-multiple-chip-label'
           id='demo-multiple-chip'
           multiple
-          value={personName}
+          value={options}
           onChange={handleChange}
           input={<OutlinedInput id='select-multiple-chip' label='Chip' />}
           renderValue={(selected) => (
@@ -67,7 +63,7 @@ export default function MultiSelect({ data, label }: Props) {
               }}
             >
               {selected.map((value) => (
-                <Chip key={value} label={value} onDelete={() => null} />
+                <Chip key={value} label={value} />
               ))}
             </Box>
           )}
@@ -78,7 +74,7 @@ export default function MultiSelect({ data, label }: Props) {
             <MenuItem
               key={name}
               value={name}
-              style={getStyles(name, personName, theme)}
+              style={getStyles(name, options, theme)}
             >
               {name}
             </MenuItem>

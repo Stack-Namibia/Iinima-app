@@ -1,96 +1,51 @@
-import Card from "@mui/material/Card";
-import {
-  CardActionArea,
-  CardMedia,
-  CardActions,
-  CardContent,
-  Typography,
-  IconButton,
-  Box,
-} from "@mui/material";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import { Link } from "react-router-dom";
+import { CameraAltOutlined } from "@mui/icons-material";
 
-// interface Props {
-//   item: {
-//     id: string;
-//     name: string;
-//     images: string[];
-//     location: string;
-//     price: {
-//       day: number;
-//       week: number;
-//       month: number;
-//     };
-//     description: string;
-//     category: string;
-//     likes: number;
-//     user: {
-//       name: string;
-//       avatar: string;
-//       id: string;
-//     };
-//     liked: boolean;
-//   };
-// }
+interface Props {
+  photos: string[];
+  description: string;
+  dailyPrice: number;
+  location: string;
+  title: string;
+  category: string;
+}
 
-export default function ItemCard({ item }: any) {
+export default function ItemCard({
+  photos,
+  description,
+  dailyPrice,
+  location,
+  title,
+  category,
+}: Props) {
   return (
-    <Link to={`/item/browse/`}>
-      <Card
-        sx={{
-          minHeight: 385,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-        }}
-      >
-        <CardActionArea>
-          <CardMedia
-            component='img'
-            image={item.photos[0]}
-            alt={item.name}
-            sx={{
-              height: 150,
-            }}
-          />
-          <CardContent
-            sx={{
-              textAlign: "left",
-              height: 200,
-            }}
-          >
-            <Typography gutterBottom variant='h5' component='div'>
-              {item.title}
-            </Typography>
-            <Typography variant='body2' color='text.secondary'>
-              {item.description}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions
-          sx={{
-            justifyContent: "space-between",
-            padding: "0 16px",
-          }}
-          disableSpacing
-        >
-          <Typography color='primary'>{item.location}</Typography>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <IconButton aria-label='add to favorites'>
-              <FavoriteIcon color={item.liked ? "error" : "disabled"} />
-            </IconButton>
-            <Typography fontSize={12} color='primary'>
-              {item.likes} {item.likes === 1 ? "Like" : "Likes"}
-            </Typography>
-          </Box>
-        </CardActions>
-      </Card>
-    </Link>
+    <div className='card h-[90%] shadow-xl rounded-xl bg-white h-100 transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 hover:bg-white duration-300'>
+      <figure className='h-[50%]'>
+        {photos.length > 0 ? (
+          <img src={photos[0]} className='w-50 h-50 rounded-t-xl' alt='i' />
+        ) : (
+          <div className='flex justify-center'>
+            <CameraAltOutlined
+              style={{
+                width: "66.5%",
+                height: "100%",
+              }}
+            />
+          </div>
+        )}
+      </figure>
+      <div className='card-body'>
+        <h2 className='card-title'>
+          {title}
+          <div className='badge bg-primary text-white border-primary'>
+            N$ {dailyPrice}
+          </div>
+        </h2>
+        <p>{description}</p>
+        <div className='card-actions justify-end'>
+          <div className='badge badge-outline'>Windhoek</div>
+          <div className='badge badge-outline'>{category}</div>
+        </div>
+      </div>
+    </div>
   );
 }

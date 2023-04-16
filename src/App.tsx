@@ -40,8 +40,6 @@ function App() {
     return <LoadingPage />;
   }
 
-  console.log(sessionStorage.getItem("auth0_token"));
-
   return (
     <>
       <AnimatePresence>
