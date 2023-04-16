@@ -4,8 +4,7 @@ import SearchInput from "./SearchInput";
 import MultiSelect from "../../../general/MultiSelect";
 import { connect } from "react-redux";
 import { RootState } from "../../../../store/reducers";
-import { bindActionCreators } from "@reduxjs/toolkit";
-import { useEffect, useState } from "react";
+import { Dispatch } from "@reduxjs/toolkit";
 import { Item } from "../../../../api/items";
 import { getItems } from "../../../../store/action-creators/items-action-creator";
 

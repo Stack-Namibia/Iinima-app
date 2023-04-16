@@ -20,12 +20,6 @@ export interface ItemsState {
     id: string;
     item: Item;
   };
-  items?: Item[] | undefined;
-  item?: Item;
-  updateItem?: {
-    id: string;
-    item: Item;
-  };
   errResponse?: any;
 }
 
