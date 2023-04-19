@@ -236,8 +236,9 @@ export class BrowseItems extends Component<Props> {
                       className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3'
                     >
                       {items ? (
-                        items.map((item: any) => (
+                        items.map((item: any, i: number) => (
                           <button
+                            key={i}
                             onClick={() => {
                               this.setSelectedItem(item);
                               this.setModalOpen();
