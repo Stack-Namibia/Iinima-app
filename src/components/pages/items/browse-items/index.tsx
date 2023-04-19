@@ -7,25 +7,27 @@ import { RootState } from "../../../../store/reducers";
 import { Dispatch } from "@reduxjs/toolkit";
 import { Item } from "../../../../api/items";
 import { getItems } from "../../../../store/action-creators/items-action-creator";
-
+import { loadLocations } from "../../../../store/action-creators";
 import { Component } from "react";
 import BasicModal from "../../../general/BasicModal";
 import SingleItem, { SingleItemProps } from "./SingleItem";
 import { SelectChangeEvent } from "@mui/material";
 import { arrayUnique } from "../../../../utils/data";
+import { Location } from "../../../../api/locations";
 
 interface Props {
   items: Item[] | undefined;
+  locations: Location[] | undefined;
   getItems: () => void;
   categories: string[];
-  locations: string[];
+  loadLocations: () => void;
 }
 
 interface ComponentState {
   modalOpen: boolean;
   selectedItem: Item | undefined;
   searchValue: string;
-  locations: string[];
+  locations: Location[];
   categories: string[];
 }
 
@@ -40,6 +42,7 @@ export class BrowseItems extends Component<Props> {
 
   componentDidMount(): void {
     this.props.getItems();
+    this.props.loadLocations();
 
     const regex = /\/item\/browse\/([a-f0-9-]+)/;
 
@@ -126,7 +129,8 @@ export class BrowseItems extends Component<Props> {
 
     if (this.state.locations.length > 0) {
       filteredItems = filteredItems.filter((item) => {
-        return this.state.locations.includes(item.location);
+        console.log("location: ", item.location);
+        return this.state.locations.find((l) => l.town === item.location);
       });
     }
 
@@ -142,7 +146,7 @@ export class BrowseItems extends Component<Props> {
   removeLocationOption = (option: string) => {
     this.setState((prevState: ComponentState) => ({
       ...prevState,
-      locations: prevState.locations.filter((l) => l !== option),
+      locations: prevState.locations.filter((l) => l.town !== option),
     }));
   };
 
@@ -196,9 +200,9 @@ export class BrowseItems extends Component<Props> {
               </div>
               <div className='flex-row md:flex lg:flex pl-5 pr-5'>
                 <MultiSelect
-                  data={arrayUnique(this.props.locations)}
+                  data={arrayUnique(this.props.locations?.map((l) => l.town))}
                   label={"Locations"}
-                  options={locations}
+                  options={locations.map((l) => l.town)}
                   handleChange={this.handleLocationsChange}
                 />
                 <MultiSelect
@@ -232,8 +236,9 @@ export class BrowseItems extends Component<Props> {
                       className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3'
                     >
                       {items ? (
-                        items.map((item: any) => (
+                        items.map((item: any, i: number) => (
                           <button
+                            key={i}
                             onClick={() => {
                               this.setSelectedItem(item);
                               this.setModalOpen();
@@ -268,11 +273,12 @@ export class BrowseItems extends Component<Props> {
 const mapStateToProps = (state: RootState) => ({
   items: state.items.items,
   categories: state.items.items?.map((item) => item.category) ?? [],
-  locations: state.items.items?.map((item) => item.location) ?? [],
+  locations: state.location.locations,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
   getItems: () => dispatch(getItems()),
+  loadLocations: () => dispatch(loadLocations()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BrowseItems);

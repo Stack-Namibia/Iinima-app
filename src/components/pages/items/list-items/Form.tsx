@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactDropzone from "react-dropzone";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Input } from "../../../general/Input";
@@ -10,6 +10,9 @@ import photoUploadImage from "../../../../assets/photo-upload.svg";
 import { InfoText } from "../../../general/InfoText";
 import { BasicSelect } from "../../../general/BasicSelect";
 import * as ItemActionsCreator from "../../../../store/action-creators/items-action-creator";
+import * as LocationActionCreator from "../../../../store/action-creators";
+import { RootState } from "../../../../store/reducers";
+import { Location } from "../../../../api/locations";
 
 const categoriesMock = [
   {
@@ -26,30 +29,20 @@ const categoriesMock = [
   },
 ];
 
-const addressesMock = [
-  {
-    value: "6sdafsid7fshd1",
-    label: "Windhoek",
-  },
-  {
-    value: "6sdafsid7fshd2",
-    label: "Katima Mulilo",
-  },
-  {
-    value: "6sdafsid7fshd3",
-    label: "Oshakati",
-  },
-];
-
 const Form = () => {
   const { user } = useAuth0();
   const dispatch = useDispatch();
 
+  const { locations } = useSelector((state: RootState) => state.location);
+
   const { createItem } = bindActionCreators(ItemActionsCreator, dispatch);
+  const { loadLocations } = bindActionCreators(LocationActionCreator, dispatch);
 
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
-  const [location, setLocation] = useState("");
+  const [localLocations, setLocalLocations] = useState<Location[] | undefined>(
+    []
+  );
   const [description, setDescription] = useState("");
   const [dailyPrice, setDailyPrice] = useState("");
   const [weeklyPrice, setWeeklyPrice] = useState("");
@@ -61,6 +54,8 @@ const Form = () => {
     Array(4).fill({ file: null, preview: "" })
   ); // This is the array that will hold the images
   const [isLoading, setIsLoading] = useState(false);
+  const [location, setLocation] = useState<any>([]);
+
   const handleSubmit = async (e: any) => {
     // This function sends the data to the backend
     e.preventDefault();
@@ -98,6 +93,15 @@ const Form = () => {
     setMiniRentalDays("");
     setPhotos(Array(4).fill({ file: null, preview: "" }));
   };
+
+  useEffect(() => {
+    loadLocations();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    setLocalLocations(locations);
+  }, [locations]);
 
   return (
     <div className='flex items-center justify-center p-6 max-w-2xl'>
@@ -247,7 +251,14 @@ const Form = () => {
               required
             />
             <BasicSelect
-              items={addressesMock}
+              items={
+                localLocations
+                  ? localLocations.map((l) => ({
+                      label: l.town,
+                      value: l.town,
+                    }))
+                  : []
+              }
               text={"Address"}
               onChange={setLocation}
               value={location}
