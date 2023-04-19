@@ -7,7 +7,7 @@ import { RootState } from "../../../../store/reducers";
 import { Dispatch } from "@reduxjs/toolkit";
 import { Item } from "../../../../api/items";
 import { getItems } from "../../../../store/action-creators/items-action-creator";
-
+import { loadLocations } from "../../../../store/action-creators";
 import { Component } from "react";
 import BasicModal from "../../../general/BasicModal";
 import SingleItem, { SingleItemProps } from "./SingleItem";
@@ -268,11 +268,12 @@ export class BrowseItems extends Component<Props> {
 const mapStateToProps = (state: RootState) => ({
   items: state.items.items,
   categories: state.items.items?.map((item) => item.category) ?? [],
-  locations: state.items.items?.map((item) => item.location) ?? [],
+  locations: state.location.locations,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
   getItems: () => dispatch(getItems()),
+  loadLocations: () => dispatch(loadLocations()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BrowseItems);
