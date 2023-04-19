@@ -6,59 +6,57 @@
  * @desc [description]
  */
 
-
 import { Location } from "../../api/locations";
 import { LocationActionTypes } from "../action-types/locations-action-type";
 
 interface SyncLocations {
-    type: LocationActionTypes.SYNC_LOCATIONS;
-    payload?: Location[];
+  type: LocationActionTypes.SYNC_LOCATIONS;
+  payload?: any[];
 }
 
 interface CreateLocationAction {
-    type: LocationActionTypes.CREATE_LOCATION;
+  type: LocationActionTypes.CREATE_LOCATION;
 }
 
 interface LocationAddedSuccessAction {
-    type: LocationActionTypes.LOCATION_SUCCESS;
-    payload?: Location;
+  type: LocationActionTypes.LOCATION_SUCCESS;
+  payload?: Location;
 }
 
 interface GetLocationsAction {
-    type: LocationActionTypes.GET_ALL_LOCATIONS;
-    payload?: Location[];
+  type: LocationActionTypes.GET_ALL_LOCATIONS;
+  payload?: any;
 }
 
 interface GetSelectedLocationAction {
-    type: LocationActionTypes.GET_SELECTED_LOCATION;
-    payload?: Location;
+  type: LocationActionTypes.GET_SELECTED_LOCATION;
+  payload?: Location;
 }
 
 interface UpdateLocationAction {
-    type: LocationActionTypes.UPDATE_LOCATION;
-    payload?: {
-        id: string;
-        location: Location;
-    };
+  type: LocationActionTypes.UPDATE_LOCATION;
+  payload?: {
+    id: string;
+    location: Location;
+  };
 }
 
 interface CreateLocationErrorAction {
-    type: LocationActionTypes.CREATE_LOCATION_ERROR;
-    payload?: any;
+  type: LocationActionTypes.CREATE_LOCATION_ERROR;
+  payload?: any;
 }
 
 interface SyncLocationsErrorAction {
-    type: LocationActionTypes.SYNC_LOCATIONS_ERROR;
-    payload?: any;
+  type: LocationActionTypes.SYNC_LOCATIONS_ERROR;
+  payload?: any;
 }
 
 export type LocationAction =
-    | GetLocationsAction
-    | CreateLocationAction
-    | SyncLocations
-    | SyncLocationsErrorAction
-    | LocationAddedSuccessAction
-    | GetSelectedLocationAction
-    | UpdateLocationAction
-    | CreateLocationErrorAction;
-
+  | GetLocationsAction
+  | CreateLocationAction
+  | SyncLocations
+  | SyncLocationsErrorAction
+  | LocationAddedSuccessAction
+  | GetSelectedLocationAction
+  | UpdateLocationAction
+  | CreateLocationErrorAction;
