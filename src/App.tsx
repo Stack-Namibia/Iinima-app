@@ -35,13 +35,13 @@ function App() {
     }
   }, [getAccessTokenSilently, history, isAuthenticated, user]);
 
-  if (isAuthenticated) {
-    if (user) {
-      if (user.phone_number === undefined) {
-        return <AfterAuth />;
-      }
-    }
-  }
+  // if (isAuthenticated) {
+  //   if (user) {
+  //     if (user.phone_number === undefined) {
+  //       return <AfterAuth />;
+  //     }
+  //   }
+  // }
 
   if (error) {
     return <HttpError />;

@@ -48,6 +48,11 @@ function reducer(
         ...state,
         user: action.payload,
       };
+    case AuthActionTypes.CREATE_USER:
+      return {
+        ...state,
+        user: action.payload,
+      };
     default:
       return state;
   }

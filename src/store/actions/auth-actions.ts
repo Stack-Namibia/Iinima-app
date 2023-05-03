@@ -23,9 +23,15 @@ interface GetUserAction {
   payload: any;
 }
 
+interface CreateUserAction {
+  type: AuthActionTypes.CREATE_USER;
+  payload: any;
+}
+
 export type AuthAction =
   | LoginRequestAction
   | LoginSucessAction
   | LoginFailureAction
   | LogoutAction
-  | GetUserAction;
+  | GetUserAction
+  | CreateUserAction;

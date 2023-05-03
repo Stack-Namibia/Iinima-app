@@ -4,4 +4,5 @@ export enum AuthActionTypes {
   LOGIN_FAILURE = "login-failure",
   LOGOUT = "logout",
   GET_USER = "get-user",
+  CREATE_USER = "create-user",
 }

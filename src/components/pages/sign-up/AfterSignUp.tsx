@@ -1,11 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { TextField } from "@mui/material";
-import React, { Dispatch, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Button } from "../../general/Button";
 import { useAuth0 } from "@auth0/auth0-react";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/reducers";
-import { fetchUser } from "../../../utils/api/accounts-service";
-import { getUser } from "../../../store/action-creators";
 import { User } from "../../../api/accounts";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import * as authActionCreators from "../../../store/action-creators/auth-action-creators";

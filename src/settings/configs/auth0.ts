@@ -3,8 +3,6 @@ import auth0ConfigsEncoded from "./auth0-configs.json";
 import { history } from "../../utils";
 
 const onRedirectCallBack = (appState: any) => {
-  //set token in local storage
-
   history.push(
     appState && appState.returnTo ? appState.returnTo : window.location.pathname
   );
