@@ -18,4 +18,14 @@ interface LogoutAction {
   type: AuthActionTypes.LOGOUT;
 }
 
-export type AuthAction = LoginRequestAction  | LoginSucessAction | LoginFailureAction | LogoutAction;
+interface GetUserAction {
+  type: AuthActionTypes.GET_USER;
+  payload: any;
+}
+
+export type AuthAction =
+  | LoginRequestAction
+  | LoginSucessAction
+  | LoginFailureAction
+  | LogoutAction
+  | GetUserAction;

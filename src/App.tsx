@@ -2,7 +2,7 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import { Route, Switch, useLocation } from "react-router-dom";
+import { Route, Switch, useHistory, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { AnimatePresence } from "framer-motion";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -11,10 +11,12 @@ import routes from "./settings/routes";
 import LoadingPage from "./components/pages/loading-page";
 import HttpError from "./components/pages/http-error";
 import { useEffect } from "react";
+import AfterAuth from "./components/pages/sign-up/AfterSignUp";
 
 function App() {
   const location = useLocation();
-  const { isLoading, error, getAccessTokenSilently, isAuthenticated } =
+  const history = useHistory();
+  const { isLoading, error, getAccessTokenSilently, isAuthenticated, user } =
     useAuth0();
 
   useEffect(() => {
@@ -29,8 +31,17 @@ function App() {
 
     if (isAuthenticated) {
       getToken();
+      // redirect to enter phone number if not entered
     }
-  }, [getAccessTokenSilently, isAuthenticated]);
+  }, [getAccessTokenSilently, history, isAuthenticated, user]);
+
+  if (isAuthenticated) {
+    if (user) {
+      if (user.phone_number === undefined) {
+        return <AfterAuth />;
+      }
+    }
+  }
 
   if (error) {
     return <HttpError />;

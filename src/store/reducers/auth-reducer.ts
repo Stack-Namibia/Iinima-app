@@ -43,6 +43,11 @@ function reducer(
       };
     case AuthActionTypes.LOGOUT:
       return { isLoggedIn: false, isLoading: false, isError: false };
+    case AuthActionTypes.GET_USER:
+      return {
+        ...state,
+        user: action.payload,
+      };
     default:
       return state;
   }

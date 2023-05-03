@@ -1,11 +1,12 @@
 import { Dispatch } from "@reduxjs/toolkit";
-import { User} from "../../api/accounts";
+import { User, UsersApi } from "../../api/accounts";
 import { AuthActionTypes } from "../action-types/auth-action-type";
 import { AuthAction } from "../actions/auth-actions";
 import { logout as signOut } from "../../utils/firebase";
 import { createUserByEmail } from "../../utils/auth/firebase-auth";
 import { googleAuth } from "../../utils/auth/firebase-auth";
 import { emailAuth } from "../../utils/auth/firebase-auth";
+import { fetchUser } from "../../utils/api/accounts-service";
 
 export const authEmailAndPassword = (
   email: string,
@@ -81,7 +82,6 @@ export const signInEmail = (email: string, password: string) => {
   };
 };
 
-
 export const setAuthUser = (user: User) => {
   return (dispatch: Dispatch<AuthAction>) => {
     try {
@@ -104,6 +104,22 @@ export const logout = () => {
           type: AuthActionTypes.LOGOUT,
           payload: null,
         });
+      });
+    } catch (error) {
+      //alert here
+      console.log(error);
+    }
+  };
+};
+
+export const getUser = (id: string) => {
+  return async (dispatch: Dispatch<AuthAction>) => {
+    try {
+      const data = await fetchUser(id);
+
+      dispatch({
+        type: AuthActionTypes.GET_USER,
+        payload: data,
       });
     } catch (error) {
       //alert here
