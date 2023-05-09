@@ -1,3 +1,4 @@
+import { User } from "../../api/accounts";
 import { AuthActionTypes } from "../action-types/auth-action-type";
 import { AuthAction } from "../actions/auth-actions";
 
@@ -5,7 +6,7 @@ interface AuthState {
   isLoggedIn: boolean;
   isLoading: boolean;
   isError: boolean;
-  user?: any;
+  user?: User;
   error?: any;
 }
 

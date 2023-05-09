@@ -17,7 +17,6 @@ const providerConfig = {
   authorizationParams: {
     redirect_uri: window.location.origin,
     audience: auth0Configs.audience,
-    scope: "update:current_user_metadata",
   },
 };
 

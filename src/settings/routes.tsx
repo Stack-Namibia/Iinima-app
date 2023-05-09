@@ -4,10 +4,7 @@ import Home from "../components/pages/Landing-page";
 import ListItem from "../components/pages/items/list-items";
 import Profile from "../components/pages/profile";
 import ProfileEdit from "../components/pages/profile/edit";
-import SignIn from "../components/pages/sign-in";
-import SignUp from "../components/pages/sign-up";
 import HowItWorks from "../components/pages/how-it-works";
-import AfterAuth from "../components/pages/sign-up/AfterSignUp";
 
 const routes = [
   {
@@ -15,18 +12,6 @@ const routes = [
     exact: true,
     element: <Home />,
     key: "Home",
-  },
-  {
-    path: "/signin",
-    exact: true,
-    element: <SignIn />,
-    key: "SignIn",
-  },
-  {
-    path: "/signup",
-    exact: true,
-    element: <SignUp />,
-    key: "SignUp",
   },
   {
     path: "/profile",
@@ -68,11 +53,6 @@ const routes = [
     exact: true,
     element: <BrowseItems />,
     key: "ListItem",
-  },
-  {
-    path: "/register",
-    exact: true,
-    element: <AfterAuth />,
   },
 ];
 

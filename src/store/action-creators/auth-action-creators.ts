@@ -121,9 +121,13 @@ export const getUser = (id: string) => {
         type: AuthActionTypes.GET_USER,
         payload: data,
       });
-    } catch (error) {
-      //alert here
-      console.log(error);
+    } catch (error: any) {
+      if (error.response.status === 404) {
+        dispatch({
+          type: AuthActionTypes.GET_USER,
+          payload: null,
+        });
+      }
     }
   };
 };

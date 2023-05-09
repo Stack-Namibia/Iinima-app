@@ -2,7 +2,7 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import { Route, Switch, useHistory, useLocation } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { AnimatePresence } from "framer-motion";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -10,14 +10,25 @@ import "./App.css";
 import routes from "./settings/routes";
 import LoadingPage from "./components/pages/loading-page";
 import HttpError from "./components/pages/http-error";
-import { useEffect } from "react";
-import AfterAuth from "./components/pages/sign-up/AfterSignUp";
+import { useEffect, useState } from "react";
+import * as AuthActionCreators from "./store/action-creators/auth-action-creators";
+import { useDispatch, useSelector } from "react-redux";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import { RootState } from "./store/reducers";
+import SignUp from "./components/pages/sign-up";
 
 function App() {
   const location = useLocation();
-  const history = useHistory();
   const { isLoading, error, getAccessTokenSilently, isAuthenticated, user } =
     useAuth0();
+
+  const dispatch = useDispatch();
+
+  const { user: dbUser } = useSelector((state: RootState) => state.authUser);
+
+  const { getUser } = bindActionCreators(AuthActionCreators, dispatch);
+
+  const [localUser, setLocalUser] = useState<any>(null);
 
   useEffect(() => {
     const getToken = async () => {
@@ -31,17 +42,22 @@ function App() {
 
     if (isAuthenticated) {
       getToken();
-      // redirect to enter phone number if not entered
+      if (user?.sub) {
+        getUser(user?.sub);
+      }
     }
-  }, [getAccessTokenSilently, history, isAuthenticated, user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getAccessTokenSilently, isAuthenticated]);
 
-  // if (isAuthenticated) {
-  //   if (user) {
-  //     if (user.phone_number === undefined) {
-  //       return <AfterAuth />;
-  //     }
-  //   }
-  // }
+  useEffect(() => {
+    if (dbUser) {
+      setLocalUser(dbUser);
+    }
+  }, [dbUser, localUser]);
+
+  if (!dbUser && user) {
+    return <SignUp />;
+  }
 
   if (error) {
     return <HttpError />;

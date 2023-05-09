@@ -20,7 +20,7 @@ function AfterAuth() {
   const userState = useSelector((state: RootState) => state.authUser);
   const dispatch = useDispatch();
   const { getUser } = bindActionCreators(authActionCreators, dispatch);
-  const [user, setUser] = React.useState<User | null>(null);
+  const [user, setUser] = React.useState<User | undefined>({} as User);
 
   const [phoneNumber, setPhoneNumber] = React.useState("");
   const { user: auth0User } = useAuth0();

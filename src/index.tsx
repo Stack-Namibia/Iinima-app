@@ -9,9 +9,6 @@ import store from "./store";
 import "./index.css";
 import App from "./App";
 import { configs } from "./settings/configs";
-import { createUser, fetchUser } from "./utils/api/accounts-service";
-import { AuthActionTypes } from "./store/action-types/auth-action-type";
-import { addUser } from "./store/action-creators";
 
 const theme = createTheme({
   palette: {
@@ -42,40 +39,6 @@ root.render(
           cookieDomain='iinima.app'
           useRefreshTokens={true}
           cacheLocation='memory'
-          onRedirectCallback={async (appState, user) => {
-            if (user?.sub) {
-              try {
-                const dbUser = await fetchUser(user?.sub);
-                if (dbUser) {
-                  store.dispatch({
-                    type: AuthActionTypes.GET_USER,
-                    payload: dbUser,
-                  });
-                }
-              } catch (error: any) {
-                switch (error.response.status) {
-                  case 404:
-                    window.history.replaceState(
-                      {},
-                      document.title,
-                      "/register"
-                    );
-                    // eslint-disable-next-line no-restricted-globals
-                    location.reload();
-                    break;
-
-                  default:
-                    console.error(error);
-                    break;
-                }
-              }
-            }
-            window.history.replaceState(
-              {},
-              document.title,
-              appState?.returnTo || window.location.pathname
-            );
-          }}
         >
           <App />
         </Auth0Provider>
