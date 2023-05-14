@@ -1,5 +1,4 @@
 import { Dispatch } from "@reduxjs/toolkit";
-import { Item } from "../../api/items";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../plugins/firebase";
 import {

@@ -126,8 +126,8 @@ export const Couresal = ({ photos }: CouresalProps) => {
   return (
     <div className='carousel'>
       {photos?.length > 0 ? (
-        photos?.map((photo) => (
-          <div id='item1' className='carousel-item w-full h-[]'>
+        photos?.map((photo, i) => (
+          <div id={`item${0}`} className='carousel-item w-full h-[]'>
             <img src={photo} className='w-full' alt='name' />
           </div>
         ))
