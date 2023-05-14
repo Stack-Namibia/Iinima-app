@@ -6,6 +6,7 @@ import {
 } from "@mui/icons-material";
 import VerticalDivider from "../../../general/VerticalDivider";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Link } from "react-router-dom";
 
 export interface SingleItemProps {
   title: string;
@@ -36,9 +37,6 @@ function SingleItem({
 
   const userItem = user?.sub === user_id;
 
-  console.log(user?.sub);
-  console.log(user_id);
-
   return (
     <div className='overflow-auto h-full'>
       <div className='flex-row'>
@@ -50,9 +48,9 @@ function SingleItem({
                 {title}
                 {"  "}
                 {userItem && (
-                  <button>
+                  <Link to={`/item/edit/${_id}`}>
                     <EditOutlined className='hover:text-primary' />
-                  </button>
+                  </Link>
                 )}
                 <div className='badge badge-outline bg-primary border-primary text-white my-auto'>
                   {location}

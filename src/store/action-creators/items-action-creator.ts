@@ -72,8 +72,16 @@ export const getItem = (id: string) => {
         type: ItemsActionTypes.GET_SELECTED_ITEM,
         payload: data,
       });
+      dispatch({
+        type: ItemsActionTypes.ITEM_SUCCESS,
+        payload: data as any,
+      });
     } catch (error) {
       //alert here
+      dispatch({
+        type: ItemsActionTypes.ITEM_SUCCESS,
+        payload: error as any,
+      });
       console.log(error);
     }
   };

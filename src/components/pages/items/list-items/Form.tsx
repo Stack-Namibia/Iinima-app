@@ -13,6 +13,8 @@ import * as ItemActionsCreator from "../../../../store/action-creators/items-act
 import * as LocationActionCreator from "../../../../store/action-creators";
 import { RootState } from "../../../../store/reducers";
 import { Location } from "../../../../api/locations";
+import { Item } from "../../../../api/items";
+import { extractUUIDFromString } from "../../../../utils/data";
 
 const categoriesMock = [
   {
@@ -34,8 +36,12 @@ const Form = () => {
   const dispatch = useDispatch();
 
   const { locations } = useSelector((state: RootState) => state.location);
+  const { item, isLoading } = useSelector((state: RootState) => state.items);
 
-  const { createItem } = bindActionCreators(ItemActionsCreator, dispatch);
+  const { createItem, getItem } = bindActionCreators(
+    ItemActionsCreator,
+    dispatch
+  );
   const { loadLocations } = bindActionCreators(LocationActionCreator, dispatch);
 
   const [title, setTitle] = useState("");
@@ -44,37 +50,39 @@ const Form = () => {
     []
   );
   const [description, setDescription] = useState("");
-  const [dailyPrice, setDailyPrice] = useState("");
-  const [weeklyPrice, setWeeklyPrice] = useState("");
-  const [monthlyPrice, setMonthlyPrice] = useState("");
-  const [itemValue, setItemValue] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [miniRentalDays, setMiniRentalDays] = useState("");
+  const [dailyPrice, setDailyPrice] = useState(0);
+  const [weeklyPrice, setWeeklyPrice] = useState(0);
+  const [monthlyPrice, setMonthlyPrice] = useState(0);
+  const [itemValue, setItemValue] = useState(0);
+  const [quantity, setQuantity] = useState(0);
+  const [miniRentalDays, setMiniRentalDays] = useState(0);
   const [photos, setPhotos] = useState<{ file: any; preview: string }[]>(
     Array(4).fill({ file: null, preview: "" })
   ); // This is the array that will hold the images
-  const [isLoading, setIsLoading] = useState(false);
   const [location, setLocation] = useState<any>([]);
+  const [editForm, setEditForm] = useState(false);
 
   const handleSubmit = async (e: any) => {
     // This function sends the data to the backend
     e.preventDefault();
-
-    createItem({
-      title,
-      category,
-      location,
-      description,
-      dailyPrice,
-      weeklyPrice,
-      monthlyPrice,
-      itemValue,
-      quantity,
-      miniRentalDays,
-      photos,
-      user_id: user?.sub,
-    });
-    setIsLoading(false);
+    if (editForm) {
+      console.log("edited form");
+    } else {
+      createItem({
+        title,
+        category,
+        location,
+        description,
+        dailyPrice,
+        weeklyPrice,
+        monthlyPrice,
+        itemValue,
+        quantity,
+        miniRentalDays,
+        photos,
+        user_id: user?.sub,
+      });
+    }
     handleCancel();
   };
 
@@ -85,13 +93,28 @@ const Form = () => {
     setCategory("");
     setLocation("");
     setDescription("");
-    setDailyPrice("");
-    setWeeklyPrice("");
-    setMonthlyPrice("");
-    setItemValue("");
-    setQuantity("");
-    setMiniRentalDays("");
+    setDailyPrice(0);
+    setWeeklyPrice(0);
+    setMonthlyPrice(0);
+    setItemValue(0);
+    setQuantity(0);
+    setMiniRentalDays(0);
     setPhotos(Array(4).fill({ file: null, preview: "" }));
+  };
+
+  const setEditItem = (item: Item) => {
+    // This function sets the values of the input fields to the values of the item being edited
+
+    setTitle(item.title);
+    setCategory(item.category);
+    setLocation(item.location);
+    setDescription(item.description ?? "");
+    setDailyPrice(item.dailyPrice);
+    setWeeklyPrice(item.weeklyPrice);
+    setMonthlyPrice(item.monthlyPrice);
+    setItemValue(item.itemValue ?? 0);
+    setMiniRentalDays(item.miniRentalDays);
+    // setPhotos(item.photos);
   };
 
   useEffect(() => {
@@ -101,6 +124,22 @@ const Form = () => {
 
   useEffect(() => {
     setLocalLocations(locations);
+
+    // Get items id parameter from path
+    const path = window.location.pathname;
+    const itemId = extractUUIDFromString(path);
+
+    console.log(itemId);
+
+    if (itemId) {
+      setEditForm(true);
+      getItem(itemId);
+
+      if (item) {
+        setEditItem(item);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locations]);
 
   return (
@@ -357,7 +396,11 @@ const Form = () => {
               />
             </Grid>
             <Grid item xs={6}>
-              <Button text='List item' type='submit' loading={isLoading} />
+              {editForm ? (
+                <Button text='Update item' type='submit' loading={isLoading} />
+              ) : (
+                <Button text='List item' type='submit' loading={isLoading} />
+              )}
             </Grid>
           </Grid>
         </form>
