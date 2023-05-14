@@ -1,5 +1,12 @@
-import { CameraAltOutlined, Phone, WhatsApp } from "@mui/icons-material";
+import {
+  CameraAltOutlined,
+  Edit,
+  EditOutlined,
+  Phone,
+  WhatsApp,
+} from "@mui/icons-material";
 import VerticalDivider from "../../../general/VerticalDivider";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export interface SingleItemProps {
   title: string;
@@ -26,6 +33,13 @@ function SingleItem({
   userId,
   itemId,
 }: SingleItemProps) {
+  const { user } = useAuth0();
+
+  const userItem = user?.sub === userId;
+
+  console.log(user?.sub);
+  console.log(userId);
+
   return (
     <div className='overflow-auto h-full'>
       <div className='flex-row'>
@@ -34,7 +48,13 @@ function SingleItem({
           <div className='flex-row mt-3 w-full'>
             <div className='flex-auto justify-between sm:flex'>
               <div className=' flex-auto space-x-1 font-bold text-2xl text-black '>
-                {title}{" "}
+                {title}
+                {"  "}
+                {userItem && (
+                  <button>
+                    <EditOutlined className='hover:text-primary' />
+                  </button>
+                )}
                 <div className='badge badge-outline bg-primary border-primary text-white my-auto'>
                   {location}
                 </div>
