@@ -361,7 +361,7 @@ export const ItemsApiAxiosParamCreator = function (
           "Required parameter id was null or undefined when calling updateItemApiV1IdPut."
         );
       }
-      const localVarPath = `/api/v1/{id}`.replace(
+      const localVarPath = `{id}`.replace(
         `{${"id"}}`,
         encodeURIComponent(String(id))
       );
@@ -578,6 +578,8 @@ export const ItemsApiFp = function (configuration?: Configuration) {
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH
       ) => {
+        console.log("localVarAxiosArgs", localVarAxiosArgs);
+        console.log("URL", basePath + localVarAxiosArgs.url);
         const axiosRequestArgs: AxiosRequestConfig = {
           ...localVarAxiosArgs.options,
           url: basePath + localVarAxiosArgs.url,

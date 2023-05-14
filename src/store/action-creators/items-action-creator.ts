@@ -87,9 +87,31 @@ export const getItem = (id: string) => {
   };
 };
 
-export const updateItem = (id: string, item: Item) => {
+export const updateItem = (
+  id: string,
+  options: {
+    item: any;
+    currentPhotos: string[];
+  }
+) => {
   return async (dispatch: Dispatch<ItemsAction>) => {
+    const { item, currentPhotos } = options;
     try {
+      const metadata = await uploadImages(
+        item.photos,
+        item.user_id,
+        item.title
+      );
+
+      const photoUrls: Array<string> = await Promise.all(
+        metadata.map(async ({ metadata }: any) => {
+          const url = await getDownloadURL(ref(storage, metadata.fullPath));
+          return url;
+        })
+      );
+
+      item.photos = [...currentPhotos, ...photoUrls];
+
       dispatch({
         type: ItemsActionTypes.UPDATE_ITEM,
         payload: {

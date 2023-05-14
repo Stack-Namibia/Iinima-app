@@ -38,7 +38,7 @@ const Form = () => {
   const { locations } = useSelector((state: RootState) => state.location);
   const { item, isLoading } = useSelector((state: RootState) => state.items);
 
-  const { createItem, getItem } = bindActionCreators(
+  const { createItem, getItem, updateItem } = bindActionCreators(
     ItemActionsCreator,
     dispatch
   );
@@ -67,7 +67,25 @@ const Form = () => {
     // This function sends the data to the backend
     e.preventDefault();
     if (editForm) {
-      console.log("edited form");
+      if (item && item._id) {
+        updateItem(item._id, {
+          item: {
+            title,
+            category,
+            location,
+            description,
+            dailyPrice,
+            weeklyPrice,
+            monthlyPrice,
+            itemValue,
+            quantity,
+            miniRentalDays,
+            photos,
+            user_id: user?.sub,
+          },
+          currentPhotos: editItemsPhotos,
+        });
+      }
     } else {
       createItem({
         title,
