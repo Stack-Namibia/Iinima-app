@@ -10,4 +10,17 @@ const arrayUnique = (arr: unknown[] | undefined) => {
   return arr.filter((item, index) => arr.indexOf(item) === index);
 };
 
-export { arrayUnique };
+/**
+ * @description - Extracts a UUID from a string
+ * @param inputString - The string to be processed
+ * @returns - The UUID extracted from the string
+ */
+const extractObjectIdFromString = (inputString: string): string | null => {
+  console.log(inputString);
+  const uuidPattern = /[0-9a-fA-F]{24}/;
+  const match = inputString.match(uuidPattern);
+  console.log(match);
+  return match ? match[0] : null;
+};
+
+export { arrayUnique, extractObjectIdFromString as extractUUIDFromString };

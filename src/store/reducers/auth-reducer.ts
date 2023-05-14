@@ -24,12 +24,14 @@ function reducer(
   switch (action.type) {
     case AuthActionTypes.LOGIN_REQUEST:
       return {
+        ...state,
         isLoggedIn: false,
         isLoading: true,
         isError: false,
       };
     case AuthActionTypes.LOGIN_SUCCESS:
       return {
+        ...state,
         isLoggedIn: true,
         isLoading: false,
         isError: false,
@@ -37,6 +39,7 @@ function reducer(
       };
     case AuthActionTypes.LOGIN_FAILURE:
       return {
+        ...state,
         isLoggedIn: false,
         isLoading: false,
         isError: true,

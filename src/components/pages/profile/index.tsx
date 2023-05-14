@@ -1,13 +1,22 @@
 import styled from "styled-components";
-import { Edit as PencilIcon } from "@mui/icons-material";
+// import { Edit as PencilIcon } from "@mui/icons-material";
 import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import ApplicationWrapper from "../../general/ApplicationWrapper";
 import withAuth from "../../auth";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store/reducers";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import * as ItemActionsCreator from "../../../store/action-creators/items-action-creator";
+import { Item } from "../../../api/items";
+import { useAuth0 } from "@auth0/auth0-react";
+import ItemCard from "../../general/ItemCard";
+import BasicModal from "../../general/BasicModal";
+import SingleItem from "../items/browse-items/SingleItem";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -62,15 +71,48 @@ const profile: any = {
 };
 
 const Profile = () => {
+  const { user } = useAuth0();
+  const { items } = useSelector((state: RootState) => state.items);
+  const { getItems } = bindActionCreators(ItemActionsCreator, useDispatch());
   const [value, setValue] = React.useState(0);
+  const [localItems, setLocalItems] = React.useState<Item[] | undefined>(
+    undefined
+  );
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const [selectedItem, setselectedItem] = React.useState<any>();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
+  const handleSetModalOpen = () => {
+    setModalOpen(!modalOpen);
+  };
+
+  const setSelectedItem = (item: Item) => {
+    setselectedItem(item);
+  };
+
+  React.useEffect(() => {
+    getItems();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  React.useEffect(() => {
+    const userItems = items?.filter((item) => item.user_id === user?.sub);
+    setLocalItems(userItems);
+  }, [items, user]);
+
   return (
     <>
       <ApplicationWrapper>
+        <BasicModal
+          open={modalOpen}
+          handleClose={handleSetModalOpen}
+          width={700}
+        >
+          {<SingleItem {...selectedItem} />}
+        </BasicModal>
         <div className='flex h-screen'>
           <div className='flex min-w-0 flex-1 flex-col overflow-hidden'>
             <div className='lg:hidden'>
@@ -103,7 +145,7 @@ const Profile = () => {
                               {profile.name}
                             </Name>
                           </div>
-                          <div className='justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4'>
+                          {/* <div className='justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4'>
                             <Link to={"/profile/edit"}>
                               <EditButton
                                 type='button'
@@ -116,7 +158,7 @@ const Profile = () => {
                                 <span>Edit Profile</span>
                               </EditButton>
                             </Link>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                       <div className='mt-6 hidden min-w-0 flex-1 sm:block 2xl:hidden'>
@@ -183,7 +225,34 @@ const Profile = () => {
                           </dl>
                         </TabPanel>
                         <TabPanel value={value} index={1}>
-                          Listed Items
+                          <div
+                            role='list'
+                            className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3'
+                          >
+                            {localItems && (
+                              <>
+                                {localItems.map((item: Item, i) => (
+                                  <button
+                                    key={i}
+                                    onClick={() => {
+                                      setSelectedItem(item);
+                                      handleSetModalOpen();
+                                    }}
+                                    className='text-left'
+                                  >
+                                    <ItemCard
+                                      photos={item.photos}
+                                      description={item.description || ""}
+                                      dailyPrice={item.dailyPrice}
+                                      location={item.location}
+                                      title={item.title}
+                                      category={item.category}
+                                    />
+                                  </button>
+                                ))}
+                              </>
+                            )}
+                          </div>
                         </TabPanel>
                         <TabPanel value={value} index={2}>
                           Favourites
@@ -201,12 +270,12 @@ const Profile = () => {
   );
 };
 
-const EditButton = styled.button`
-  background-color: #d63e3e;
-  &:hover {
-    color: #5e8797;
-  }
-`;
+// const EditButton = styled.button`
+//   background-color: #d63e3e;
+//   &:hover {
+//     color: #5e8797;
+//   }
+// `;
 
 const Name = styled.h1`
   color: #5e8797;

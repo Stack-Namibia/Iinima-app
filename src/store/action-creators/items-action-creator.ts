@@ -1,5 +1,4 @@
 import { Dispatch } from "@reduxjs/toolkit";
-import { Item } from "../../api/items";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../plugins/firebase";
 import {
@@ -72,15 +71,30 @@ export const getItem = (id: string) => {
         type: ItemsActionTypes.GET_SELECTED_ITEM,
         payload: data,
       });
+      dispatch({
+        type: ItemsActionTypes.ITEM_SUCCESS,
+        payload: data as any,
+      });
     } catch (error) {
       //alert here
+      dispatch({
+        type: ItemsActionTypes.ITEM_SUCCESS,
+        payload: error as any,
+      });
       console.log(error);
     }
   };
 };
 
-export const updateItem = (id: string, item: Item) => {
+export const updateItem = (
+  id: string,
+  options: {
+    item: any;
+    currentPhotos: string[];
+  }
+) => {
   return async (dispatch: Dispatch<ItemsAction>) => {
+    const { item, currentPhotos } = options;
     try {
       dispatch({
         type: ItemsActionTypes.UPDATE_ITEM,
@@ -89,6 +103,20 @@ export const updateItem = (id: string, item: Item) => {
           item,
         },
       });
+      const metadata = await uploadImages(
+        item.photos,
+        item.user_id,
+        item.title
+      );
+
+      const photoUrls: Array<string> = await Promise.all(
+        metadata.map(async ({ metadata }: any) => {
+          const url = await getDownloadURL(ref(storage, metadata.fullPath));
+          return url;
+        })
+      );
+
+      item.photos = [...currentPhotos, ...photoUrls].slice(-4);
       const data = await updateItemById(item, id);
       dispatch({
         type: ItemsActionTypes.ITEM_SUCCESS,

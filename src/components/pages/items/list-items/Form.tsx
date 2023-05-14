@@ -13,6 +13,8 @@ import * as ItemActionsCreator from "../../../../store/action-creators/items-act
 import * as LocationActionCreator from "../../../../store/action-creators";
 import { RootState } from "../../../../store/reducers";
 import { Location } from "../../../../api/locations";
+import { Item } from "../../../../api/items";
+import { extractUUIDFromString } from "../../../../utils/data";
 
 const categoriesMock = [
   {
@@ -34,8 +36,12 @@ const Form = () => {
   const dispatch = useDispatch();
 
   const { locations } = useSelector((state: RootState) => state.location);
+  const { item, isLoading } = useSelector((state: RootState) => state.items);
 
-  const { createItem } = bindActionCreators(ItemActionsCreator, dispatch);
+  const { createItem, getItem, updateItem } = bindActionCreators(
+    ItemActionsCreator,
+    dispatch
+  );
   const { loadLocations } = bindActionCreators(LocationActionCreator, dispatch);
 
   const [title, setTitle] = useState("");
@@ -44,37 +50,58 @@ const Form = () => {
     []
   );
   const [description, setDescription] = useState("");
-  const [dailyPrice, setDailyPrice] = useState("");
-  const [weeklyPrice, setWeeklyPrice] = useState("");
-  const [monthlyPrice, setMonthlyPrice] = useState("");
-  const [itemValue, setItemValue] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [miniRentalDays, setMiniRentalDays] = useState("");
+  const [dailyPrice, setDailyPrice] = useState(0);
+  const [weeklyPrice, setWeeklyPrice] = useState(0);
+  const [monthlyPrice, setMonthlyPrice] = useState(0);
+  const [itemValue, setItemValue] = useState(0);
+  // const [quantity, setQuantity] = useState(0);
+  const [miniRentalDays, setMiniRentalDays] = useState(0);
   const [photos, setPhotos] = useState<{ file: any; preview: string }[]>(
     Array(4).fill({ file: null, preview: "" })
-  ); // This is the array that will hold the images
-  const [isLoading, setIsLoading] = useState(false);
+  );
+  const [editItemsPhotos, setEditItemsPhotos] = useState<string[]>([]);
   const [location, setLocation] = useState<any>([]);
+  const [editForm, setEditForm] = useState(false);
 
   const handleSubmit = async (e: any) => {
     // This function sends the data to the backend
     e.preventDefault();
-
-    createItem({
-      title,
-      category,
-      location,
-      description,
-      dailyPrice,
-      weeklyPrice,
-      monthlyPrice,
-      itemValue,
-      quantity,
-      miniRentalDays,
-      photos,
-      user_id: user?.sub,
-    });
-    setIsLoading(false);
+    if (editForm) {
+      if (item && item._id) {
+        updateItem(item._id, {
+          item: {
+            title,
+            category,
+            location,
+            description,
+            dailyPrice,
+            weeklyPrice,
+            monthlyPrice,
+            itemValue,
+            // quantity,
+            miniRentalDays,
+            photos,
+            user_id: user?.sub,
+          },
+          currentPhotos: editItemsPhotos,
+        });
+      }
+    } else {
+      createItem({
+        title,
+        category,
+        location,
+        description,
+        dailyPrice,
+        weeklyPrice,
+        monthlyPrice,
+        itemValue,
+        // quantity,
+        miniRentalDays,
+        photos,
+        user_id: user?.sub,
+      });
+    }
     handleCancel();
   };
 
@@ -85,13 +112,28 @@ const Form = () => {
     setCategory("");
     setLocation("");
     setDescription("");
-    setDailyPrice("");
-    setWeeklyPrice("");
-    setMonthlyPrice("");
-    setItemValue("");
-    setQuantity("");
-    setMiniRentalDays("");
+    setDailyPrice(0);
+    setWeeklyPrice(0);
+    setMonthlyPrice(0);
+    setItemValue(0);
+    // setQuantity(0);
+    setMiniRentalDays(0);
     setPhotos(Array(4).fill({ file: null, preview: "" }));
+  };
+
+  const setEditItem = (item: Item) => {
+    // This function sets the values of the input fields to the values of the item being edited
+
+    setTitle(item.title);
+    setCategory(item.category);
+    setLocation(item.location);
+    setDescription(item.description ?? "");
+    setDailyPrice(item.dailyPrice);
+    setWeeklyPrice(item.weeklyPrice);
+    setMonthlyPrice(item.monthlyPrice);
+    setItemValue(item.itemValue ?? 0);
+    setMiniRentalDays(item.miniRentalDays);
+    setEditItemsPhotos(item.photos);
   };
 
   useEffect(() => {
@@ -101,7 +143,31 @@ const Form = () => {
 
   useEffect(() => {
     setLocalLocations(locations);
+
+    // Get items id parameter from path
+    const path = window.location.pathname;
+    const itemId = extractUUIDFromString(path);
+
+    if (itemId) {
+      setEditForm(true);
+      getItem(itemId);
+
+      if (item) {
+        setEditItem(item);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locations]);
+
+  const setPhotosPreview = (photo: any, index: number) => {
+    if (editItemsPhotos[index]) {
+      return photos[index].file
+        ? photos[index].preview
+        : editItemsPhotos[index];
+    }
+
+    return photos[index].file ? photos[index].preview : photoUploadImage;
+  };
 
   return (
     <div className='flex items-center justify-center p-6 max-w-2xl'>
@@ -111,6 +177,7 @@ const Form = () => {
           <div className='flex justify-center mb-5 mt-2 gap-2'>
             <ReactDropzone
               onDrop={(acceptedFiles) => {
+                console.log(acceptedFiles);
                 // set value at index zero in images array
                 if (acceptedFiles) {
                   setPhotos([
@@ -136,7 +203,7 @@ const Form = () => {
                     className='w-10 invisible'
                   />
                   <img
-                    src={photos[0].file ? photos[0].preview : photoUploadImage}
+                    src={setPhotosPreview(photos[0], 0)}
                     alt='logo'
                     className='w-full'
                   />
@@ -166,7 +233,7 @@ const Form = () => {
                 <div {...getRootProps()} className='cursor-pointer w-[24%]'>
                   <input {...getInputProps()} type='file' multiple />
                   <img
-                    src={photos[1].file ? photos[1].preview : photoUploadImage}
+                    src={setPhotosPreview(photos[1], 1)}
                     alt='logo'
                     className='w-full'
                   />
@@ -196,7 +263,7 @@ const Form = () => {
                 <div {...getRootProps()} className='cursor-pointer w-[24%]'>
                   <input {...getInputProps()} type='file' multiple />
                   <img
-                    src={photos[2].file ? photos[2].preview : photoUploadImage}
+                    src={setPhotosPreview(photos[2], 2)}
                     alt='logo'
                     className='w-full'
                   />
@@ -226,7 +293,7 @@ const Form = () => {
                 <div {...getRootProps()} className='cursor-pointer w-[24%]'>
                   <input {...getInputProps()} type='file' multiple />
                   <img
-                    src={photos[3].file ? photos[3].preview : photoUploadImage}
+                    src={setPhotosPreview(photos[3], 3)}
                     alt='logo'
                     className='w-full'
                   />
@@ -322,7 +389,7 @@ const Form = () => {
                 value={itemValue}
               />
             </Grid>
-            <Grid item xs={2} sm={4} md={4}>
+            {/* <Grid item xs={2} sm={4} md={4}>
               <Input
                 id='quantity'
                 label='Quantity'
@@ -331,7 +398,7 @@ const Form = () => {
                 value={quantity}
                 required
               />
-            </Grid>
+            </Grid> */}
             <Grid item xs={2} sm={4} md={4}>
               <Input
                 id='minRentalDays'
@@ -357,7 +424,11 @@ const Form = () => {
               />
             </Grid>
             <Grid item xs={6}>
-              <Button text='List item' type='submit' loading={isLoading} />
+              {editForm ? (
+                <Button text='Update item' type='submit' loading={isLoading} />
+              ) : (
+                <Button text='List item' type='submit' loading={isLoading} />
+              )}
             </Grid>
           </Grid>
         </form>

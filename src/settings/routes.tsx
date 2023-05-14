@@ -1,5 +1,4 @@
 import BrowseItems from "../components/pages/items/browse-items";
-import EditItem from "../components/pages/EditItem";
 import Home from "../components/pages/Landing-page";
 import ListItem from "../components/pages/items/list-items";
 import Profile from "../components/pages/profile";
@@ -32,9 +31,9 @@ const routes = [
     key: "HowItWorks",
   },
   {
-    path: "/item/edit",
+    path: "/item/edit/:id",
     exact: true,
-    element: <EditItem />,
+    element: <ListItem />,
     key: "EditItem",
   },
   {
