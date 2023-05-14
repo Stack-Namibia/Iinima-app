@@ -5,8 +5,13 @@ import {
   WhatsApp,
 } from "@mui/icons-material";
 import VerticalDivider from "../../../general/VerticalDivider";
-import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../../store/reducers";
+import { useEffect, useState } from "react";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import * as authActionCreators from "../../../../store/action-creators/auth-action-creators";
+import { User } from "../../../../api/accounts";
 
 export interface SingleItemProps {
   title: string;
@@ -33,9 +38,19 @@ function SingleItem({
   user_id,
   _id,
 }: SingleItemProps) {
-  const { user } = useAuth0();
+  const dispatch = useDispatch();
+  const { user: dbUser } = useSelector((state: RootState) => state.authUser);
+  const { getUser } = bindActionCreators(authActionCreators, dispatch);
+  const [user, setUser] = useState<User | undefined>(undefined);
 
-  const userItem = user?.sub === user_id;
+  useEffect(() => {
+    getUser(user_id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    setUser(dbUser);
+  }, [dbUser]);
 
   return (
     <div className='overflow-auto h-full'>
@@ -47,7 +62,7 @@ function SingleItem({
               <div className=' flex-auto space-x-1 font-bold text-2xl text-black '>
                 {title}
                 {"  "}
-                {userItem && (
+                {user?.user_id === user_id && (
                   <Link to={`/item/edit/${_id}`}>
                     <EditOutlined className='hover:text-primary' />
                   </Link>
@@ -64,7 +79,7 @@ function SingleItem({
                 <div>
                   <button>
                     <a
-                      href={`https://wa.me/264814818769?text=I'm%20interested%20in%20your%20${title}%20https%3A%2F%2F2671-160-242-75-87.ngrok-free.app/item/browse/${_id}`}
+                      href={`https://wa.me/${user?.mobileNumber}?text=I'm%20interested%20in%20your%20${title}%20https%3A%2F%2F2671-160-242-75-87.ngrok-free.app/item/browse/${_id}`}
                       target='_blank'
                       rel='noreferrer'
                     >
@@ -78,7 +93,7 @@ function SingleItem({
                   </button>
                 </div>
                 <div>
-                  <a href='tel:+264814818769'>
+                  <a href={`tel:${user?.mobileNumber}`}>
                     <button>
                       <Phone
                         sx={{
@@ -91,10 +106,10 @@ function SingleItem({
                 </div>
               </div>
               <div className='my-auto hidden sm:block'>
-                <span>+264 81 123 4567</span>
+                <span>{user?.mobileNumber}</span>
               </div>
             </div>
-            <div className='mt-3'>{user_id}</div>
+            <div className='mt-3'>{`${user?.firstName} ${user?.lastName}`}</div>
           </div>
         </div>
         <div className='mt-4'>
