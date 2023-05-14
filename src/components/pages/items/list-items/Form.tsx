@@ -58,7 +58,8 @@ const Form = () => {
   const [miniRentalDays, setMiniRentalDays] = useState(0);
   const [photos, setPhotos] = useState<{ file: any; preview: string }[]>(
     Array(4).fill({ file: null, preview: "" })
-  ); // This is the array that will hold the images
+  );
+  const [editItemsPhotos, setEditItemsPhotos] = useState<string[]>([]);
   const [location, setLocation] = useState<any>([]);
   const [editForm, setEditForm] = useState(false);
 
@@ -114,7 +115,7 @@ const Form = () => {
     setMonthlyPrice(item.monthlyPrice);
     setItemValue(item.itemValue ?? 0);
     setMiniRentalDays(item.miniRentalDays);
-    // setPhotos(item.photos);
+    setEditItemsPhotos(item.photos);
   };
 
   useEffect(() => {
@@ -129,8 +130,6 @@ const Form = () => {
     const path = window.location.pathname;
     const itemId = extractUUIDFromString(path);
 
-    console.log(itemId);
-
     if (itemId) {
       setEditForm(true);
       getItem(itemId);
@@ -142,6 +141,16 @@ const Form = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locations]);
 
+  const setPhotosPreview = (photo: any, index: number) => {
+    if (editItemsPhotos[index]) {
+      return photos[index].file
+        ? photos[index].preview
+        : editItemsPhotos[index];
+    }
+
+    return photos[index].file ? photos[index].preview : photoUploadImage;
+  };
+
   return (
     <div className='flex items-center justify-center p-6 max-w-2xl'>
       <div className='w-full'>
@@ -150,6 +159,7 @@ const Form = () => {
           <div className='flex justify-center mb-5 mt-2 gap-2'>
             <ReactDropzone
               onDrop={(acceptedFiles) => {
+                console.log(acceptedFiles);
                 // set value at index zero in images array
                 if (acceptedFiles) {
                   setPhotos([
@@ -175,7 +185,7 @@ const Form = () => {
                     className='w-10 invisible'
                   />
                   <img
-                    src={photos[0].file ? photos[0].preview : photoUploadImage}
+                    src={setPhotosPreview(photos[0], 0)}
                     alt='logo'
                     className='w-full'
                   />
@@ -205,7 +215,7 @@ const Form = () => {
                 <div {...getRootProps()} className='cursor-pointer w-[24%]'>
                   <input {...getInputProps()} type='file' multiple />
                   <img
-                    src={photos[1].file ? photos[1].preview : photoUploadImage}
+                    src={setPhotosPreview(photos[1], 1)}
                     alt='logo'
                     className='w-full'
                   />
@@ -235,7 +245,7 @@ const Form = () => {
                 <div {...getRootProps()} className='cursor-pointer w-[24%]'>
                   <input {...getInputProps()} type='file' multiple />
                   <img
-                    src={photos[2].file ? photos[2].preview : photoUploadImage}
+                    src={setPhotosPreview(photos[2], 2)}
                     alt='logo'
                     className='w-full'
                   />
@@ -265,7 +275,7 @@ const Form = () => {
                 <div {...getRootProps()} className='cursor-pointer w-[24%]'>
                   <input {...getInputProps()} type='file' multiple />
                   <img
-                    src={photos[3].file ? photos[3].preview : photoUploadImage}
+                    src={setPhotosPreview(photos[3], 3)}
                     alt='logo'
                     className='w-full'
                   />
