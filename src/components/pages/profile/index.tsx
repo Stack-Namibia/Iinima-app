@@ -14,6 +14,9 @@ import { bindActionCreators } from "@reduxjs/toolkit";
 import * as ItemActionsCreator from "../../../store/action-creators/items-action-creator";
 import { Item } from "../../../api/items";
 import { useAuth0 } from "@auth0/auth0-react";
+import ItemCard from "../../general/ItemCard";
+import BasicModal from "../../general/BasicModal";
+import SingleItem from "../items/browse-items/SingleItem";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -75,9 +78,19 @@ const Profile = () => {
   const [localItems, setLocalItems] = React.useState<Item[] | undefined>(
     undefined
   );
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const [selectedItem, setselectedItem] = React.useState<any>();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+  };
+
+  const handleSetModalOpen = () => {
+    setModalOpen(!modalOpen);
+  };
+
+  const setSelectedItem = (item: Item) => {
+    setselectedItem(item);
   };
 
   React.useEffect(() => {
@@ -93,6 +106,13 @@ const Profile = () => {
   return (
     <>
       <ApplicationWrapper>
+        <BasicModal
+          open={modalOpen}
+          handleClose={handleSetModalOpen}
+          width={700}
+        >
+          {<SingleItem {...selectedItem} />}
+        </BasicModal>
         <div className='flex h-screen'>
           <div className='flex min-w-0 flex-1 flex-col overflow-hidden'>
             <div className='lg:hidden'>
@@ -205,13 +225,34 @@ const Profile = () => {
                           </dl>
                         </TabPanel>
                         <TabPanel value={value} index={1}>
-                          {localItems && (
-                            <>
-                              {localItems.map((item: Item) => (
-                                <>{item.title}</>
-                              ))}
-                            </>
-                          )}
+                          <div
+                            role='list'
+                            className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3'
+                          >
+                            {localItems && (
+                              <>
+                                {localItems.map((item: Item, i) => (
+                                  <button
+                                    key={i}
+                                    onClick={() => {
+                                      setSelectedItem(item);
+                                      handleSetModalOpen();
+                                    }}
+                                    className='text-left'
+                                  >
+                                    <ItemCard
+                                      photos={item.photos}
+                                      description={item.description || ""}
+                                      dailyPrice={item.dailyPrice}
+                                      location={item.location}
+                                      title={item.title}
+                                      category={item.category}
+                                    />
+                                  </button>
+                                ))}
+                              </>
+                            )}
+                          </div>
                         </TabPanel>
                         <TabPanel value={value} index={2}>
                           Favourites
