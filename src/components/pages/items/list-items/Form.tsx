@@ -54,7 +54,7 @@ const Form = () => {
   const [weeklyPrice, setWeeklyPrice] = useState(0);
   const [monthlyPrice, setMonthlyPrice] = useState(0);
   const [itemValue, setItemValue] = useState(0);
-  const [quantity, setQuantity] = useState(0);
+  // const [quantity, setQuantity] = useState(0);
   const [miniRentalDays, setMiniRentalDays] = useState(0);
   const [photos, setPhotos] = useState<{ file: any; preview: string }[]>(
     Array(4).fill({ file: null, preview: "" })
@@ -78,7 +78,7 @@ const Form = () => {
             weeklyPrice,
             monthlyPrice,
             itemValue,
-            quantity,
+            // quantity,
             miniRentalDays,
             photos,
             user_id: user?.sub,
@@ -96,7 +96,7 @@ const Form = () => {
         weeklyPrice,
         monthlyPrice,
         itemValue,
-        quantity,
+        // quantity,
         miniRentalDays,
         photos,
         user_id: user?.sub,
@@ -116,7 +116,7 @@ const Form = () => {
     setWeeklyPrice(0);
     setMonthlyPrice(0);
     setItemValue(0);
-    setQuantity(0);
+    // setQuantity(0);
     setMiniRentalDays(0);
     setPhotos(Array(4).fill({ file: null, preview: "" }));
   };
@@ -389,7 +389,7 @@ const Form = () => {
                 value={itemValue}
               />
             </Grid>
-            <Grid item xs={2} sm={4} md={4}>
+            {/* <Grid item xs={2} sm={4} md={4}>
               <Input
                 id='quantity'
                 label='Quantity'
@@ -398,7 +398,7 @@ const Form = () => {
                 value={quantity}
                 required
               />
-            </Grid>
+            </Grid> */}
             <Grid item xs={2} sm={4} md={4}>
               <Input
                 id='minRentalDays'

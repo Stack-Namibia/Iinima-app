@@ -96,6 +96,13 @@ export const updateItem = (
   return async (dispatch: Dispatch<ItemsAction>) => {
     const { item, currentPhotos } = options;
     try {
+      dispatch({
+        type: ItemsActionTypes.UPDATE_ITEM,
+        payload: {
+          id,
+          item,
+        },
+      });
       const metadata = await uploadImages(
         item.photos,
         item.user_id,
@@ -109,15 +116,7 @@ export const updateItem = (
         })
       );
 
-      item.photos = [...currentPhotos, ...photoUrls];
-
-      dispatch({
-        type: ItemsActionTypes.UPDATE_ITEM,
-        payload: {
-          id,
-          item,
-        },
-      });
+      item.photos = [...currentPhotos, ...photoUrls].slice(-4);
       const data = await updateItemById(item, id);
       dispatch({
         type: ItemsActionTypes.ITEM_SUCCESS,
