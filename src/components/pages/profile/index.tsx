@@ -1,13 +1,19 @@
 import styled from "styled-components";
-import { Edit as PencilIcon } from "@mui/icons-material";
+// import { Edit as PencilIcon } from "@mui/icons-material";
 import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import ApplicationWrapper from "../../general/ApplicationWrapper";
 import withAuth from "../../auth";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store/reducers";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import * as ItemActionsCreator from "../../../store/action-creators/items-action-creator";
+import { Item } from "../../../api/items";
+import { useAuth0 } from "@auth0/auth0-react";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -62,11 +68,27 @@ const profile: any = {
 };
 
 const Profile = () => {
+  const { user } = useAuth0();
+  const { items } = useSelector((state: RootState) => state.items);
+  const { getItems } = bindActionCreators(ItemActionsCreator, useDispatch());
   const [value, setValue] = React.useState(0);
+  const [localItems, setLocalItems] = React.useState<Item[] | undefined>(
+    undefined
+  );
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  React.useEffect(() => {
+    getItems();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  React.useEffect(() => {
+    const userItems = items?.filter((item) => item.user_id === user?.sub);
+    setLocalItems(userItems);
+  }, [items, user]);
 
   return (
     <>
@@ -183,7 +205,13 @@ const Profile = () => {
                           </dl>
                         </TabPanel>
                         <TabPanel value={value} index={1}>
-                          Listed Items
+                          {localItems && (
+                            <>
+                              {localItems.map((item: Item) => (
+                                <>{item.title}</>
+                              ))}
+                            </>
+                          )}
                         </TabPanel>
                         <TabPanel value={value} index={2}>
                           Favourites
@@ -201,12 +229,12 @@ const Profile = () => {
   );
 };
 
-const EditButton = styled.button`
-  background-color: #d63e3e;
-  &:hover {
-    color: #5e8797;
-  }
-`;
+// const EditButton = styled.button`
+//   background-color: #d63e3e;
+//   &:hover {
+//     color: #5e8797;
+//   }
+// `;
 
 const Name = styled.h1`
   color: #5e8797;
