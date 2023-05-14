@@ -10,12 +10,25 @@ import "./App.css";
 import routes from "./settings/routes";
 import LoadingPage from "./components/pages/loading-page";
 import HttpError from "./components/pages/http-error";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import * as AuthActionCreators from "./store/action-creators/auth-action-creators";
+import { useDispatch, useSelector } from "react-redux";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import { RootState } from "./store/reducers";
+import SignUp from "./components/pages/sign-up";
 
 function App() {
   const location = useLocation();
-  const { isLoading, error, getAccessTokenSilently, isAuthenticated } =
+  const { isLoading, error, getAccessTokenSilently, isAuthenticated, user } =
     useAuth0();
+
+  const dispatch = useDispatch();
+
+  const { user: dbUser } = useSelector((state: RootState) => state.authUser);
+
+  const { getUser } = bindActionCreators(AuthActionCreators, dispatch);
+
+  const [localUser, setLocalUser] = useState<any>(null);
 
   useEffect(() => {
     const getToken = async () => {
@@ -29,8 +42,22 @@ function App() {
 
     if (isAuthenticated) {
       getToken();
+      if (user?.sub) {
+        getUser(user?.sub);
+      }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getAccessTokenSilently, isAuthenticated]);
+
+  useEffect(() => {
+    if (dbUser) {
+      setLocalUser(dbUser);
+    }
+  }, [dbUser, localUser]);
+
+  if (!dbUser && user) {
+    return <SignUp />;
+  }
 
   if (error) {
     return <HttpError />;

@@ -1,3 +1,4 @@
+import { User } from "../../api/accounts";
 import { AuthActionTypes } from "../action-types/auth-action-type";
 import { AuthAction } from "../actions/auth-actions";
 
@@ -5,7 +6,7 @@ interface AuthState {
   isLoggedIn: boolean;
   isLoading: boolean;
   isError: boolean;
-  user?: any;
+  user?: User;
   error?: any;
 }
 
@@ -43,6 +44,16 @@ function reducer(
       };
     case AuthActionTypes.LOGOUT:
       return { isLoggedIn: false, isLoading: false, isError: false };
+    case AuthActionTypes.GET_USER:
+      return {
+        ...state,
+        user: action.payload,
+      };
+    case AuthActionTypes.CREATE_USER:
+      return {
+        ...state,
+        user: action.payload,
+      };
     default:
       return state;
   }
