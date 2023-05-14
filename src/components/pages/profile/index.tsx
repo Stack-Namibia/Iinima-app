@@ -103,7 +103,7 @@ const Profile = () => {
                               {profile.name}
                             </Name>
                           </div>
-                          <div className='justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4'>
+                          {/* <div className='justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4'>
                             <Link to={"/profile/edit"}>
                               <EditButton
                                 type='button'
@@ -116,7 +116,7 @@ const Profile = () => {
                                 <span>Edit Profile</span>
                               </EditButton>
                             </Link>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                       <div className='mt-6 hidden min-w-0 flex-1 sm:block 2xl:hidden'>
