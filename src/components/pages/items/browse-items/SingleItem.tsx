@@ -1,6 +1,5 @@
 import {
   CameraAltOutlined,
-  Edit,
   EditOutlined,
   Phone,
   WhatsApp,
@@ -17,8 +16,8 @@ export interface SingleItemProps {
   monthlyPrice: number;
   location: string;
   category: string;
-  userId: string;
-  itemId: string;
+  user_id: string;
+  _id: string;
 }
 
 function SingleItem({
@@ -30,15 +29,15 @@ function SingleItem({
   monthlyPrice,
   location,
   category,
-  userId,
-  itemId,
+  user_id,
+  _id,
 }: SingleItemProps) {
   const { user } = useAuth0();
 
-  const userItem = user?.sub === userId;
+  const userItem = user?.sub === user_id;
 
   console.log(user?.sub);
-  console.log(userId);
+  console.log(user_id);
 
   return (
     <div className='overflow-auto h-full'>
@@ -67,7 +66,7 @@ function SingleItem({
                 <div>
                   <button>
                     <a
-                      href={`https://wa.me/264814818769?text=I'm%20interested%20in%20your%20${title}%20https%3A%2F%2F2671-160-242-75-87.ngrok-free.app/item/browse/${itemId}`}
+                      href={`https://wa.me/264814818769?text=I'm%20interested%20in%20your%20${title}%20https%3A%2F%2F2671-160-242-75-87.ngrok-free.app/item/browse/${_id}`}
                       target='_blank'
                       rel='noreferrer'
                     >
@@ -97,7 +96,7 @@ function SingleItem({
                 <span>+264 81 123 4567</span>
               </div>
             </div>
-            <div className='mt-3'>{userId}</div>
+            <div className='mt-3'>{user_id}</div>
           </div>
         </div>
         <div className='mt-4'>

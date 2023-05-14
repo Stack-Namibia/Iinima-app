@@ -170,8 +170,8 @@ export class BrowseItems extends Component<Props> {
       dailyPrice: selectedItem?.dailyPrice ?? 0,
       weeklyPrice: selectedItem?.weeklyPrice ?? 0,
       monthlyPrice: selectedItem?.monthlyPrice ?? 0,
-      userId: selectedItem?.user_id ?? "",
-      itemId: selectedItem?._id ?? "",
+      user_id: selectedItem?.user_id ?? "",
+      _id: selectedItem?._id ?? "",
     };
 
     return (
