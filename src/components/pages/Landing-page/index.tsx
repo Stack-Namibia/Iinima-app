@@ -97,7 +97,7 @@ const Home = () => {
           </div>
           <ul className='grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-5 items-center'>
             {categories.map((category, i) => (
-              <Link to={"/item/browse"} key={i}>
+              <Link to={`/item/browse?category=${category.name}`} key={i}>
                 <CardList>
                   <CategoryCard {...category} />
                 </CardList>
