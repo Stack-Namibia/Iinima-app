@@ -1,4 +1,3 @@
-import * as React from "react";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -6,10 +5,11 @@ import { Search } from "@mui/icons-material";
 import { Box } from "@mui/material";
 
 interface Props {
-  data: any[];
+  data: string[];
+  setValue: (value: any) => void;
 }
 
-export default function SearchInput({ data }: Props) {
+export default function SearchInput({ data, setValue }: Props) {
   return (
     <Stack spacing={2} sx={{ width: "100%" }}>
       <Autocomplete
@@ -27,6 +27,8 @@ export default function SearchInput({ data }: Props) {
             />
           </Box>
         )}
+        filterSelectedOptions
+        onChange={(e, value) => setValue(value)}
       />
     </Stack>
   );
