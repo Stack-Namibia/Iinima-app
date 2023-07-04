@@ -87,7 +87,7 @@ const Form = () => {
         });
       }
     } else {
-      createItem({
+      await createItem({
         title,
         category,
         location,
