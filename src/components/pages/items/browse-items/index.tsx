@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import ApplicationWrapper from "../../../general/ApplicationWrapper";
 import ItemsCard from "../../../general/ItemCard";
 import SearchInput from "./SearchInput";
@@ -14,6 +15,7 @@ import SingleItem, { SingleItemProps } from "./SingleItem";
 import { SelectChangeEvent } from "@mui/material";
 import { arrayUnique } from "../../../../utils/data";
 import { Location } from "../../../../api/locations";
+import { categories as staticCategories } from "../../../../settings/constants";
 
 interface Props {
   items: Item[] | undefined;
@@ -44,13 +46,27 @@ export class BrowseItems extends Component<Props> {
     this.props.getItems();
     this.props.loadLocations();
 
+    if (location.search) {
+      const params = new URLSearchParams(location.search);
+      const searchValue = params.get("searchValue");
+      const locations = params.getAll("location");
+      const categories = params.getAll("category");
+
+      this.setState((prevState: ComponentState) => ({
+        ...prevState,
+        searchValue: searchValue ?? "",
+        locations:
+          locations.length > 0 ? locations.map((l) => ({ town: l })) : [],
+        categories: categories.length > 0 ? categories : [],
+      }));
+    }
+
     const regex = /\/item\/browse\/([a-f0-9-]+)/;
 
     // eslint-disable-next-line no-restricted-globals
     const match = location.pathname.match(regex);
 
     if (match) {
-      console.log(match);
       this.setState((prevState: ComponentState) => ({
         ...prevState,
         modalOpen: true,
@@ -206,7 +222,7 @@ export class BrowseItems extends Component<Props> {
                   handleChange={this.handleLocationsChange}
                 />
                 <MultiSelect
-                  data={arrayUnique(this.props.categories)}
+                  data={arrayUnique(staticCategories.map((c) => c.name))}
                   label={"Categories"}
                   options={categories}
                   handleChange={this.handleCategoriesChange}

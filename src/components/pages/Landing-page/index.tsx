@@ -6,51 +6,31 @@ import SearchInput from "./SearchInput";
 import { Button } from "../../general/Button";
 import divider from "../../../assets/divider.svg";
 import CategoryCard from "./CategoryCard";
+import { categories } from "../../../settings/constants";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Item } from "../../../api/items";
+import { RootState } from "../../../store/reducers";
+import * as ItemActionsCreator from "../../../store/action-creators/items-action-creator";
+import { arrayUnique } from "../../../utils/data";
 
 const Home = () => {
-  const categories = [
-    {
-      name: "Photography",
-      imageUrl: "photography",
-    },
-    {
-      name: "Camping",
-      imageUrl: "camping",
-    },
-    {
-      name: "Dj Equipment",
-      imageUrl: "dj",
-    },
-    {
-      name: "Transport",
-      imageUrl: "transport",
-    },
-    {
-      name: "Electronics",
-      imageUrl: "electronics",
-    },
-    {
-      name: "Music",
-      imageUrl: "music",
-    },
-    {
-      name: "Power Tools",
-      imageUrl: "powertools",
-    },
-    {
-      name: "Construction",
-      imageUrl: "construction",
-    },
-    {
-      name: "Construction",
-      imageUrl: "construction",
-    },
-    {
-      name: "Construction",
-      imageUrl: "construction",
-    },
-  ];
+  const { items } = useSelector((state: RootState) => state.items);
+  const { getItems } = bindActionCreators(ItemActionsCreator, useDispatch());
+  const [value, setValue] = React.useState(0);
+  const [localItems, setLocalItems] = React.useState<Item[] | undefined>(
+    undefined
+  );
 
+  React.useEffect(() => {
+    getItems();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  React.useEffect(() => {
+    setLocalItems(items);
+  }, [items]);
   return (
     <HowItWorksWrapper>
       <div className='hero min-h-screen bg-white'>
@@ -77,8 +57,15 @@ const Home = () => {
               From within your area
             </div>
             <div className='flex flex-row items-center mt-10 lg:flex-row gap-5'>
-              <SearchInput data={["Grinder", "Camera"]} />
-              <Link to={"/item/browse"}>
+              <SearchInput
+                data={
+                  (arrayUnique(
+                    localItems?.map(({ title }) => title)
+                  ) as string[]) ?? []
+                }
+                setValue={setValue}
+              />
+              <Link to={`/item/browse${value ? `?searchValue=${value}` : ""}`}>
                 <Button text='Browse Items' />
               </Link>
             </div>
@@ -110,7 +97,7 @@ const Home = () => {
           </div>
           <ul className='grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-5 items-center'>
             {categories.map((category, i) => (
-              <Link to={"/item/browse"} key={i}>
+              <Link to={`/item/browse?category=${category.name}`} key={i}>
                 <CardList>
                   <CategoryCard {...category} />
                 </CardList>

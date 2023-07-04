@@ -80,6 +80,7 @@ const Profile = () => {
   );
   const [modalOpen, setModalOpen] = React.useState(false);
   const [selectedItem, setselectedItem] = React.useState<any>();
+  const { user: dbUser } = useSelector((state: RootState) => state.authUser);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -135,14 +136,14 @@ const Profile = () => {
                         <div className='flex'>
                           <img
                             className='h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32'
-                            src={profile.imageUrl}
-                            alt=''
+                            src={user?.picture}
+                            alt={dbUser?.firstName + " " + dbUser?.lastName}
                           />
                         </div>
                         <div className='mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1'>
                           <div className='mt-6 min-w-0 flex-1 sm:hidden 2xl:block'>
                             <Name className='truncate text-2xl font-bold text-gray-900'>
-                              {profile.name}
+                              {dbUser?.firstName + " " + dbUser?.lastName}
                             </Name>
                           </div>
                           {/* <div className='justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4'>
@@ -163,7 +164,7 @@ const Profile = () => {
                       </div>
                       <div className='mt-6 hidden min-w-0 flex-1 sm:block 2xl:hidden'>
                         <Name className='truncate text-2xl font-bold text-gray-900'>
-                          {profile.name}
+                          {dbUser?.firstName + " " + dbUser?.lastName}
                         </Name>
                       </div>
                     </div>
@@ -194,37 +195,42 @@ const Profile = () => {
                               },
                             }}
                           >
-                            <Tab label='Profile' {...a11yProps(0)} />
-                            <Tab label='Listed items' {...a11yProps(1)} />
-                            <Tab label='Favourites' {...a11yProps(2)} />
+                            <Tab label='Listed Items' {...a11yProps(0)} />
+                            {/* <Tab label='Listed items' {...a11yProps(1)} />
+                            <Tab label='Favourites' {...a11yProps(2)} /> */}
                           </Tabs>
                         </Box>
                         <TabPanel value={value} index={0}>
-                          <dl className='grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2'>
-                            {Object.keys(profile.fields).map((field) => (
-                              <div key={field} className='sm:col-span-1'>
-                                <dt className='text-sm font-medium text-gray-500'>
-                                  {field}
-                                </dt>
-                                <dd className='mt-1 text-sm text-gray-900'>
-                                  {profile.fields[field]}
-                                </dd>
-                              </div>
-                            ))}
-                            <div className='sm:col-span-2'>
-                              <dt className='text-sm font-medium text-gray-500'>
-                                About
-                              </dt>
-                              <dd
-                                className='mt-1 max-w-prose space-y-5 text-sm text-gray-900'
-                                dangerouslySetInnerHTML={{
-                                  __html: profile.about,
-                                }}
-                              />
-                            </div>
-                          </dl>
+                          <div
+                            role='list'
+                            className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3'
+                          >
+                            {localItems && (
+                              <>
+                                {localItems.map((item: Item, i) => (
+                                  <button
+                                    key={i}
+                                    onClick={() => {
+                                      setSelectedItem(item);
+                                      handleSetModalOpen();
+                                    }}
+                                    className='text-left'
+                                  >
+                                    <ItemCard
+                                      photos={item.photos}
+                                      description={item.description || ""}
+                                      dailyPrice={item.dailyPrice}
+                                      location={item.location}
+                                      title={item.title}
+                                      category={item.category}
+                                    />
+                                  </button>
+                                ))}
+                              </>
+                            )}
+                          </div>
                         </TabPanel>
-                        <TabPanel value={value} index={1}>
+                        {/* <TabPanel value={value} index={1}>
                           <div
                             role='list'
                             className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3'
@@ -256,7 +262,7 @@ const Profile = () => {
                         </TabPanel>
                         <TabPanel value={value} index={2}>
                           Favourites
-                        </TabPanel>
+                        </TabPanel> */}
                       </Box>
                     </div>
                   </div>
