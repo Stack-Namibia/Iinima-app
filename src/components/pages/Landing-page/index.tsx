@@ -6,51 +6,9 @@ import SearchInput from "./SearchInput";
 import { Button } from "../../general/Button";
 import divider from "../../../assets/divider.svg";
 import CategoryCard from "./CategoryCard";
+import { categories } from "../../../settings/constants";
 
 const Home = () => {
-  const categories = [
-    {
-      name: "Photography",
-      imageUrl: "photography",
-    },
-    {
-      name: "Camping",
-      imageUrl: "camping",
-    },
-    {
-      name: "Dj Equipment",
-      imageUrl: "dj",
-    },
-    {
-      name: "Transport",
-      imageUrl: "transport",
-    },
-    {
-      name: "Electronics",
-      imageUrl: "electronics",
-    },
-    {
-      name: "Music",
-      imageUrl: "music",
-    },
-    {
-      name: "Power Tools",
-      imageUrl: "powertools",
-    },
-    {
-      name: "Construction",
-      imageUrl: "construction",
-    },
-    {
-      name: "Construction",
-      imageUrl: "construction",
-    },
-    {
-      name: "Construction",
-      imageUrl: "construction",
-    },
-  ];
-
   return (
     <HowItWorksWrapper>
       <div className='hero min-h-screen bg-white'>
