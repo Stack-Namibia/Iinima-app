@@ -28,6 +28,7 @@ import {
 } from "./base";
 import { HTTPValidationError } from "./models";
 import { Location } from "./models";
+import { configs } from "../../settings/configs";
 /**
  * LocationsApi - axios parameter creator
  * @export
@@ -61,7 +62,7 @@ export const LocationsApiAxiosParamCreator = function (
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(
         localVarPath,
-        "http://localhost:3001/locations"
+        `${configs.apiBaseUrl}/locations`
       );
       let baseOptions;
       if (configuration) {
@@ -114,7 +115,7 @@ export const LocationsApiAxiosParamCreator = function (
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(
         localVarPath,
-        "http://localhost:3001/locations"
+        `${configs.apiBaseUrl}/locations`
       );
       let baseOptions;
       if (configuration) {
@@ -187,7 +188,7 @@ export const LocationsApiAxiosParamCreator = function (
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(
         localVarPath,
-        "http://localhost:3001/locations"
+        `${configs.apiBaseUrl}/locations`
       );
       let baseOptions;
       if (configuration) {
@@ -244,7 +245,7 @@ export const LocationsApiAxiosParamCreator = function (
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(
         localVarPath,
-        "http://localhost:3001/locations"
+        `${configs.apiBaseUrl}/locations`
       );
       let baseOptions;
       if (configuration) {
@@ -295,7 +296,7 @@ export const LocationsApiAxiosParamCreator = function (
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(
         localVarPath,
-        "http://localhost:3001/locations"
+        `${configs.apiBaseUrl}/locations`
       );
       let baseOptions;
       if (configuration) {

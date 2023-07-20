@@ -28,6 +28,7 @@ import {
 } from "./base";
 import { HTTPValidationError } from "./models";
 import { User } from "./models";
+import { configs } from "../../settings/configs";
 /**
  * UsersApi - axios parameter creator
  * @export
@@ -58,7 +59,7 @@ export const UsersApiAxiosParamCreator = function (
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(
         localVarPath,
-        "http://localhost:3001/accounts"
+        `${configs.apiBaseUrl}/accounts`
       );
       let baseOptions;
       if (configuration) {
@@ -127,7 +128,7 @@ export const UsersApiAxiosParamCreator = function (
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(
         localVarPath,
-        "http://localhost:3001/accounts"
+        `${configs.apiBaseUrl}/accounts`
       );
       let baseOptions;
       if (configuration) {
@@ -188,7 +189,7 @@ export const UsersApiAxiosParamCreator = function (
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(
         localVarPath,
-        "http://localhost:3001/accounts"
+        `${configs.apiBaseUrl}/accounts`
       );
       let baseOptions;
       if (configuration) {
@@ -241,7 +242,7 @@ export const UsersApiAxiosParamCreator = function (
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(
         localVarPath,
-        "http://localhost:3001/accounts"
+        `${configs.apiBaseUrl}/accounts`
       );
       let baseOptions;
       if (configuration) {
@@ -298,7 +299,7 @@ export const UsersApiAxiosParamCreator = function (
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(
         localVarPath,
-        "http://localhost:3001/accounts"
+        `${configs.apiBaseUrl}/accounts`
       );
       let baseOptions;
       if (configuration) {
@@ -356,7 +357,7 @@ export const UsersApiAxiosParamCreator = function (
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(
         localVarPath,
-        "http://localhost:3001/accounts"
+        `${configs.apiBaseUrl}/accounts`
       );
       let baseOptions;
       if (configuration) {
