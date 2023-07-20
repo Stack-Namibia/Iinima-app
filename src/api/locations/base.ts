@@ -11,12 +11,13 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { configs } from "../../settings/configs";
 import { Configuration } from "./configuration";
 // Some imports not used depending on template conditions
 // @ts-ignore
 import globalAxios, { AxiosRequestConfig, AxiosInstance } from "axios";
 
-export const BASE_PATH = "http://localhost:3001/locations".replace(/\/+$/, "");
+export const BASE_PATH = `${configs.apiBaseUrl}/locations`.replace(/\/+$/, "");
 
 /**
  *
