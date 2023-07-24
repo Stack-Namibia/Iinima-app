@@ -251,7 +251,7 @@ export class BrowseItems extends Component<Props> {
                       role="list"
                       className="flex-col justify-center w-3/4 rounded-lg mb-5 md:flex md:items-center mr-4 ml-4 md:w-9/12"
                     >
-                      <ul className="grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-2 items-center xl:grid-cols-4">
+                      <ul className="grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-2 items-center xl:grid-cols-3">
                         {items ? (
                           items.map((item: any, i: number) => (
                             <button

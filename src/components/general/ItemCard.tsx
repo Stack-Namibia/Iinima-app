@@ -35,9 +35,9 @@ export default function ItemCard({
       </figure>
       <div className="card-body">
         <div className="grid grid-col-2 gap-6">
-          <h2 className="card-title">
+          <h2 className="card-title grid grid-col grid-flow-row md:grid-flow-col xl:grid-flow-col">
             {title}
-            <div className="badge bg-primary text-white border-primary">
+            <div className="badge bg-primary text-white border-primary w-20">
               N$ {dailyPrice}
             </div>
           </h2>

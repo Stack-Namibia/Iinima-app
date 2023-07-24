@@ -15,21 +15,7 @@ import { RootState } from "../../../../store/reducers";
 import { Location } from "../../../../api/locations";
 import { Item } from "../../../../api/items";
 import { extractUUIDFromString } from "../../../../utils/data";
-
-const categoriesMock = [
-  {
-    value: "power-tools",
-    label: "Power Tools",
-  },
-  {
-    value: "hand-tools",
-    label: "Hand Tools",
-  },
-  {
-    value: "garden-tools",
-    label: "Garden Tools",
-  },
-];
+import { categories as staticCategories } from "../../../../settings/constants";
 
 const Form = () => {
   const { user } = useAuth0();
@@ -170,11 +156,11 @@ const Form = () => {
   };
 
   return (
-    <div className='flex items-center justify-center p-6 max-w-2xl'>
-      <div className='w-full'>
+    <div className="flex items-center justify-center p-6 max-w-2xl">
+      <div className="w-full">
         <form onSubmit={(e) => handleSubmit(e)}>
-          <InfoText text='Add Photos' />
-          <div className='flex justify-center mb-5 mt-2 gap-2'>
+          <InfoText text="Add Photos" />
+          <div className="flex justify-center mb-5 mt-2 gap-2">
             <ReactDropzone
               onDrop={(acceptedFiles) => {
                 console.log(acceptedFiles);
@@ -196,16 +182,16 @@ const Form = () => {
               }}
             >
               {({ getRootProps, getInputProps }) => (
-                <div {...getRootProps()} className='cursor-pointer w-[24%]'>
+                <div {...getRootProps()} className="cursor-pointer w-[24%]">
                   <input
                     {...getInputProps()}
-                    type='file'
-                    className='w-10 invisible'
+                    type="file"
+                    className="w-10 invisible"
                   />
                   <img
                     src={setPhotosPreview(photos[0], 0)}
-                    alt='logo'
-                    className='w-full'
+                    alt="logo"
+                    className="w-full"
                   />
                 </div>
               )}
@@ -230,12 +216,12 @@ const Form = () => {
               }}
             >
               {({ getRootProps, getInputProps }) => (
-                <div {...getRootProps()} className='cursor-pointer w-[24%]'>
-                  <input {...getInputProps()} type='file' multiple />
+                <div {...getRootProps()} className="cursor-pointer w-[24%]">
+                  <input {...getInputProps()} type="file" multiple />
                   <img
                     src={setPhotosPreview(photos[1], 1)}
-                    alt='logo'
-                    className='w-full'
+                    alt="logo"
+                    className="w-full"
                   />
                 </div>
               )}
@@ -260,12 +246,12 @@ const Form = () => {
               }}
             >
               {({ getRootProps, getInputProps }) => (
-                <div {...getRootProps()} className='cursor-pointer w-[24%]'>
-                  <input {...getInputProps()} type='file' multiple />
+                <div {...getRootProps()} className="cursor-pointer w-[24%]">
+                  <input {...getInputProps()} type="file" multiple />
                   <img
                     src={setPhotosPreview(photos[2], 2)}
-                    alt='logo'
-                    className='w-full'
+                    alt="logo"
+                    className="w-full"
                   />
                 </div>
               )}
@@ -290,28 +276,31 @@ const Form = () => {
               }}
             >
               {({ getRootProps, getInputProps }) => (
-                <div {...getRootProps()} className='cursor-pointer w-[24%]'>
-                  <input {...getInputProps()} type='file' multiple />
+                <div {...getRootProps()} className="cursor-pointer w-[24%]">
+                  <input {...getInputProps()} type="file" multiple />
                   <img
                     src={setPhotosPreview(photos[3], 3)}
-                    alt='logo'
-                    className='w-full'
+                    alt="logo"
+                    className="w-full"
                   />
                 </div>
               )}
             </ReactDropzone>
           </div>
-          <div className='mb-2'>
+          <div className="mb-2">
             <Input
-              id='title'
-              label='Listing title'
-              type='text'
+              id="title"
+              label="Listing title"
+              type="text"
               value={title}
               onChange={setTitle}
               required
             />
             <BasicSelect
-              items={categoriesMock}
+              items={staticCategories.map((c) => ({
+                label: c.name,
+                value: c.name,
+              }))}
               text={"Categories"}
               onChange={setCategory}
               value={category}
@@ -331,16 +320,16 @@ const Form = () => {
               value={location}
             />
             <Input
-              id='description'
-              label='Item description'
-              type='text'
+              id="description"
+              label="Item description"
+              type="text"
               multiline
               onChange={setDescription}
               value={description}
               required
             />
           </div>
-          <InfoText text='Rental price per:' />
+          <InfoText text="Rental price per:" />
           <Grid
             container
             spacing={{ xs: 2, md: 3 }}
@@ -348,10 +337,10 @@ const Form = () => {
           >
             <Grid item xs={2} sm={4} md={4}>
               <Input
-                id='day'
-                label='Day(s)'
-                type='number'
-                adornment='N$'
+                id="day"
+                label="Day(s)"
+                type="number"
+                adornment="N$"
                 onChange={setDailyPrice}
                 value={dailyPrice}
                 required
@@ -359,10 +348,10 @@ const Form = () => {
             </Grid>
             <Grid item xs={2} sm={4} md={4}>
               <Input
-                id='week'
-                label='Week(s)'
-                type='number'
-                adornment='N$'
+                id="week"
+                label="Week(s)"
+                type="number"
+                adornment="N$"
                 onChange={setWeeklyPrice}
                 value={weeklyPrice}
                 required
@@ -370,10 +359,10 @@ const Form = () => {
             </Grid>
             <Grid item xs={2} sm={4} md={4}>
               <Input
-                id='month'
-                label='Month(s)'
-                type='number'
-                adornment='N$'
+                id="month"
+                label="Month(s)"
+                type="number"
+                adornment="N$"
                 onChange={setMonthlyPrice}
                 value={monthlyPrice}
                 required
@@ -381,10 +370,10 @@ const Form = () => {
             </Grid>
             <Grid item xs={2} sm={4} md={4}>
               <Input
-                id='itemValue'
-                label='Item Value'
-                type='number'
-                adornment='N$'
+                id="itemValue"
+                label="Item Value"
+                type="number"
+                adornment="N$"
                 onChange={setItemValue}
                 value={itemValue}
               />
@@ -401,9 +390,9 @@ const Form = () => {
             </Grid> */}
             <Grid item xs={2} sm={4} md={4}>
               <Input
-                id='minRentalDays'
-                label='Minimum rental days'
-                type='number'
+                id="minRentalDays"
+                label="Minimum rental days"
+                type="number"
                 onChange={setMiniRentalDays}
                 value={miniRentalDays}
                 required
@@ -418,16 +407,16 @@ const Form = () => {
           >
             <Grid item xs={6}>
               <Button
-                text='cancel'
-                color='secondary'
+                text="cancel"
+                color="secondary"
                 clickEvent={handleCancel}
               />
             </Grid>
             <Grid item xs={6}>
               {editForm ? (
-                <Button text='Update item' type='submit' loading={isLoading} />
+                <Button text="Update item" type="submit" loading={isLoading} />
               ) : (
-                <Button text='List item' type='submit' loading={isLoading} />
+                <Button text="List item" type="submit" loading={isLoading} />
               )}
             </Grid>
           </Grid>
