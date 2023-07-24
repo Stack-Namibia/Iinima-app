@@ -199,13 +199,13 @@ export class BrowseItems extends Component<Props> {
         >
           {<SingleItem {...currentItem} />}
         </BasicModal>
-        <div className='flex h-screen'>
+        <div className="flex h-screen">
           {/* Content area */}
-          <div className='flex flex-1 flex-col overflow-hidden'>
-            <header className='w-full border-b border-gray-200 bg-white shadow-sm'>
-              <div className='relative z-10 flex h-16 flex-shrink-0 bg-white'>
-                <div className='flex flex-1 justify-between px-4 sm:px-6'>
-                  <div className='flex flex-1'>
+          <div className="flex flex-1 flex-col overflow-hidden">
+            <header className="w-full border-b border-gray-200 bg-white shadow-sm">
+              <div className="relative z-10 flex h-16 flex-shrink-0 bg-white">
+                <div className="flex flex-1 justify-between px-4 sm:px-6">
+                  <div className="flex flex-1">
                     <SearchInput
                       value={this.state.searchValue}
                       onChange={this.handleSearchValueChange}
@@ -214,7 +214,7 @@ export class BrowseItems extends Component<Props> {
                   </div>
                 </div>
               </div>
-              <div className='flex-row md:flex lg:flex pl-5 pr-5'>
+              <div className="flex-row md:flex lg:flex pl-5 pr-5">
                 <MultiSelect
                   data={arrayUnique(this.props.locations?.map((l) => l.town))}
                   label={"Locations"}
@@ -231,49 +231,51 @@ export class BrowseItems extends Component<Props> {
             </header>
 
             {/* Main content */}
-            <div className='flex flex-1 items-stretch overflow-hidden'>
-              <main className='flex-1 overflow-y-auto'>
-                <div className='mx-auto max-w-8xl px-4 pt-8 sm:px-4 lg:px-4'>
-                  <div className='flex'>
-                    <h1 className='flex-1 text-2xl font-bold text-gray-900'>
+            <div className="flex flex-1 items-stretch overflow-hidden">
+              <main className="flex-1 overflow-y-auto">
+                <div className="mx-auto max-w-8xl px-4 pt-8 sm:px-4 lg:px-4">
+                  <div className="flex">
+                    <h1 className="flex-1 text-2xl font-bold text-gray-900">
                       Items
                     </h1>
                   </div>
                   {/* Gallery */}
                   <section
-                    className='mt-8 pb-16'
-                    aria-labelledby='gallery-heading'
+                    className="hero min-h-[50%] mb-10 mt-10"
+                    aria-labelledby="gallery-heading"
                   >
-                    <h2 id='gallery-heading' className='sr-only'>
+                    <h2 id="gallery-heading" className="sr-only">
                       Recently viewed
                     </h2>
                     <div
-                      role='list'
-                      className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3'
+                      role="list"
+                      className="flex-col justify-center w-3/4 rounded-lg mb-5 md:flex md:items-center mr-4 ml-4 md:w-9/12"
                     >
-                      {items ? (
-                        items.map((item: any, i: number) => (
-                          <button
-                            key={i}
-                            onClick={() => {
-                              this.setSelectedItem(item);
-                              this.setModalOpen();
-                            }}
-                            className='text-left'
-                          >
-                            <ItemsCard
-                              photos={item.photos}
-                              description={item.description || ""}
-                              dailyPrice={item.dailyPrice}
-                              location={item.location}
-                              title={item.title}
-                              category={item.category}
-                            />
-                          </button>
-                        ))
-                      ) : (
-                        <div>Its lonely here</div>
-                      )}
+                      <ul className="grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-2 items-center xl:grid-cols-3">
+                        {items ? (
+                          items.map((item: any, i: number) => (
+                            <button
+                              key={i}
+                              onClick={() => {
+                                this.setSelectedItem(item);
+                                this.setModalOpen();
+                              }}
+                              className="text-left"
+                            >
+                              <ItemsCard
+                                photos={item.photos}
+                                description={item.description || ""}
+                                dailyPrice={item.dailyPrice}
+                                location={item.location}
+                                title={item.title}
+                                category={item.category}
+                              />
+                            </button>
+                          ))
+                        ) : (
+                          <div>Its lonely here</div>
+                        )}
+                      </ul>
                     </div>
                   </section>
                 </div>
