@@ -4,6 +4,7 @@ import ListItem from "../components/pages/items/list-items";
 import Profile from "../components/pages/profile";
 import ProfileEdit from "../components/pages/profile/edit";
 import HowItWorks from "../components/pages/how-it-works";
+import SingleItem from "../components/pages/items/single-item";
 
 const routes = [
   {
@@ -50,7 +51,7 @@ const routes = [
   {
     path: "/item/browse/:id",
     exact: true,
-    element: <BrowseItems />,
+    element: <SingleItem />,
     key: "ListItem",
   },
 ];
