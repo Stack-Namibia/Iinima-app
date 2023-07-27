@@ -17,7 +17,7 @@ const BrowseItems = () => {
   const locations = useGetLocations(true);
 
   const queryParams = new URLSearchParams(location.search);
-  const searchQuery = queryParams.get("search") || "";
+  const searchQuery = queryParams.get("searchValue") || "";
   const categoryQuery = queryParams.get("category") || "";
 
   const [searchValue, setSearchValue] = useState<string>(searchQuery);
@@ -34,7 +34,7 @@ const BrowseItems = () => {
     const value = e.target.value;
     setSearchValue(value);
     // Update the URL with the new search value
-    queryParams.set("search", value);
+    queryParams.set("searchValue", value);
     history.push({ search: queryParams.toString() });
   };
 
