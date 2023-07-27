@@ -17,7 +17,7 @@ import { extractUUIDFromString } from "../../../../utils/data";
 import {
   useGetLocations,
   useSyncLocations,
-} from "../../../../features/locations/queries";
+} from "../../../../hooks/locations/queries";
 
 const categoriesMock = [
   {

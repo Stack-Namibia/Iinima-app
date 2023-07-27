@@ -10,7 +10,7 @@ export const listItem = async (item: Item) => {
   return data;
 };
 
-export const fetchItems = async () => {
+export const fetchItems = async (): Promise<Item[]> => {
   // This function fetches items from the api
   const { data } = await itemsApi.getItemsApiV1Get();
   return data;

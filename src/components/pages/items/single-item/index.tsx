@@ -4,56 +4,50 @@ import { extractUUIDFromString } from "../../../../utils/data";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/reducers";
 import { bindActionCreators } from "@reduxjs/toolkit";
-import * as ItemActionsCreator from "../../../../store/action-creators/items-action-creator";
 import * as authActionCreators from "../../../../store/action-creators/auth-action-creators";
 import { EditOutlined, Email, Phone, WhatsApp } from "@mui/icons-material";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 import { User } from "../../../../api/accounts";
+import { useGetItem } from "../../../../hooks/items/queries";
 
 const SingleItem = () => {
   const dispatch = useDispatch();
-
-  const { item } = useSelector((state: RootState) => state.items);
   const { user: dbUser } = useSelector((state: RootState) => state.authUser);
   const { getUser } = bindActionCreators(authActionCreators, dispatch);
   const [itemUser, setItemUser] = useState<User | undefined>(undefined);
   const { user } = useAuth0();
 
-  const { getItem } = bindActionCreators(ItemActionsCreator, dispatch);
   const [selectedSubscription, setSelectedSubscription] = useState<{
     price: number;
     duration: string;
   }>();
 
-  useEffect(() => {
-    // Get items id parameter from path
-    const path = window.location.pathname;
-    const itemId = extractUUIDFromString(path);
+  const path = window.location.pathname;
+  const itemId = extractUUIDFromString(path);
 
-    if (itemId) {
-      getItem(itemId);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { data: item, isLoading } = useGetItem(itemId || "");
 
   useEffect(() => {
-    if (item?.user_id) {
+    if (item?.user_id && !isLoading) {
       getUser(item?.user_id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [item?.user_id]);
+  }, [item, isLoading]);
 
   useEffect(() => {
     setItemUser(dbUser);
   }, [dbUser]);
 
   useEffect(() => {
-    setSelectedSubscription({
-      price: item?.dailyPrice ?? 0,
-      duration: "day",
-    });
-  }, [item]);
+    if (item?.user_id && !isLoading) {
+      setSelectedSubscription({
+        price: item?.dailyPrice ?? 0,
+        duration: "day",
+      });
+    }
+  }, [item, isLoading]);
+
   return (
     <ApplicationWrapper>
       <div className='m-5'>
@@ -80,7 +74,7 @@ const SingleItem = () => {
                         href='/'
                         className='rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800'
                       >
-                        {item?.category}
+                        {item?.title}
                       </a>
                     </div>
                   </div>
