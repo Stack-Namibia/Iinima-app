@@ -1,21 +1,13 @@
 import { useEffect, useState } from "react";
 import ApplicationWrapper from "../../../general/ApplicationWrapper";
 import { extractUUIDFromString } from "../../../../utils/data";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../store/reducers";
-import { bindActionCreators } from "@reduxjs/toolkit";
-import * as authActionCreators from "../../../../store/action-creators/auth-action-creators";
 import { EditOutlined, Email, Phone, WhatsApp } from "@mui/icons-material";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
-import { User } from "../../../../api/accounts";
 import { useGetItem } from "../../../../hooks/items/queries";
+import { useAccount } from "../../../../hooks/accounts/queries";
 
 const SingleItem = () => {
-  const dispatch = useDispatch();
-  const { user: dbUser } = useSelector((state: RootState) => state.authUser);
-  const { getUser } = bindActionCreators(authActionCreators, dispatch);
-  const [itemUser, setItemUser] = useState<User | undefined>(undefined);
   const { user } = useAuth0();
 
   const [selectedSubscription, setSelectedSubscription] = useState<{
@@ -27,17 +19,7 @@ const SingleItem = () => {
   const itemId = extractUUIDFromString(path);
 
   const { data: item, isLoading } = useGetItem(itemId || "");
-
-  useEffect(() => {
-    if (item?.user_id && !isLoading) {
-      getUser(item?.user_id);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [item, isLoading]);
-
-  useEffect(() => {
-    setItemUser(dbUser);
-  }, [dbUser]);
+  const { data: itemUser } = useAccount(item?.user_id || "", !!item);
 
   useEffect(() => {
     if (item?.user_id && !isLoading) {
