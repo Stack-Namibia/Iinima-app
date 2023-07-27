@@ -7,95 +7,81 @@ import { Button } from "../../general/Button";
 import divider from "../../../assets/divider.svg";
 import CategoryCard from "./CategoryCard";
 import { categories } from "../../../settings/constants";
-import { bindActionCreators } from "@reduxjs/toolkit";
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Item } from "../../../api/items";
-import { RootState } from "../../../store/reducers";
-import * as ItemActionsCreator from "../../../store/action-creators/items-action-creator";
 import { arrayUnique } from "../../../utils/data";
+import { useGetItems } from "../../../hooks/items/queries";
 
 const Home = () => {
-  const { items } = useSelector((state: RootState) => state.items);
-  const { getItems } = bindActionCreators(ItemActionsCreator, useDispatch());
+  const { data: items, isLoading: isGettingItems } = useGetItems();
   const [value, setValue] = React.useState(0);
-  const [localItems, setLocalItems] = React.useState<Item[] | undefined>(
-    undefined
-  );
 
-  React.useEffect(() => {
-    getItems();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  React.useEffect(() => {
-    setLocalItems(items);
-  }, [items]);
   return (
     <HowItWorksWrapper>
-      <div className="hero min-h-screen bg-white">
-        <div className="hero-content flex-col lg:flex-row-reverse">
+      <div className='hero min-h-screen bg-white'>
+        <div className='hero-content flex-col lg:flex-row-reverse'>
           <img
             src={logo}
-            className="hidden max-w-sm md:block lg:block"
-            alt="logo"
+            className='hidden max-w-sm md:block lg:block'
+            alt='logo'
           />
           <div>
-            <InnerHeading className="flex flex-col lg:flex-row">
-              <p className="font-bold text-7xl text-black mr-5">Rent</p>
-              <Words className="">
-                <MarkText className="font-bold text-7xl">Anything</MarkText>
-                <MarkText className="font-bold text-7xl">Tools</MarkText>
-                <MarkText className="font-bold text-7xl">Furniture</MarkText>
-                <MarkText className="font-bold text-7xl">Clothing</MarkText>
-                <MarkText className="font-bold text-7xl">Electronics</MarkText>
-                <MarkText className="font-bold text-7xl">Anything</MarkText>
+            <InnerHeading className='flex flex-col lg:flex-row'>
+              <p className='font-bold text-7xl text-black mr-5'>Rent</p>
+              <Words className=''>
+                <MarkText className='font-bold text-7xl'>Anything</MarkText>
+                <MarkText className='font-bold text-7xl'>Tools</MarkText>
+                <MarkText className='font-bold text-7xl'>Furniture</MarkText>
+                <MarkText className='font-bold text-7xl'>Clothing</MarkText>
+                <MarkText className='font-bold text-7xl'>Electronics</MarkText>
+                <MarkText className='font-bold text-7xl'>Anything</MarkText>
               </Words>
             </InnerHeading>
 
-            <div className="font-bold text-7xl text-black whitespace-pre-line w-3/4">
+            <div className='font-bold text-7xl text-black whitespace-pre-line w-3/4'>
               From within your area
             </div>
-            <div className="flex flex-row items-center mt-10 lg:flex-row gap-5">
+            <div className='flex flex-row items-center mt-10 lg:flex-row gap-5'>
               <SearchInput
                 data={
-                  (arrayUnique(
-                    localItems?.map(({ title }) => title)
-                  ) as string[]) ?? []
+                  !isGettingItems
+                    ? (arrayUnique(
+                        items?.map(({ title }) => title)
+                      ) as string[])
+                    : []
                 }
                 setValue={setValue}
               />
               <Link to={`/item/browse${value ? `?searchValue=${value}` : ""}`}>
-                <Button text="Browse Items" />
+                <Button text='Browse Items' />
               </Link>
             </div>
           </div>
         </div>
       </div>
       <header
-        className="header"
+        className='header'
         style={{
           backgroundImage: `url(${divider})`,
         }}
       >
-        <div className="text-box">
-          <h1 className="heading-primary">
-            <span className="font-bold  text-2xl text-black">Save money</span>
-            <span className="heading-primary-sub text-black">
+        <div className='text-box'>
+          <h1 className='heading-primary'>
+            <span className='font-bold  text-2xl text-black'>Save money</span>
+            <span className='heading-primary-sub text-black'>
               Search for something you need and rent it for some day!
             </span>
           </h1>
-          <Link to="/item/browse">
-            <Button text="Browse Items" />
+          <Link to='/item/browse'>
+            <Button text='Browse Items' />
           </Link>
         </div>
       </header>
-      <div className="hero min-h-[50%] mb-10 mt-10">
-        <div className="flex-col justify-center w-3/5 rounded-lg mb-5 md:flex md:items-center mr-4 ml-4 md:w-3/5">
-          <div className="font-bold text-5xl text-black mb-20 text-center">
+      <div className='hero min-h-[50%] mb-10 mt-10'>
+        <div className='flex-col justify-center w-3/5 rounded-lg mb-5 md:flex md:items-center mr-4 ml-4 md:w-3/5'>
+          <div className='font-bold text-5xl text-black mb-20 text-center'>
             <h1>Explore our categories</h1>
           </div>
-          <ul className="grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4  xl:grid-cols-6 items-center">
+          <ul className='grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4  xl:grid-cols-6 items-center'>
             {categories.map((category, i) => (
               <Link to={`/item/browse?category=${category.name}`} key={i}>
                 <CardList>
