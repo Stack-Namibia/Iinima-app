@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ReactDropzone from "react-dropzone";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Input } from "../../../general/Input";
@@ -15,6 +15,7 @@ import { extractUUIDFromString } from "../../../../utils/data";
 import { useGetLocations } from "../../../../hooks/locations/queries";
 import { categories as staticCategories } from "../../../../settings/constants";
 import { useGetItem } from "../../../../hooks/items/queries";
+import { RootState } from "../../../../store/reducers";
 
 const Form = () => {
   const { user } = useAuth0();
@@ -28,6 +29,7 @@ const Form = () => {
   const path = window.location.pathname;
   const itemId = extractUUIDFromString(path);
   const { data: item, isLoading: isGettingItem } = useGetItem(itemId || "");
+  const { isLoading } = useSelector((state: RootState) => state.items);
 
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
@@ -394,17 +396,9 @@ const Form = () => {
             </Grid>
             <Grid item xs={6}>
               {editForm ? (
-                <Button
-                  text='Update item'
-                  type='submit'
-                  loading={isGettingItem}
-                />
+                <Button text='Update item' type='submit' loading={isLoading} />
               ) : (
-                <Button
-                  text='List item'
-                  type='submit'
-                  loading={isGettingItem}
-                />
+                <Button text='List item' type='submit' loading={isLoading} />
               )}
             </Grid>
           </Grid>
