@@ -1,18 +1,24 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ApplicationWrapper from "../../../general/ApplicationWrapper";
 import { extractUUIDFromString } from "../../../../utils/data";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/reducers";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import * as ItemActionsCreator from "../../../../store/action-creators/items-action-creator";
-import { Email, Phone, WhatsApp } from "@mui/icons-material";
-import { User } from "@auth0/auth0-react";
+import * as authActionCreators from "../../../../store/action-creators/auth-action-creators";
+import { EditOutlined, Email, Phone, WhatsApp } from "@mui/icons-material";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Link } from "react-router-dom";
+import { User } from "../../../../api/accounts";
 
 const SingleItem = () => {
   const dispatch = useDispatch();
 
   const { item } = useSelector((state: RootState) => state.items);
-  const [itemUser] = useState<User | undefined>(undefined);
+  const { user: dbUser } = useSelector((state: RootState) => state.authUser);
+  const { getUser } = bindActionCreators(authActionCreators, dispatch);
+  const [itemUser, setItemUser] = useState<User | undefined>(undefined);
+  const { user } = useAuth0();
 
   const { getItem } = bindActionCreators(ItemActionsCreator, dispatch);
 
@@ -26,6 +32,17 @@ const SingleItem = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (item?.user_id) {
+      getUser(item?.user_id);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    setItemUser(dbUser);
+  }, [dbUser]);
 
   return (
     <ApplicationWrapper>
@@ -96,9 +113,18 @@ const SingleItem = () => {
               <div className='lg:col-span-2 lg:row-span-2 lg:row-end-2'>
                 <h1 className='sm: text-2xl font-bold text-gray-900 sm:text-3xl'>
                   {item?.title}
+                  {"  "}
+                  {user?.sub === item?.user_id && (
+                    <Link to={`/item/edit/${item?._id}`}>
+                      <EditOutlined className='hover:text-primary' />
+                    </Link>
+                  )}
                 </h1>
+                <div className='text-sm'>
+                  by{" "}
+                  <span>{itemUser?.firstName + " " + itemUser?.lastName}</span>
+                </div>
 
-                <h2 className='mt-8 text-base text-gray-700'>Description</h2>
                 <div className='mt-3 flex select-none flex-wrap items-center gap-1'>
                   <span>{item?.description}</span>
                 </div>
@@ -156,7 +182,7 @@ const SingleItem = () => {
                   </label>
                 </div>
 
-                <div className='mt-10 flex flex-col items-center justify-between space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0'>
+                <div className='mt-10 flex flex-col justify-between space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0'>
                   <div className='flex items-end'>
                     <h1 className='text-3xl font-bold'>$60.50</h1>
                     <span className='text-base'>/month</span>
@@ -204,46 +230,6 @@ const SingleItem = () => {
                     </div>
                   </div>
                 </div>
-
-                <ul className='mt-8 space-y-2'>
-                  <li className='flex items-center text-left text-sm font-medium text-gray-600'>
-                    <svg
-                      className='mr-2 block h-5 w-5 align-middle text-gray-500'
-                      xmlns='http://www.w3.org/2000/svg'
-                      fill='none'
-                      viewBox='0 0 24 24'
-                      stroke='currentColor'
-                    >
-                      <path
-                        stroke-linecap='round'
-                        stroke-linejoin='round'
-                        stroke-width='2'
-                        d='M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
-                        className=''
-                      ></path>
-                    </svg>
-                    Free shipping worldwide
-                  </li>
-
-                  <li className='flex items-center text-left text-sm font-medium text-gray-600'>
-                    <svg
-                      className='mr-2 block h-5 w-5 align-middle text-gray-500'
-                      xmlns='http://www.w3.org/2000/svg'
-                      fill='none'
-                      viewBox='0 0 24 24'
-                      stroke='currentColor'
-                    >
-                      <path
-                        stroke-linecap='round'
-                        stroke-linejoin='round'
-                        stroke-width='2'
-                        d='M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z'
-                        className=''
-                      ></path>
-                    </svg>
-                    Cancel Anytime
-                  </li>
-                </ul>
               </div>
             </div>
           </div>
