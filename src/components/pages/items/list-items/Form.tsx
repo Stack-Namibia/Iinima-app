@@ -18,21 +18,7 @@ import {
   useGetLocations,
   useSyncLocations,
 } from "../../../../hooks/locations/queries";
-
-const categoriesMock = [
-  {
-    value: "power-tools",
-    label: "Power Tools",
-  },
-  {
-    value: "hand-tools",
-    label: "Hand Tools",
-  },
-  {
-    value: "garden-tools",
-    label: "Garden Tools",
-  },
-];
+import { categories as staticCategories } from "../../../../settings/constants";
 
 const Form = () => {
   const { user } = useAuth0();
@@ -303,7 +289,10 @@ const Form = () => {
               required
             />
             <BasicSelect
-              items={categoriesMock}
+              items={staticCategories.map((c) => ({
+                label: c.name,
+                value: c.name,
+              }))}
               text={"Categories"}
               onChange={setCategory}
               value={category}

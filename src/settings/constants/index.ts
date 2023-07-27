@@ -24,10 +24,6 @@ export const categories = [
     imageUrl: "/categories/Electronics.jpg",
   },
   {
-    name: "Baby Gear",
-    imageUrl: "/categories/BabyGear.jpg",
-  },
-  {
     name: "Clothing",
     imageUrl: "/categories/Clothing.jpg",
   },
@@ -40,15 +36,15 @@ export const categories = [
     imageUrl: "/categories/PartyGames.jpg",
   },
   {
-    name: "Musical Instruments",
-    imageUrl: "/categories/MusicalInstruments.jpg",
-  },
-  {
     name: "Sports Equipment",
     imageUrl: "/categories/SportsEquipment.jpg",
   },
   {
     name: "Miscellaneous",
     imageUrl: "/categories/Miscellaneous.jpg",
+  },
+  {
+    name: "Musical Instruments",
+    imageUrl: "/categories/MusicalInstruments.jpg",
   },
 ];
