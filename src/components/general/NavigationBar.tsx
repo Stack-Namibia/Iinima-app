@@ -30,7 +30,7 @@ const pages2 = [
     text: "Browse Items",
     to: "/item/browse",
   },
-  { text: "Login", to: "/signin" },
+  // { text: "Login", to: "/signin" },
 ];
 export const settings = [
   {
