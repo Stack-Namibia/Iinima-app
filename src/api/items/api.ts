@@ -578,8 +578,6 @@ export const ItemsApiFp = function (configuration?: Configuration) {
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH
       ) => {
-        console.log("localVarAxiosArgs", localVarAxiosArgs);
-        console.log("URL", basePath + localVarAxiosArgs.url);
         const axiosRequestArgs: AxiosRequestConfig = {
           ...localVarAxiosArgs.options,
           url: basePath + localVarAxiosArgs.url,

@@ -9,5 +9,5 @@ export const syncLocations = async () => {
 
 export const getLocations = async () => {
   const data = await locationsApi.getLocationsApiV1Get();
-  return data;
+  return data.data;
 };

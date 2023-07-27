@@ -86,11 +86,14 @@ export const signInWithGoogle = async () => {
     const response: any = await signInWithPopup(auth, googleProvider);
     sessionStorage.setItem("firebaseToken", await response.user.getIdToken());
     const [firstName, lastName] = response.user.displayName.split(" ");
-    console.log(response.user);
 
     // Create user exists in the database
     const user = await usersApi
-      .getUserByEmailApiV1EmailEmailGet(response.user.email, { headers: { Authorization: `Bearer ${sessionStorage.getItem("firebaseToken")}`} })
+      .getUserByEmailApiV1EmailEmailGet(response.user.email, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("firebaseToken")}`,
+        },
+      })
       .then(async (user) => {
         return response.user;
       })
@@ -103,9 +106,17 @@ export const signInWithGoogle = async () => {
             lastName,
             email: response.user.email,
           };
-          await usersApi.createUserApiV1Post(user, { headers: { Authorization: `Bearer ${sessionStorage.getItem("firebaseToken")}`} }).catch((error) => {
-            console.log(error);
-          });
+          await usersApi
+            .createUserApiV1Post(user, {
+              headers: {
+                Authorization: `Bearer ${sessionStorage.getItem(
+                  "firebaseToken"
+                )}`,
+              },
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         }
 
         if (error.response.status === 401) {
