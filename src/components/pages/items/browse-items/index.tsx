@@ -5,7 +5,7 @@ import SearchInput from "./SearchInput";
 import MultiSelect from "../../../general/MultiSelect";
 import { arrayUnique } from "../../../../utils/data";
 import { categories as staticCategories } from "../../../../settings/constants";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useGetItems } from "../../../../hooks/items/queries";
 import { useGetLocations } from "../../../../hooks/locations/queries";
 import { useEffect, useState } from "react";
@@ -140,16 +140,7 @@ const BrowseItems = () => {
                     className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3'
                   >
                     {filteredItems.map((item: any, i: number) => (
-                      <Link to={`/item/browse/${item._id}`}>
-                        <ItemsCard
-                          photos={item.photos}
-                          description={item.description || ""}
-                          dailyPrice={item.dailyPrice}
-                          location={item.location}
-                          title={item.title}
-                          category={item.category}
-                        />
-                      </Link>
+                      <ItemsCard {...item} />
                     ))}
                   </div>
                 </section>

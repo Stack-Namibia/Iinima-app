@@ -11,7 +11,6 @@ import { InfoText } from "../../../general/InfoText";
 import { BasicSelect } from "../../../general/BasicSelect";
 import * as ItemActionsCreator from "../../../../store/action-creators/items-action-creator";
 import { RootState } from "../../../../store/reducers";
-import { Location } from "../../../../api/locations";
 import { Item } from "../../../../api/items";
 import { extractUUIDFromString } from "../../../../utils/data";
 import {
@@ -122,6 +121,7 @@ const Form = () => {
     setEditItemsPhotos(item.photos);
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     // Get items id parameter from path
     const path = window.location.pathname;
