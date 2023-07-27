@@ -5,21 +5,48 @@ import SearchInput from "./SearchInput";
 import MultiSelect from "../../../general/MultiSelect";
 import { arrayUnique } from "../../../../utils/data";
 import { categories as staticCategories } from "../../../../settings/constants";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { useGetItems } from "../../../../hooks/items/queries";
 import { useGetLocations } from "../../../../hooks/locations/queries";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const BrowseItems = () => {
+  const location = useLocation();
+  const history = useHistory();
   const items = useGetItems();
   const locations = useGetLocations(true);
 
-  const [searchValue, setSearchValue] = useState<string>("");
+  const queryParams = new URLSearchParams(location.search);
+  const searchQuery = queryParams.get("search") || "";
+  const categoryQuery = queryParams.get("category") || "";
+
+  const [searchValue, setSearchValue] = useState<string>(searchQuery);
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
 
+  useEffect(() => {
+    // Update the state with the search value from the URL
+    setSearchValue(searchQuery);
+    setCategories(categoryQuery ? categoryQuery.split(",") : []);
+  }, [searchQuery, categoryQuery]);
+
   const handleSearchValueChange = (e: any) => {
-    setSearchValue(e.target.value);
+    const value = e.target.value;
+    setSearchValue(value);
+    // Update the URL with the new search value
+    queryParams.set("search", value);
+    history.push({ search: queryParams.toString() });
+  };
+
+  const handleCategoriesChange = (event: any) => {
+    const { value } = event.target;
+    setCategories(Array.isArray(value) ? value : [value]); // Ensure categories is an array
+    // Update the URL with the new categories (using append instead of set)
+    queryParams.delete("category"); // Remove existing category parameters
+    value.forEach((category: string) =>
+      queryParams.append("category", category)
+    );
+    history.push({ search: queryParams.toString() });
   };
 
   const handleLocationsChange = (event: any) => {
@@ -27,13 +54,6 @@ const BrowseItems = () => {
       target: { value },
     } = event;
     setSelectedLocations(value);
-  };
-
-  const handleCategoriesChange = (event: any) => {
-    const {
-      target: { value },
-    } = event;
-    setCategories(value);
   };
 
   if (items.isLoading || locations.isLoading) {
