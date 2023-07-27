@@ -1,16 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ApplicationWrapper from "../../../general/ApplicationWrapper";
 import { extractUUIDFromString } from "../../../../utils/data";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/reducers";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import * as ItemActionsCreator from "../../../../store/action-creators/items-action-creator";
-import { LocationCity, MapRounded, PinDrop } from "@mui/icons-material";
+import { Email, Phone, WhatsApp } from "@mui/icons-material";
+import { User } from "@auth0/auth0-react";
 
 const SingleItem = () => {
   const dispatch = useDispatch();
 
   const { item } = useSelector((state: RootState) => state.items);
+  const [itemUser] = useState<User | undefined>(undefined);
 
   const { getItem } = bindActionCreators(ItemActionsCreator, dispatch);
 
@@ -96,18 +98,16 @@ const SingleItem = () => {
                   {item?.title}
                 </h1>
 
-                <h2 className='mt-8 text-base text-gray-900'>Description</h2>
+                <h2 className='mt-8 text-base text-gray-700'>Description</h2>
                 <div className='mt-3 flex select-none flex-wrap items-center gap-1'>
                   <span>{item?.description}</span>
                 </div>
-
-                <h2 className='mt-8 text-base text-gray-900'>Location</h2>
                 <div className='mt-3 flex select-none flex-wrap items-center gap-1'>
-                  <PinDrop className='text-primary' />{" "}
+                  <span className='text-gray-700'>Available in:</span>{" "}
                   <span>{item?.location}</span>
                 </div>
 
-                <h2 className='mt-8 text-base text-gray-900'>
+                <h2 className='mt-8 text-base text-gray-700'>
                   Choose subscription
                 </h2>
                 <div className='mt-3 flex select-none flex-wrap items-center gap-1'>
@@ -118,11 +118,11 @@ const SingleItem = () => {
                       value='4 Months'
                       className='peer sr-only'
                     />
-                    <p className='peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold'>
-                      4 Months
+                    <p className='peer-checked:bg-primary peer-checked:text-white rounded-lg border  px-6 py-2 font-bold'>
+                      N${item?.dailyPrice}
                     </p>
                     <span className='mt-1 block text-center text-xs'>
-                      $80/mo
+                      Daily
                     </span>
                   </label>
                   <label className=''>
@@ -133,11 +133,11 @@ const SingleItem = () => {
                       className='peer sr-only'
                       checked
                     />
-                    <p className='peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold'>
-                      8 Months
+                    <p className='peer-checked:bg-primary peer-checked:text-white rounded-lg border  px-6 py-2 font-bold'>
+                      N${item?.weeklyPrice}
                     </p>
                     <span className='mt-1 block text-center text-xs'>
-                      $60/mo
+                      Weekly
                     </span>
                   </label>
                   <label className=''>
@@ -147,11 +147,11 @@ const SingleItem = () => {
                       value='12 Months'
                       className='peer sr-only'
                     />
-                    <p className='peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold'>
-                      12 Months
+                    <p className='peer-checked:bg-primary peer-checked:text-white rounded-lg border  px-6 py-2 font-bold'>
+                      N${item?.monthlyPrice}
                     </p>
                     <span className='mt-1 block text-center text-xs'>
-                      $40/mo
+                      Monthly
                     </span>
                   </label>
                 </div>
@@ -162,26 +162,47 @@ const SingleItem = () => {
                     <span className='text-base'>/month</span>
                   </div>
 
-                  <button
-                    type='button'
-                    className='inline-flex items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800'
-                  >
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      className='shrink-0 mr-3 h-5 w-5'
-                      fill='none'
-                      viewBox='0 0 24 24'
-                      stroke='currentColor'
-                      stroke-width='2'
-                    >
-                      <path
-                        stroke-linecap='round'
-                        stroke-linejoin='round'
-                        d='M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z'
-                      />
-                    </svg>
-                    Add to cart
-                  </button>
+                  <div className='flex gap-3 my-auto'>
+                    <div>
+                      <button>
+                        <a href={`/`} target='_blank' rel='noreferrer'>
+                          <Email
+                            sx={{
+                              fontSize: "2rem",
+                            }}
+                          />
+                        </a>
+                      </button>
+                    </div>
+                    <div>
+                      <button>
+                        <a
+                          href={`https://wa.me/${itemUser?.mobileNumber}?text=I'm%20interested%20in%20your%20${item?.title}%20https%3A%2F%2F2671-160-242-75-87.ngrok-free.app/item/browse/${item?._id}`}
+                          target='_blank'
+                          rel='noreferrer'
+                        >
+                          <WhatsApp
+                            sx={{
+                              color: "#25D366",
+                              fontSize: "2rem",
+                            }}
+                          />
+                        </a>
+                      </button>
+                    </div>
+                    <div>
+                      <a href={`tel:${itemUser?.mobileNumber}`}>
+                        <button>
+                          <Phone
+                            sx={{
+                              color: "#128C7E",
+                              fontSize: "2rem",
+                            }}
+                          />
+                        </button>
+                      </a>
+                    </div>
+                  </div>
                 </div>
 
                 <ul className='mt-8 space-y-2'>

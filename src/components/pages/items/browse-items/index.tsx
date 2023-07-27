@@ -10,12 +10,11 @@ import { Item } from "../../../../api/items";
 import { getItems } from "../../../../store/action-creators/items-action-creator";
 import { loadLocations } from "../../../../store/action-creators";
 import { Component } from "react";
-import BasicModal from "../../../general/BasicModal";
-import SingleItem, { SingleItemProps } from "./SingleItem";
 import { SelectChangeEvent } from "@mui/material";
 import { arrayUnique } from "../../../../utils/data";
 import { Location } from "../../../../api/locations";
 import { categories as staticCategories } from "../../../../settings/constants";
+import { Link } from "react-router-dom";
 
 interface Props {
   items: Item[] | undefined;
@@ -176,29 +175,10 @@ export class BrowseItems extends Component<Props> {
   render() {
     const items = this.setFilteredItems();
 
-    const { selectedItem, locations, categories } = this.state;
-    const currentItem: SingleItemProps = {
-      title: selectedItem?.title ?? "",
-      description: selectedItem?.description ?? "",
-      photos: selectedItem?.photos ?? [],
-      location: selectedItem?.location ?? "",
-      category: selectedItem?.category ?? "",
-      dailyPrice: selectedItem?.dailyPrice ?? 0,
-      weeklyPrice: selectedItem?.weeklyPrice ?? 0,
-      monthlyPrice: selectedItem?.monthlyPrice ?? 0,
-      user_id: selectedItem?.user_id ?? "",
-      _id: selectedItem?._id ?? "",
-    };
+    const { locations, categories } = this.state;
 
     return (
       <ApplicationWrapper>
-        <BasicModal
-          open={this.state.modalOpen}
-          handleClose={this.setModalOpen}
-          width={700}
-        >
-          {<SingleItem {...currentItem} />}
-        </BasicModal>
         <div className='flex h-screen'>
           {/* Content area */}
           <div className='flex flex-1 flex-col overflow-hidden'>
@@ -253,14 +233,7 @@ export class BrowseItems extends Component<Props> {
                     >
                       {items ? (
                         items.map((item: any, i: number) => (
-                          <button
-                            key={i}
-                            onClick={() => {
-                              this.setSelectedItem(item);
-                              this.setModalOpen();
-                            }}
-                            className='text-left'
-                          >
+                          <Link to={`/item/browse/${item._id}`}>
                             <ItemsCard
                               photos={item.photos}
                               description={item.description || ""}
@@ -269,7 +242,7 @@ export class BrowseItems extends Component<Props> {
                               title={item.title}
                               category={item.category}
                             />
-                          </button>
+                          </Link>
                         ))
                       ) : (
                         <div>Its lonely here</div>
