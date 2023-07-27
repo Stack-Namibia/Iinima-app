@@ -310,10 +310,12 @@ const Form = () => {
               required
             />
             <BasicSelect
-              items={locations.map((l: Location) => ({
-                label: l.town,
-                value: l.town,
-              }))}
+              items={
+                locations?.map((l) => ({
+                  label: l.town,
+                  value: l.town,
+                })) || []
+              }
               text={"Address"}
               onChange={setLocation}
               value={location}
