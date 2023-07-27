@@ -308,6 +308,7 @@ const Form = () => {
               multiline
               onChange={setDescription}
               value={description}
+              inputProps={{ maxLength: 299 }}
               required
             />
           </div>

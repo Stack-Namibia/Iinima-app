@@ -151,8 +151,8 @@ const SingleItem = () => {
                   <span>{itemUser?.firstName + " " + itemUser?.lastName}</span>
                 </div>
 
-                <div className='mt-3 flex select-none flex-wrap items-center gap-1'>
-                  <span className='text-gray-700'>{item?.description}</span>
+                <div className='mt-3 flex select-none flex-wrap items-center gap-1 break-words'>
+                  <span className='break-all text-gray-700 break-words'>{item?.description}</span>
                 </div>
                 <div className='mt-3 flex select-none flex-wrap items-center gap-1'>
                   <span className='text-gray-700'>Available in:</span>{" "}
