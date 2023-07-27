@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { useGetItem } from "../../../../hooks/items/queries";
 import { useAccount } from "../../../../hooks/accounts/queries";
 import { configs } from "../../../../settings/configs";
+import LoadingPage from "../../loading-page";
 
 const SingleItem = () => {
   const { user } = useAuth0();
@@ -25,23 +26,30 @@ const SingleItem = () => {
   const path = window.location.pathname;
   const itemId = extractUUIDFromString(path);
 
-  const { data: item, isLoading } = useGetItem(itemId || "");
-  const { data: itemUser } = useAccount(item?.user_id || "", !!item);
+  const { data: item, isLoading: isLoadingItem } = useGetItem(itemId || "");
+  const { data: itemUser, isLoading: isLoadingUser } = useAccount(
+    item?.user_id || "",
+    !!item
+  );
 
   const [selectedPhoto, setSelectedPhoto] = useState<string>("");
 
   useEffect(() => {
-    if (item?.user_id && !isLoading) {
+    if (item?.user_id && !isLoadingItem) {
       setSelectedSubscription({
         price: item?.dailyPrice ?? 0,
         duration: "day",
       });
     }
-  }, [item, isLoading]);
+  }, [item, isLoadingItem]);
+
+  if (isLoadingItem || isLoadingUser) {
+    return <LoadingPage />;
+  }
 
   return (
     <ApplicationWrapper>
-      <div className='m-5'>
+      <div className={`m-2`}>
         <section className='py-12 sm:py-16'>
           <div className='container mx-auto px-4'>
             <nav className='flex'>
