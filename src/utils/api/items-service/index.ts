@@ -12,7 +12,7 @@ export const listItem = async (item: Item) => {
 
 export const fetchItems = async (): Promise<Item[]> => {
   // This function fetches items from the api
-  const { data } = await itemsApi.getItemsApiV1Get();
+  const { data } = await itemsApi.getItemsApiV1Get(0, 100000000);
   return data;
 };
 

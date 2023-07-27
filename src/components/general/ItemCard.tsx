@@ -36,7 +36,7 @@ export default function ItemCard({
               </div>
             </h2>
           </div>
-          <p>{description}</p>
+          <p className='break-all text-sm'>{description}</p>
           <div className='card-actions'>
             <div className='badge badge-outline'>Windhoek</div>
             <div className='badge badge-outline'>{category}</div>

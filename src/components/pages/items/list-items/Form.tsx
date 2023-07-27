@@ -146,7 +146,6 @@ const Form = () => {
           <div className='flex justify-center mb-5 mt-2 gap-2'>
             <ReactDropzone
               onDrop={(acceptedFiles) => {
-                console.log(acceptedFiles);
                 // set value at index zero in images array
                 if (acceptedFiles) {
                   setPhotos([

@@ -4,7 +4,6 @@ import { extractUUIDFromString } from "../../../../utils/data";
 import {
   CameraAltOutlined,
   EditOutlined,
-  Email,
   Phone,
   WhatsApp,
 } from "@mui/icons-material";
@@ -240,7 +239,7 @@ const SingleItem = () => {
                   </div>
 
                   <div className='flex gap-3 my-auto'>
-                    <div>
+                    {/* <div>
                       <button>
                         <a href={`/`} target='_blank' rel='noreferrer'>
                           <Email
@@ -250,7 +249,7 @@ const SingleItem = () => {
                           />
                         </a>
                       </button>
-                    </div>
+                    </div> */}
                     <div>
                       <button>
                         <a
