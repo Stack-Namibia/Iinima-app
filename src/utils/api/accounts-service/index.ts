@@ -20,7 +20,6 @@ export const updateUserById = async (user: User, id: string) => {
 };
 
 export const createUser = async (user: User) => {
-  console.log(user);
   const { data } = await usersApi.createUserApiV1Post(user);
   return data;
 };

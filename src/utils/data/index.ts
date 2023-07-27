@@ -4,7 +4,6 @@
  * @returns - The array without duplicate values
  */
 const arrayUnique = (arr: unknown[] | undefined) => {
-  console.log(arr);
   if (arr === undefined || arr === null) return [];
 
   return arr.filter((item, index) => arr.indexOf(item) === index);

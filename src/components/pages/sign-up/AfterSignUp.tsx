@@ -37,13 +37,6 @@ function AfterAuth() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoading(true);
-
-    console.log(userState);
-
-    console.log({
-      ...user,
-      phone_number: phoneNumber,
-    });
     setLoading(false);
   };
 
