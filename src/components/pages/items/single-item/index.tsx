@@ -21,6 +21,10 @@ const SingleItem = () => {
   const { user } = useAuth0();
 
   const { getItem } = bindActionCreators(ItemActionsCreator, dispatch);
+  const [selectedSubscription, setSelectedSubscription] = useState<{
+    price: number;
+    duration: string;
+  }>();
 
   useEffect(() => {
     // Get items id parameter from path
@@ -42,7 +46,11 @@ const SingleItem = () => {
 
   useEffect(() => {
     setItemUser(dbUser);
-  }, [dbUser]);
+    setSelectedSubscription({
+      price: item?.dailyPrice ?? 0,
+      duration: "day",
+    });
+  }, [dbUser, item]);
 
   return (
     <ApplicationWrapper>
@@ -141,8 +149,15 @@ const SingleItem = () => {
                     <input
                       type='radio'
                       name='subscription'
-                      value='4 Months'
+                      value={item?.dailyPrice}
                       className='peer sr-only'
+                      checked={selectedSubscription?.duration === "day"}
+                      onChange={(e) => {
+                        setSelectedSubscription({
+                          price: item?.dailyPrice ?? 0,
+                          duration: "day",
+                        });
+                      }}
                     />
                     <p className='peer-checked:bg-primary peer-checked:text-white rounded-lg border  px-6 py-2 font-bold'>
                       N${item?.dailyPrice}
@@ -155,9 +170,15 @@ const SingleItem = () => {
                     <input
                       type='radio'
                       name='subscription'
-                      value='8 Months'
+                      value={item?.weeklyPrice}
                       className='peer sr-only'
-                      checked
+                      checked={selectedSubscription?.duration === "week"}
+                      onChange={(e) => {
+                        setSelectedSubscription({
+                          price: item?.weeklyPrice ?? 0,
+                          duration: "week",
+                        });
+                      }}
                     />
                     <p className='peer-checked:bg-primary peer-checked:text-white rounded-lg border  px-6 py-2 font-bold'>
                       N${item?.weeklyPrice}
@@ -170,8 +191,15 @@ const SingleItem = () => {
                     <input
                       type='radio'
                       name='subscription'
-                      value='12 Months'
+                      value={item?.monthlyPrice}
                       className='peer sr-only'
+                      checked={selectedSubscription?.duration === "month"}
+                      onChange={(e) => {
+                        setSelectedSubscription({
+                          price: item?.monthlyPrice ?? 0,
+                          duration: "month",
+                        });
+                      }}
                     />
                     <p className='peer-checked:bg-primary peer-checked:text-white rounded-lg border  px-6 py-2 font-bold'>
                       N${item?.monthlyPrice}
@@ -184,8 +212,12 @@ const SingleItem = () => {
 
                 <div className='mt-10 flex flex-col justify-between space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0'>
                   <div className='flex items-end'>
-                    <h1 className='text-3xl font-bold'>$60.50</h1>
-                    <span className='text-base'>/month</span>
+                    <h1 className='text-3xl font-bold'>
+                      N$ {selectedSubscription?.price}
+                    </h1>
+                    <span className='text-base'>
+                      /{selectedSubscription?.duration}
+                    </span>
                   </div>
 
                   <div className='flex gap-3 my-auto'>
