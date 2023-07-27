@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import ApplicationWrapper from "../../../general/ApplicationWrapper";
 import { extractUUIDFromString } from "../../../../utils/data";
-import { EditOutlined, Email, Phone, WhatsApp } from "@mui/icons-material";
+import {
+  CameraAltOutlined,
+  EditOutlined,
+  Email,
+  Phone,
+  WhatsApp,
+} from "@mui/icons-material";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 import { useGetItem } from "../../../../hooks/items/queries";
@@ -20,6 +26,8 @@ const SingleItem = () => {
 
   const { data: item, isLoading } = useGetItem(itemId || "");
   const { data: itemUser } = useAccount(item?.user_id || "", !!item);
+
+  const [selectedPhoto, setSelectedPhoto] = useState<string>("");
 
   useEffect(() => {
     if (item?.user_id && !isLoading) {
@@ -41,7 +49,7 @@ const SingleItem = () => {
                   <div className='-m-1'>
                     <Link to={`/item/browse`}>
                       <span className='rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800'>
-                        items
+                        Items
                       </span>
                     </Link>
                   </div>
@@ -67,28 +75,54 @@ const SingleItem = () => {
                 <div className='lg:flex lg:items-start'>
                   <div className='lg:order-2 lg:ml-5'>
                     <div className='max-w-xl overflow-hidden rounded-lg'>
-                      <img
-                        className='h-[500px] w-full max-w-full object-cover'
-                        src={item?.photos[0]}
-                        alt=''
-                      />
+                      {item?.photos && item.photos.length > 0 ? (
+                        <img
+                          className='h-full w-full max-w-full object-cover'
+                          src={selectedPhoto || item?.photos[0]}
+                          alt=''
+                        />
+                      ) : (
+                        <CameraAltOutlined
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                          }}
+                        />
+                      )}
                     </div>
                   </div>
 
                   <div className='mt-2 w-full lg:order-1 lg:w-32 lg:flex-shrink-0'>
                     <div className='flex flex-row items-start lg:flex-col'>
-                      {item?.photos.map((photo) => (
+                      {item?.photos && item.photos.length > 0 ? (
+                        item?.photos.map((photo) => (
+                          <button
+                            type='button'
+                            className={`flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 text-center transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 ${
+                              photo === selectedPhoto && "border-primary"
+                            }`}
+                            onClick={() => setSelectedPhoto(photo)}
+                          >
+                            <img
+                              className='h-full w-full object-cover'
+                              src={photo}
+                              alt=''
+                            />
+                          </button>
+                        ))
+                      ) : (
                         <button
                           type='button'
-                          className='flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-gray-900 text-center'
+                          className={`flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 text-center transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110`}
                         >
-                          <img
-                            className='h-full w-full object-cover'
-                            src={photo}
-                            alt=''
+                          <CameraAltOutlined
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                            }}
                           />
                         </button>
-                      ))}
+                      )}
                     </div>
                   </div>
                 </div>
