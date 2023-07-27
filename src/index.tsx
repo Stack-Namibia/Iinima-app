@@ -9,6 +9,7 @@ import store from "./store";
 import "./index.css";
 import App from "./App";
 import { configs } from "./settings/configs";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const theme = createTheme({
   palette: {
@@ -30,6 +31,7 @@ const theme = createTheme({
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+const queryClient = new QueryClient();
 root.render(
   <Provider store={store}>
     <BrowserRouter>
@@ -40,7 +42,9 @@ root.render(
           useRefreshTokens={true}
           cacheLocation='memory'
         >
-          <App />
+          <QueryClientProvider client={queryClient}>
+            <App />
+          </QueryClientProvider>
         </Auth0Provider>
       </ThemeProvider>
     </BrowserRouter>

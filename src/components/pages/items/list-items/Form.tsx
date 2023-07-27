@@ -10,11 +10,14 @@ import photoUploadImage from "../../../../assets/photo-upload.svg";
 import { InfoText } from "../../../general/InfoText";
 import { BasicSelect } from "../../../general/BasicSelect";
 import * as ItemActionsCreator from "../../../../store/action-creators/items-action-creator";
-import * as LocationActionCreator from "../../../../store/action-creators";
 import { RootState } from "../../../../store/reducers";
 import { Location } from "../../../../api/locations";
 import { Item } from "../../../../api/items";
 import { extractUUIDFromString } from "../../../../utils/data";
+import {
+  useGetLocations,
+  useSyncLocations,
+} from "../../../../features/locations/queries";
 
 const categoriesMock = [
   {
@@ -35,20 +38,15 @@ const Form = () => {
   const { user } = useAuth0();
   const dispatch = useDispatch();
 
-  const { locations } = useSelector((state: RootState) => state.location);
   const { item, isLoading } = useSelector((state: RootState) => state.items);
 
   const { createItem, getItem, updateItem } = bindActionCreators(
     ItemActionsCreator,
     dispatch
   );
-  const { loadLocations } = bindActionCreators(LocationActionCreator, dispatch);
 
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
-  const [localLocations, setLocalLocations] = useState<Location[] | undefined>(
-    []
-  );
   const [description, setDescription] = useState("");
   const [dailyPrice, setDailyPrice] = useState(0);
   const [weeklyPrice, setWeeklyPrice] = useState(0);
@@ -62,6 +60,8 @@ const Form = () => {
   const [editItemsPhotos, setEditItemsPhotos] = useState<string[]>([]);
   const [location, setLocation] = useState<any>([]);
   const [editForm, setEditForm] = useState(false);
+  const { isLoading: isSyncLocations } = useSyncLocations();
+  const { data: locations } = useGetLocations(isSyncLocations);
 
   const handleSubmit = async (e: any) => {
     // This function sends the data to the backend
@@ -137,13 +137,6 @@ const Form = () => {
   };
 
   useEffect(() => {
-    loadLocations();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    setLocalLocations(locations);
-
     // Get items id parameter from path
     const path = window.location.pathname;
     const itemId = extractUUIDFromString(path);
@@ -156,8 +149,7 @@ const Form = () => {
         setEditItem(item);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [locations]);
+  });
 
   const setPhotosPreview = (photo: any, index: number) => {
     if (editItemsPhotos[index]) {
@@ -318,14 +310,10 @@ const Form = () => {
               required
             />
             <BasicSelect
-              items={
-                localLocations
-                  ? localLocations.map((l) => ({
-                      label: l.town,
-                      value: l.town,
-                    }))
-                  : []
-              }
+              items={locations.map((l: Location) => ({
+                label: l.town,
+                value: l.town,
+              }))}
               text={"Address"}
               onChange={setLocation}
               value={location}
