@@ -12,7 +12,6 @@ export const useGetItems = () => {
     queryKey: ["items"],
     queryFn: fetchItems,
     initialData: [],
-    refetchInterval: 1000,
   });
 };
 

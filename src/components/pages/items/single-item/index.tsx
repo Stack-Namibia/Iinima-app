@@ -12,6 +12,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 import { useGetItem } from "../../../../hooks/items/queries";
 import { useAccount } from "../../../../hooks/accounts/queries";
+import { configs } from "../../../../settings/configs";
 
 const SingleItem = () => {
   const { user } = useAuth0();
@@ -245,7 +246,7 @@ const SingleItem = () => {
                     <div>
                       <button>
                         <a
-                          href={`https://wa.me/${itemUser?.mobileNumber}?text=I'm%20interested%20in%20your%20${item?.title}%20https%3A%2F%2F2671-160-242-75-87.ngrok-free.app/item/browse/${item?._id}`}
+                          href={`https://wa.me/${itemUser?.mobileNumber}?text=I'm%20interested%20in%20your%20${item?.title}%20${configs.base_url}/item/browse/${item?._id}%20for%20N$${selectedSubscription?.price}%20per%20${selectedSubscription?.duration}`}
                           target='_blank'
                           rel='noreferrer'
                         >
