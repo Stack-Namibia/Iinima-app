@@ -42,16 +42,18 @@ const SingleItem = () => {
       getUser(item?.user_id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [item?.user_id]);
 
   useEffect(() => {
     setItemUser(dbUser);
+  }, [dbUser]);
+
+  useEffect(() => {
     setSelectedSubscription({
       price: item?.dailyPrice ?? 0,
       duration: "day",
     });
-  }, [dbUser, item]);
-
+  }, [item]);
   return (
     <ApplicationWrapper>
       <div className='m-5'>
