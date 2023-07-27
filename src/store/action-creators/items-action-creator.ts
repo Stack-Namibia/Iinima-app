@@ -93,6 +93,7 @@ export const updateItem = (
     currentPhotos: string[];
   }
 ) => {
+  console.log("I was called with", options);
   return async (dispatch: Dispatch<ItemsAction>) => {
     const { item, currentPhotos } = options;
     try {

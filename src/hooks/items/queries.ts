@@ -22,6 +22,11 @@ export const useGetItems = () => {
 export const useGetItem = (id: string): UseQueryResult<Item> => {
   return useQuery({
     queryKey: ["item", id],
-    queryFn: () => fetchItem(id),
+    queryFn: () => {
+      if (id.length > 0) {
+        return fetchItem(id);
+      }
+      return null;
+    },
   });
 };

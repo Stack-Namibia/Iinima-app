@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ReactDropzone from "react-dropzone";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Input } from "../../../general/Input";
@@ -10,25 +10,24 @@ import photoUploadImage from "../../../../assets/photo-upload.svg";
 import { InfoText } from "../../../general/InfoText";
 import { BasicSelect } from "../../../general/BasicSelect";
 import * as ItemActionsCreator from "../../../../store/action-creators/items-action-creator";
-import { RootState } from "../../../../store/reducers";
 import { Item } from "../../../../api/items";
 import { extractUUIDFromString } from "../../../../utils/data";
-import {
-  useGetLocations,
-  useSyncLocations,
-} from "../../../../hooks/locations/queries";
+import { useGetLocations } from "../../../../hooks/locations/queries";
 import { categories as staticCategories } from "../../../../settings/constants";
+import { useGetItem } from "../../../../hooks/items/queries";
 
 const Form = () => {
   const { user } = useAuth0();
   const dispatch = useDispatch();
 
-  const { item, isLoading } = useSelector((state: RootState) => state.items);
-
-  const { createItem, getItem, updateItem } = bindActionCreators(
+  const { createItem, updateItem } = bindActionCreators(
     ItemActionsCreator,
     dispatch
   );
+
+  const path = window.location.pathname;
+  const itemId = extractUUIDFromString(path);
+  const { data: item, isLoading: isGettingItem } = useGetItem(itemId || "");
 
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
@@ -45,8 +44,7 @@ const Form = () => {
   const [editItemsPhotos, setEditItemsPhotos] = useState<string[]>([]);
   const [location, setLocation] = useState<any>([]);
   const [editForm, setEditForm] = useState(false);
-  const { isLoading: isSyncLocations } = useSyncLocations();
-  const { data: locations } = useGetLocations(isSyncLocations);
+  const { data: locations } = useGetLocations(true);
 
   const handleSubmit = async (e: any) => {
     // This function sends the data to the backend
@@ -121,21 +119,14 @@ const Form = () => {
     setEditItemsPhotos(item.photos);
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    // Get items id parameter from path
-    const path = window.location.pathname;
-    const itemId = extractUUIDFromString(path);
-
-    if (itemId) {
-      setEditForm(true);
-      getItem(itemId);
-
+    if (!isGettingItem) {
       if (item) {
         setEditItem(item);
+        setEditForm(true);
       }
     }
-  });
+  }, [isGettingItem, item]);
 
   const setPhotosPreview = (photo: any, index: number) => {
     if (editItemsPhotos[index]) {
@@ -404,9 +395,17 @@ const Form = () => {
             </Grid>
             <Grid item xs={6}>
               {editForm ? (
-                <Button text='Update item' type='submit' loading={isLoading} />
+                <Button
+                  text='Update item'
+                  type='submit'
+                  loading={isGettingItem}
+                />
               ) : (
-                <Button text='List item' type='submit' loading={isLoading} />
+                <Button
+                  text='List item'
+                  type='submit'
+                  loading={isGettingItem}
+                />
               )}
             </Grid>
           </Grid>
