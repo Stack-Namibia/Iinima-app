@@ -126,7 +126,7 @@ const SingleItem = () => {
                 </div>
 
                 <div className='mt-3 flex select-none flex-wrap items-center gap-1'>
-                  <span>{item?.description}</span>
+                  <span className='text-gray-700'>{item?.description}</span>
                 </div>
                 <div className='mt-3 flex select-none flex-wrap items-center gap-1'>
                   <span className='text-gray-700'>Available in:</span>{" "}
