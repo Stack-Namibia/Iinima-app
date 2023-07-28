@@ -103,8 +103,9 @@ const SingleItem = () => {
                   <div className='mt-2 w-full lg:order-1 lg:w-32 lg:flex-shrink-0'>
                     <div className='flex flex-row items-start lg:flex-col'>
                       {item?.photos && item.photos.length > 0 ? (
-                        item?.photos.map((photo) => (
+                        item?.photos.map((photo, i) => (
                           <button
+                          key={i}
                             type='button'
                             className={`flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 text-center transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 ${
                               photo === selectedPhoto && "border-primary"
