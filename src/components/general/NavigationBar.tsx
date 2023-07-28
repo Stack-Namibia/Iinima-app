@@ -25,12 +25,12 @@ const pages = [
 ];
 const pages2 = [
   { text: "How it works", to: "/howitworks" },
-  { text: "List an item", to: "/item/list" },
+  { text: "List an item", to: "/item/list"},
   {
     text: "Browse Items",
-    to: "/item/browse",
+    to: "/item/browse"
   },
-  // { text: "Login", to: "/signin" },
+  { text: "Login", to:"", useAuth: true  },
 ];
 export const settings = [
   {
@@ -99,15 +99,29 @@ function ResponsiveAppBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages2.map(({ text, to }, i) => (
+    
+              {pages2.map(({ text, to , useAuth}, i) => (
                 <Link to={to} key={i}>
                   <MenuItem key={text} onClick={handleCloseNavMenu}>
-                    <Typography
+                    {i === 3 ? (
+                  <Button
+                      key={text}
+                      onClick={() => loginWithRedirect()}
+                      sx={{color: "black", display: "block" }}
+                      className='hover:text-primary'
+                    >
+                  {text}
+                  </Button>
+                    ) : (
+                  <Typography
                       textAlign='center'
                       className='hover:text-primary'
                     >
                       {text}
-                    </Typography>
+                  </Typography>
+
+                    )
+                    }
                   </MenuItem>
                 </Link>
               ))}
