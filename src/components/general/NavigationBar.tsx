@@ -43,6 +43,7 @@ export const settings = [
   },
 ];
 
+
 function ResponsiveAppBar() {
   const { loginWithRedirect, isAuthenticated } = useAuth0();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
