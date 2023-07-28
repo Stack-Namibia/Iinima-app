@@ -8,6 +8,7 @@ interface Props {
   adornment?: string;
   value?: any;
   onChange?: (e: any) => void;
+  inputProps?: object;
   required?: boolean;
   error?: {
     error: true;
@@ -23,6 +24,7 @@ export const Input = ({
   adornment,
   value,
   onChange,
+  inputProps,
   required,
   error,
 }: Props) => (
@@ -48,6 +50,7 @@ export const Input = ({
     value={value}
     required={required}
     onChange={(e) => onChange && onChange(e.target.value)}
+    inputProps={inputProps}
     {...error}
   />
 );
