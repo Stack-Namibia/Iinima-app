@@ -157,40 +157,46 @@ const BrowseItems = () => {
           </header>
 
           {/* Main content */}
-          <div className='flex flex-1 items-stretch overflow-hidden'>
-            <main className='flex-1 overflow-y-auto'>
-              <div className='mx-auto max-w-8xl px-4 pt-8 sm:px-4 lg:px-4'>
-                <div className='flex'>
-                  <h1 className='flex-1 text-2xl font-bold text-gray-900'>
-                    Items
-                  </h1>
-                </div>
-                {/* Gallery */}
-                <section
-                  className='mt-8 pb-16'
-                  aria-labelledby='gallery-heading'
-                >
-                  <h2 id='gallery-heading' className='sr-only'>
-                    Items
-                  </h2>
-                  <div
-                    role='list'
-                    className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3'
-                  >
-                    {filteredItems?.map((item: any, i: number) => (
-                      <ItemsCard key={i} {...item} />
-                    ))}
+          {isLoading || locations.isLoading ? (
+            <Box className='flex items-center m-5 justify-center'>
+              <CircularProgress className='text-primary' />
+            </Box>
+          ) : (
+            <div className='flex flex-1 items-stretch overflow-hidden'>
+              <main className='flex-1 overflow-y-auto'>
+                <div className='mx-auto max-w-8xl px-4 pt-8 sm:px-4 lg:px-4'>
+                  <div className='flex'>
+                    <h1 className='flex-1 text-2xl font-bold text-gray-900'>
+                      Items
+                    </h1>
                   </div>
-                  {isFetchingNextPage && (
-                    <Box className='flex items-center m-5 justify-center'>
-                      <CircularProgress className='text-primary' />
-                    </Box>
-                  )}
-                  <div id='last-page-element' />
-                </section>
-              </div>
-            </main>
-          </div>
+                  {/* Gallery */}
+                  <section
+                    className='mt-8 pb-16'
+                    aria-labelledby='gallery-heading'
+                  >
+                    <h2 id='gallery-heading' className='sr-only'>
+                      Items
+                    </h2>
+                    <div
+                      role='list'
+                      className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3'
+                    >
+                      {filteredItems?.map((item: any, i: number) => (
+                        <ItemsCard key={i} {...item} />
+                      ))}
+                    </div>
+                    {isFetchingNextPage && (
+                      <Box className='flex items-center m-5 justify-center'>
+                        <CircularProgress className='text-primary' />
+                      </Box>
+                    )}
+                    <div id='last-page-element' />
+                  </section>
+                </div>
+              </main>
+            </div>
+          )}
         </div>
       </div>
     </ApplicationWrapper>
