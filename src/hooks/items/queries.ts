@@ -1,7 +1,15 @@
 // This has all the react query queries for the items feature
 
-import { UseQueryResult, useQuery } from "@tanstack/react-query";
-import { fetchItem, fetchItems } from "../../utils/api/items-service";
+import {
+  UseQueryResult,
+  useInfiniteQuery,
+  useQuery,
+} from "@tanstack/react-query";
+import {
+  fetchItem,
+  fetchItems,
+  fetchPaginatedData,
+} from "../../utils/api/items-service";
 import { Item } from "../../api/items";
 
 /**
@@ -13,6 +21,24 @@ export const useGetItems = () => {
     queryFn: fetchItems,
     initialData: [],
   });
+};
+
+/**
+ * This query is used to get paginated data
+ */
+export const usePaginatedData = () => {
+  return useInfiniteQuery(
+    ["paginatedData"],
+    ({ pageParam = 1 }) => fetchPaginatedData(pageParam),
+    {
+      getNextPageParam: (lastPage, allPages) => {
+        // Check if there are more items to fetch
+        const hasMore = lastPage.length >= 15; // Adjust the number as per your API's pageSize
+        // Return the next page number (pageParam) or null if no more data
+        return hasMore ? allPages.length : null;
+      },
+    }
+  );
 };
 
 /**

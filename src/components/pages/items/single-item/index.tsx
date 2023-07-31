@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import ApplicationWrapper from "../../../general/ApplicationWrapper";
 import { extractUUIDFromString } from "../../../../utils/data";
-import {
-  CameraAltOutlined,
-  EditOutlined,
-  Phone,
-  WhatsApp,
-} from "@mui/icons-material";
+import { EditOutlined, Phone, WhatsApp } from "@mui/icons-material";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 import { useGetItem } from "../../../../hooks/items/queries";
