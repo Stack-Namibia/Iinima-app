@@ -3,7 +3,6 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../plugins/firebase";
 import {
   fetchItems,
-  listItem,
   fetchItem,
   updateItemById,
 } from "../../utils/api/items-service";
