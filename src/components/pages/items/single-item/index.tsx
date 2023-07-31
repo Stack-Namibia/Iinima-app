@@ -13,6 +13,7 @@ import { useGetItem } from "../../../../hooks/items/queries";
 import { useAccount } from "../../../../hooks/accounts/queries";
 import { configs } from "../../../../settings/configs";
 import LoadingPage from "../../loading-page";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const SingleItem = () => {
   const { user } = useAuth0();
@@ -84,10 +85,10 @@ const SingleItem = () => {
                   <div className='lg:order-2 lg:ml-5'>
                     <div className='max-w-xl overflow-hidden rounded-lg'>
                       {item?.photos && item.photos.length > 0 ? (
-                        <img
-                          className='h-full w-full max-w-full object-cover'
+                        <LazyLoadImage
                           src={selectedPhoto || item?.photos[0]}
-                          alt=''
+                          effect='blur'
+                          wrapperClassName='h-full w-full max-w-full object-cover'
                         />
                       ) : (
                         <CameraAltOutlined
@@ -112,10 +113,10 @@ const SingleItem = () => {
                             }`}
                             onClick={() => setSelectedPhoto(photo)}
                           >
-                            <img
-                              className='h-full w-full object-cover'
+                            <LazyLoadImage
                               src={photo}
-                              alt=''
+                              effect='blur'
+                              wrapperClassName='h-full w-full object-cover'
                             />
                           </button>
                         ))

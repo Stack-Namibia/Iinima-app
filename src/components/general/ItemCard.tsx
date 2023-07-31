@@ -1,6 +1,8 @@
 import { CameraAltOutlined } from "@mui/icons-material";
 import { Item } from "../../api/items";
 import { Link } from "react-router-dom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 export default function ItemCard({
   photos,
@@ -15,7 +17,11 @@ export default function ItemCard({
       <div className='card h-[90%] shadow-xl rounded-xl bg-white h-100 transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 hover:bg-white duration-300'>
         <figure className='max-h-32 row-span-1'>
           {photos.length > 0 ? (
-            <img src={photos[0]} className='rounded-t-xl' alt='i' />
+            <LazyLoadImage
+              src={photos[0]}
+              effect='blur'
+              wrapperClassName='rounded-t-xl h-full w-full'
+            />
           ) : (
             <div className='flex justify-center'>
               <CameraAltOutlined
