@@ -45,9 +45,9 @@ export default function ItemCard({
           <h4 className='mt-1 font-semibold text-lg leading-tight truncate capitalize'>
             {title}
           </h4>
-          <div className='mt-1'>
+          <div className='mt-1 text-gray-600 '>
             N$ {dailyPrice}
-            <span className='text-gray-600 text-sm'> / day</span>
+            <span className='text-sm'> / day</span>
           </div>
         </div>
       </div>
