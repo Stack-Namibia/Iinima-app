@@ -46,7 +46,14 @@ export const settings = [
 ];
 
 function ResponsiveAppBar() {
-  const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
+  const {
+    loginWithRedirect,
+    isAuthenticated,
+    logout,
+    getAccessTokenSilently,
+    isLoading,
+    error,
+  } = useAuth0();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -57,6 +64,23 @@ function ResponsiveAppBar() {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+
+  React.useEffect(() => {
+    // Check authentication status again on mount
+    const checkAuthenticationStatus = async () => {
+      try {
+        // If the user is authenticated, the access token will be available
+        await getAccessTokenSilently();
+      } catch (error) {
+        // If the user is not authenticated, an error will be thrown
+      }
+    };
+
+    if (!isLoading && !error) {
+      // Call the function to check authentication status
+      checkAuthenticationStatus();
+    }
+  }, [getAccessTokenSilently, isLoading, error]);
 
   return (
     <AppBar

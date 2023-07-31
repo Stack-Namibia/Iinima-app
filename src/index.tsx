@@ -40,7 +40,7 @@ root.render(
           {...configs.auth0}
           cookieDomain='iinima.app'
           useRefreshTokens={true}
-          cacheLocation='memory'
+          cacheLocation='localstorage'
         >
           <QueryClientProvider client={queryClient}>
             <App />
