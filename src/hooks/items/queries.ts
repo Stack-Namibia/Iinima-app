@@ -9,6 +9,7 @@ import {
   fetchItem,
   fetchItems,
   fetchPaginatedData,
+  fetchUserItems,
 } from "../../utils/api/items-service";
 import { Item } from "../../api/items";
 
@@ -19,6 +20,17 @@ export const useGetItems = () => {
   return useQuery({
     queryKey: ["items"],
     queryFn: fetchItems,
+    initialData: [],
+  });
+};
+
+/**
+ * This is the query to get all items that belong to a user
+ */
+export const useGetUserItems = (userId: string) => {
+  return useQuery({
+    queryKey: ["userItems", userId],
+    queryFn: () => fetchUserItems(userId),
     initialData: [],
   });
 };
