@@ -37,7 +37,6 @@ const BrowseItems = () => {
   const handleIntersection = useCallback(
     (entries: IntersectionObserverEntry[]) => {
       const target = entries[0];
-      console.log(target.isIntersecting);
       if (target.isIntersecting && hasNextPage && !isFetchingNextPage) {
         fetchNextPage();
       }
@@ -99,12 +98,8 @@ const BrowseItems = () => {
     setSelectedLocations(value);
   };
 
-  if (isLoading || locations.isLoading) {
-    return <div>Loading...</div>;
-  }
-
   if (isError || locations.error) {
-    return <div>Something went wrong</div>;
+    return <div>Error</div>;
   }
 
   // Filter items based on searchValue, selectedLocation, and selectedCategory
