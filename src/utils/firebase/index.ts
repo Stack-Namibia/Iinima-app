@@ -7,8 +7,9 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
-import { auth } from "../../plugins/firebase";
+import { auth, storage } from "../../plugins/firebase";
 import { User, UsersApi } from "../../api/accounts";
+import { ref, uploadBytes } from "firebase/storage";
 
 const usersApi = new UsersApi();
 
@@ -187,4 +188,25 @@ export const logout = async () => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const uploadImages = (
+  files: any[],
+  userId: string,
+  itemName: string
+): Promise<any> => {
+  /** This function returns a promise that is resolved after uploading images to firbase storage */
+  const promises: any[] = [];
+  files.forEach(({ file }) => {
+    if (file) {
+      const storageRef = ref(
+        storage,
+        `items/${userId}/${itemName}/${file.path}`
+      );
+      const uploadTask = uploadBytes(storageRef, file);
+      promises.push(uploadTask);
+    }
+  });
+
+  return Promise.all(promises);
 };

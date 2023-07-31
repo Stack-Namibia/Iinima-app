@@ -27,5 +27,6 @@ export const useAccount = (
     queryKey: ["account", id],
     queryFn: () => fetchUser(id),
     enabled,
+    refetchInterval: 100000,
   });
 };

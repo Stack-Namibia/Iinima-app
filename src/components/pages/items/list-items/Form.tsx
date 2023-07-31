@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import ReactDropzone from "react-dropzone";
-import { useDispatch, useSelector } from "react-redux";
-import { bindActionCreators } from "@reduxjs/toolkit";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Input } from "../../../general/Input";
 import { Button } from "../../../general/Button";
@@ -9,27 +7,30 @@ import Grid from "@mui/material/Grid";
 import photoUploadImage from "../../../../assets/photo-upload.svg";
 import { InfoText } from "../../../general/InfoText";
 import { BasicSelect } from "../../../general/BasicSelect";
-import * as ItemActionsCreator from "../../../../store/action-creators/items-action-creator";
 import { Item } from "../../../../api/items";
 import { extractUUIDFromString } from "../../../../utils/data";
 import { useGetLocations } from "../../../../hooks/locations/queries";
 import { categories as staticCategories } from "../../../../settings/constants";
 import { useGetItem } from "../../../../hooks/items/queries";
-import { RootState } from "../../../../store/reducers";
+import {
+  useCreateItem,
+  useUpdateItem,
+} from "../../../../hooks/items/mutations";
+import { uploadImages } from "../../../../utils/firebase";
+import { getDownloadURL, ref } from "firebase/storage";
+import { storage } from "../../../../plugins/firebase";
+import { useHistory } from "react-router-dom";
 
 const Form = () => {
   const { user } = useAuth0();
-  const dispatch = useDispatch();
+  const history = useHistory();
 
-  const { createItem, updateItem } = bindActionCreators(
-    ItemActionsCreator,
-    dispatch
-  );
+  const { mutate, isLoading: isCreatingItem } = useCreateItem();
+  const { mutate: updateItem, isLoading: isUpdatingItem } = useUpdateItem();
 
   const path = window.location.pathname;
   const itemId = extractUUIDFromString(path);
   const { data: item, isLoading: isGettingItem } = useGetItem(itemId || "");
-  const { isLoading } = useSelector((state: RootState) => state.items);
 
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
@@ -47,32 +48,25 @@ const Form = () => {
   const [location, setLocation] = useState<any>([]);
   const [editForm, setEditForm] = useState(false);
   const { data: locations } = useGetLocations(true);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: any) => {
-    // This function sends the data to the backend
-    e.preventDefault();
-    if (editForm) {
-      if (item && item._id) {
-        updateItem(item._id, {
-          item: {
-            title,
-            category,
-            location,
-            description,
-            dailyPrice,
-            weeklyPrice,
-            monthlyPrice,
-            itemValue,
-            // quantity,
-            miniRentalDays,
-            photos,
-            user_id: user?.sub,
-          },
-          currentPhotos: editItemsPhotos,
-        });
-      }
-    } else {
-      await createItem({
+  const handleCreateItem = async () => {
+    setIsLoading(true);
+    // Upload images to firebase storage
+    const metadata = await uploadImages(photos, user?.sub || "", title);
+
+    // get photo urls
+    const photoUrls: Array<string> = await Promise.all(
+      metadata.map(async ({ metadata }: any) => {
+        const url = await getDownloadURL(ref(storage, metadata.fullPath));
+        return url;
+      })
+    );
+
+    // create item
+
+    mutate(
+      {
         title,
         category,
         location,
@@ -83,11 +77,75 @@ const Form = () => {
         itemValue,
         // quantity,
         miniRentalDays,
-        photos,
+        photos: photoUrls,
         user_id: user?.sub,
-      });
+      },
+      {
+        onSuccess(data, _) {
+          // navigate to item page
+          history.push(`/item/browse/${data.data._id}`);
+        },
+      }
+    );
+    setIsLoading(false);
+  };
+
+  const handleUpdateItem = async () => {
+    setIsLoading(true);
+    // Upload images to firebase storage
+    const metadata = await uploadImages(photos, user?.sub || "", title);
+
+    const photoUrls: Array<string> = await Promise.all(
+      metadata.map(async ({ metadata }: any) => {
+        const url = await getDownloadURL(ref(storage, metadata.fullPath));
+        return url;
+      })
+    );
+
+    if (!isGettingItem) {
+      if (item) {
+        const newPhotos = [...editItemsPhotos, ...photoUrls].slice(-4);
+        updateItem(
+          {
+            ...item,
+            title,
+            category,
+            location,
+            description,
+            dailyPrice,
+            weeklyPrice,
+            monthlyPrice,
+            itemValue,
+            // quantity,
+            miniRentalDays,
+            photos: newPhotos,
+            user_id: user?.sub,
+          },
+          {
+            onSuccess(data, _) {
+              // navigate to item page
+              console.log("redirect", item);
+              history.push(`/item/browse/${item._id}`);
+            },
+          }
+        );
+      }
     }
-    handleCancel();
+
+    setIsLoading(false);
+  };
+
+  const handleSubmit = async (e: any) => {
+    // This function sends the data to the backend
+    e.preventDefault();
+    if (editForm) {
+      if (item && item._id) {
+        await handleUpdateItem();
+      }
+    } else {
+      await handleCreateItem();
+    }
+    // handleCancel();
   };
 
   const handleCancel = () => {
@@ -397,9 +455,17 @@ const Form = () => {
             </Grid>
             <Grid item xs={6}>
               {editForm ? (
-                <Button text='Update item' type='submit' loading={isLoading} />
+                <Button
+                  text='Update item'
+                  type='submit'
+                  loading={isLoading || isUpdatingItem}
+                />
               ) : (
-                <Button text='List item' type='submit' loading={isLoading} />
+                <Button
+                  text='List item'
+                  type='submit'
+                  loading={isLoading || isCreatingItem}
+                />
               )}
             </Grid>
           </Grid>
