@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ReactDropzone from "react-dropzone";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Input } from "../../../general/Input";
@@ -15,21 +15,24 @@ import { extractUUIDFromString } from "../../../../utils/data";
 import { useGetLocations } from "../../../../hooks/locations/queries";
 import { categories as staticCategories } from "../../../../settings/constants";
 import { useGetItem } from "../../../../hooks/items/queries";
-import { RootState } from "../../../../store/reducers";
+import { useCreateItem } from "../../../../hooks/items/mutations";
+import { uploadImages } from "../../../../utils/firebase";
+import { getDownloadURL, ref } from "firebase/storage";
+import { storage } from "../../../../plugins/firebase";
+import { useHistory } from "react-router-dom";
 
 const Form = () => {
   const { user } = useAuth0();
   const dispatch = useDispatch();
+  const history = useHistory();
 
-  const { createItem, updateItem } = bindActionCreators(
-    ItemActionsCreator,
-    dispatch
-  );
+  const { updateItem } = bindActionCreators(ItemActionsCreator, dispatch);
+
+  const { mutate, isLoading: isCreatingItem } = useCreateItem();
 
   const path = window.location.pathname;
   const itemId = extractUUIDFromString(path);
   const { data: item, isLoading: isGettingItem } = useGetItem(itemId || "");
-  const { isLoading } = useSelector((state: RootState) => state.items);
 
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
@@ -47,6 +50,47 @@ const Form = () => {
   const [location, setLocation] = useState<any>([]);
   const [editForm, setEditForm] = useState(false);
   const { data: locations } = useGetLocations(true);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleCreateItem = async () => {
+    setIsLoading(true);
+    // Upload images to firebase storage
+    const metadata = await uploadImages(photos, user?.sub || "", title);
+
+    // get photo urls
+    const photoUrls: Array<string> = await Promise.all(
+      metadata.map(async ({ metadata }: any) => {
+        const url = await getDownloadURL(ref(storage, metadata.fullPath));
+        return url;
+      })
+    );
+
+    // create item
+
+    mutate(
+      {
+        title,
+        category,
+        location,
+        description,
+        dailyPrice,
+        weeklyPrice,
+        monthlyPrice,
+        itemValue,
+        // quantity,
+        miniRentalDays,
+        photos: photoUrls,
+        user_id: user?.sub,
+      },
+      {
+        onSuccess(data, _) {
+          // navigate to item page
+          history.push(`/item/browse/${data.data._id}`);
+        },
+      }
+    );
+    setIsLoading(false);
+  };
 
   const handleSubmit = async (e: any) => {
     // This function sends the data to the backend
@@ -72,20 +116,7 @@ const Form = () => {
         });
       }
     } else {
-      await createItem({
-        title,
-        category,
-        location,
-        description,
-        dailyPrice,
-        weeklyPrice,
-        monthlyPrice,
-        itemValue,
-        // quantity,
-        miniRentalDays,
-        photos,
-        user_id: user?.sub,
-      });
+      await handleCreateItem();
     }
     handleCancel();
   };
@@ -399,7 +430,11 @@ const Form = () => {
               {editForm ? (
                 <Button text='Update item' type='submit' loading={isLoading} />
               ) : (
-                <Button text='List item' type='submit' loading={isLoading} />
+                <Button
+                  text='List item'
+                  type='submit'
+                  loading={isLoading || isCreatingItem}
+                />
               )}
             </Grid>
           </Grid>

@@ -10,43 +10,43 @@ import {
 import { ItemsActionTypes } from "../action-types/items-action-type";
 import { ItemsAction } from "../actions/items-actions";
 
-export const createItem = (item: any) => {
-  return async (dispatch: Dispatch<ItemsAction>) => {
-    try {
-      dispatch({
-        type: ItemsActionTypes.CREATE_ITEM,
-      });
-      // This function creates an item by making a call to the api
+// export const createItem = (item: any) => {
+//   return async (dispatch: Dispatch<ItemsAction>) => {
+//     try {
+//       dispatch({
+//         type: ItemsActionTypes.CREATE_ITEM,
+//       });
+//       // This function creates an item by making a call to the api
 
-      const metadata = await uploadImages(
-        item.photos,
-        item.user_id,
-        item.title
-      );
+//       const metadata = await uploadImages(
+//         item.photos,
+//         item.user_id,
+//         item.title
+//       );
 
-      const photoUrls: Array<string> = await Promise.all(
-        metadata.map(async ({ metadata }: any) => {
-          const url = await getDownloadURL(ref(storage, metadata.fullPath));
-          return url;
-        })
-      );
+//       const photoUrls: Array<string> = await Promise.all(
+//         metadata.map(async ({ metadata }: any) => {
+//           const url = await getDownloadURL(ref(storage, metadata.fullPath));
+//           return url;
+//         })
+//       );
 
-      item.photos = photoUrls;
+//       item.photos = photoUrls;
 
-      const data = await listItem(item);
-      dispatch({
-        type: ItemsActionTypes.ITEM_SUCCESS,
-        payload: data as any,
-      });
-    } catch (error) {
-      dispatch({
-        type: ItemsActionTypes.CREATE_ITEM_ERROR,
-        payload: error,
-      });
-      console.log(error);
-    }
-  };
-};
+//       // const data = await listItem(item);
+//       dispatch({
+//         type: ItemsActionTypes.ITEM_SUCCESS,
+//         payload: data as any,
+//       });
+//     } catch (error) {
+//       dispatch({
+//         type: ItemsActionTypes.CREATE_ITEM_ERROR,
+//         payload: error,
+//       });
+//       console.log(error);
+//     }
+//   };
+// };
 
 export const getItems = () => {
   return async (dispatch: Dispatch<ItemsAction>) => {
