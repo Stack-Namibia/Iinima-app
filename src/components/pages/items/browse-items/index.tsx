@@ -87,13 +87,13 @@ const BrowseItems = () => {
 
   return (
     <ApplicationWrapper>
-      <div className='flex h-screen'>
+      <div className="flex h-screen">
         {/* Content area */}
-        <div className='flex flex-1 flex-col overflow-hidden'>
-          <header className='w-full border-b border-gray-200 bg-white shadow-sm'>
-            <div className='relative z-10 flex h-16 flex-shrink-0 bg-white'>
-              <div className='flex flex-1 justify-between px-4 sm:px-6'>
-                <div className='flex flex-1'>
+        <div className="flex flex-1 flex-col overflow-hidden">
+          <header className="w-full border-b border-gray-200 bg-white shadow-sm">
+            <div className="relative z-10 flex h-16 flex-shrink-0 bg-white">
+              <div className="flex flex-1 justify-between px-4 sm:px-6">
+                <div className="flex flex-1">
                   <SearchInput
                     value={searchValue}
                     onChange={handleSearchValueChange}
@@ -102,7 +102,7 @@ const BrowseItems = () => {
                 </div>
               </div>
             </div>
-            <div className='flex-row md:flex lg:flex pl-5 pr-5'>
+            <div className="flex-row md:flex lg:flex pl-5 pr-5">
               <MultiSelect
                 data={locations.data?.map((l) => l.town) || []}
                 label={"Locations"}
@@ -119,25 +119,25 @@ const BrowseItems = () => {
           </header>
 
           {/* Main content */}
-          <div className='flex flex-1 items-stretch overflow-hidden'>
-            <main className='flex-1 overflow-y-auto'>
-              <div className='mx-auto max-w-8xl px-4 pt-8 sm:px-4 lg:px-4'>
-                <div className='flex'>
-                  <h1 className='flex-1 text-2xl font-bold text-gray-900'>
-                    Items
-                  </h1>
-                </div>
+          <div className="flex flex-1 items-stretch overflow-hidden">
+            <main className="flex-1 overflow-y-auto">
+              <div className="flex m-5">
+                <h1 className="flex-1 text-2xl font-bold text-gray-900">
+                  Items
+                </h1>
+              </div>
+              <div className="w-3/4 mx-auto max-w-8xl px-4 sm:px-4 lg:px-4 lg:w-full xl:w-full">
                 {/* Gallery */}
                 <section
-                  className='mt-8 pb-16'
-                  aria-labelledby='gallery-heading'
+                  className="mt-8 pb-16"
+                  aria-labelledby="gallery-heading"
                 >
-                  <h2 id='gallery-heading' className='sr-only'>
+                  <h2 id="gallery-heading" className="sr-only">
                     Recently viewed
                   </h2>
                   <div
-                    role='list'
-                    className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3'
+                    role="list"
+                    className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
                   >
                     {filteredItems.map((item: any, i: number) => (
                       <ItemsCard key={i} {...item} />
