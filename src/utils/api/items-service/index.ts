@@ -1,31 +1,31 @@
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+// import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { ItemsApi } from "../../../api/items";
 import { Item } from "../../../api/items";
-import { storage } from "../../../plugins/firebase";
+// import { storage } from "../../../plugins/firebase";
 import { getApiConfig } from "../../firebase/api-config";
 
 const itemsApi = new ItemsApi(getApiConfig());
 
-function uploadImages(
-  files: any[],
-  userId: string,
-  itemName: string
-): Promise<any> {
-  /** This function returns a promise that is resolved after uploading images to firbase storage */
-  const promises: any[] = [];
-  files.forEach(({ file }) => {
-    if (file) {
-      const storageRef = ref(
-        storage,
-        `items/${userId}/${itemName}/${file.path}`
-      );
-      const uploadTask = uploadBytes(storageRef, file);
-      promises.push(uploadTask);
-    }
-  });
+// function uploadImages(
+//   files: any[],
+//   userId: string,
+//   itemName: string
+// ): Promise<any> {
+//   /** This function returns a promise that is resolved after uploading images to firbase storage */
+//   const promises: any[] = [];
+//   files.forEach(({ file }) => {
+//     if (file) {
+//       const storageRef = ref(
+//         storage,
+//         `items/${userId}/${itemName}/${file.path}`
+//       );
+//       const uploadTask = uploadBytes(storageRef, file);
+//       promises.push(uploadTask);
+//     }
+//   });
 
-  return Promise.all(promises);
-}
+//   return Promise.all(promises);
+// }
 
 /// this will be the way forward for the api calls, the rest of the code should be in the reducers or the components will work on this once carlos reviews the uploads
 export const listItem = async (item: Item) => {
