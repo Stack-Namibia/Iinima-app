@@ -51,6 +51,7 @@ export const fetchItem = async (id: string) => {
 };
 
 export const updateItemById = async (item: Item, id: string) => {
+  delete item._id;
   // This function updates an item by making a call to the api
   const { data } = await itemsApi.updateItemApiV1IdPut(item, id, {
     headers: {
