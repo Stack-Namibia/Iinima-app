@@ -10,6 +10,7 @@ import { categories } from "../../../settings/constants";
 import React from "react";
 import { arrayUnique } from "../../../utils/data";
 import { useGetItems } from "../../../hooks/items/queries";
+import { categories as staticCategories } from "../../../settings/constants";
 
 const Home = () => {
   const { data: items, isLoading: isGettingItems } = useGetItems();
@@ -28,12 +29,9 @@ const Home = () => {
             <InnerHeading className='flex flex-col lg:flex-row'>
               <p className='font-bold text-7xl text-black mr-5'>Rent</p>
               <Words className=''>
-                <MarkText className='font-bold text-7xl'>Anything</MarkText>
-                <MarkText className='font-bold text-7xl'>Tools</MarkText>
-                <MarkText className='font-bold text-7xl'>Furniture</MarkText>
-                <MarkText className='font-bold text-7xl'>Clothing</MarkText>
-                <MarkText className='font-bold text-7xl'>Electronics</MarkText>
-                <MarkText className='font-bold text-7xl'>Anything</MarkText>
+              { staticCategories.map((category, i) => (
+                  <MarkText className='font-bold text-7xl' key={i}>{category.name}</MarkText>
+                ))}
               </Words>
             </InnerHeading>
 
