@@ -8,6 +8,7 @@ import { useGetItem } from "../../../../hooks/items/queries";
 import { useAccount } from "../../../../hooks/accounts/queries";
 import LoadingPage from "../../loading-page";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import HttpError from "../../http-error";
 
 const SingleItem = () => {
   const { user } = useAuth0();
@@ -20,11 +21,16 @@ const SingleItem = () => {
   const path = window.location.pathname;
   const itemId = extractUUIDFromString(path);
 
-  const { data: item, isLoading: isLoadingItem } = useGetItem(itemId || "");
-  const { data: itemUser, isLoading: isLoadingUser } = useAccount(
-    item?.user_id || "",
-    !!item
-  );
+  const {
+    data: item,
+    isLoading: isLoadingItem,
+    isError: errorGettingItem,
+  } = useGetItem(itemId || "");
+  const {
+    data: itemUser,
+    isLoading: isLoadingUser,
+    isError: errorGettingUser,
+  } = useAccount(item?.user_id || "", !!item);
 
   const [selectedPhoto, setSelectedPhoto] = useState<string>("");
 
@@ -39,6 +45,45 @@ const SingleItem = () => {
 
   if (isLoadingItem || isLoadingUser) {
     return <LoadingPage />;
+  }
+
+  if (errorGettingItem || !item) {
+    return (
+      <HttpError
+        // code='Item not found - 404'
+        message='The item could not be found'
+      />
+    );
+  }
+
+  if (errorGettingUser || !itemUser) {
+    return <HttpError message='Something went wrong. Please try again later' />;
+  }
+
+  if (errorGettingItem || !item) {
+    return (
+      <HttpError
+        // code='Item not found - 404'
+        message='The item could not be found'
+      />
+    );
+  }
+
+  if (errorGettingUser || !itemUser) {
+    return <HttpError message='Something went wrong. Please try again later' />;
+  }
+
+  if (errorGettingItem || !item) {
+    return (
+      <HttpError
+        // code='Item not found - 404'
+        message='The item could not be found'
+      />
+    );
+  }
+
+  if (errorGettingUser || !itemUser) {
+    return <HttpError message='Something went wrong. Please try again later' />;
   }
 
   //URL Encode text

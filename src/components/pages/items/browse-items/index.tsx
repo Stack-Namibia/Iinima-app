@@ -13,7 +13,6 @@ import { useCategories } from "../../../../hooks/content/queries";
 const BrowseItems = () => {
   const location = useLocation();
   const history = useHistory();
-  // const items = useGetItems();
   const {
     data,
     fetchNextPage,
