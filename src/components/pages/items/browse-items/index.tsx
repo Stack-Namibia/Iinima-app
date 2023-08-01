@@ -141,7 +141,7 @@ const BrowseItems = () => {
             </div>
             <div className='flex-row md:flex lg:flex pl-5 pr-5'>
               <MultiSelect
-                data={locations.data?.sort((a,b)=> a.town >b.town ? 1: -1).map((l) => l.town) || []}
+                data={locations.data?.map((l) => l.town) || []}
                 label={"Locations"}
                 options={selectedLocations}
                 handleChange={handleLocationsChange}

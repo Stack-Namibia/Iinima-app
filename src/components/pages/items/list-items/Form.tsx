@@ -350,7 +350,7 @@ const Form = () => {
             />
             <BasicSelect
               items={
-                locations?.sort((a,b)=> a.town >b.town ? 1: -1).map((l) => ({
+                locations?.map((l) => ({
                   label: l.town,
                   value: l.town,
                 })) || []
