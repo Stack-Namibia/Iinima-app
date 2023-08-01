@@ -27,7 +27,6 @@
     "base-64": "^1.0.0",
     "daisyui": "^2.51.5",
     "firebase": "^9.14.0",
-    "firebase-admin": "^11.10.1",
     "framer-motion": "^7.6.19",
     "jsonwebtoken": "^9.0.0",
     "react": "^18.2.0",
