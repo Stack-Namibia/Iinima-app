@@ -6,21 +6,16 @@ import { arrayUnique } from "../../../../utils/data";
 import { useHistory, useLocation } from "react-router-dom";
 import { usePaginatedData } from "../../../../hooks/items/queries";
 import { useGetLocations } from "../../../../hooks/locations/queries";
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { Box, CircularProgress } from "@mui/material";
 import { useCategories } from "../../../../hooks/content/queries";
+import { Item } from "../../../../api/items";
 
 const BrowseItems = () => {
   const location = useLocation();
   const history = useHistory();
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    isError,
-  } = usePaginatedData();
+  const { data, fetchNextPage, hasNextPage, isLoading, isError, isFetching } =
+    usePaginatedData();
   const locations = useGetLocations(true);
   const { data: cmCategories } = useCategories();
 
@@ -32,39 +27,22 @@ const BrowseItems = () => {
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
 
-  const observerRef = useRef<IntersectionObserver | null>(null); // Explicitly define the type as IntersectionObserver | null
+  const observer = useRef<IntersectionObserver>();
 
-  const handleIntersection = useCallback(
-    (entries: IntersectionObserverEntry[]) => {
-      const target = entries[0];
-      if (target.isIntersecting && hasNextPage && !isFetchingNextPage) {
-        fetchNextPage();
-      }
-    },
-    [fetchNextPage, hasNextPage, isFetchingNextPage]
-  );
-
-  useEffect(() => {
-    // Use optional chaining to safely access observerRef.current
-    observerRef.current?.disconnect();
-
-    if (data && data?.pages?.length > 0) {
-      observerRef.current = new IntersectionObserver(handleIntersection, {
-        root: null,
-        rootMargin: "20px",
-        threshold: 1.0,
+  const lastElementRef = useCallback(
+    (node: HTMLDivElement) => {
+      if (isLoading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasNextPage && !isFetching) {
+          fetchNextPage();
+        }
       });
-
-      const lastPageElement = document.querySelector("#last-page-element");
-      // Use optional chaining to safely access observerRef.current
-      if (lastPageElement) observerRef.current?.observe(lastPageElement);
-    }
-
-    return () => {
-      // Use optional chaining to safely access observerRef.current
-      observerRef.current?.disconnect();
-    };
-  }, [handleIntersection, data]);
+      if (node) observer.current.observe(node);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isLoading, hasNextPage]
+  );
 
   useEffect(() => {
     // Update the state with the search value from the URL
@@ -98,12 +76,15 @@ const BrowseItems = () => {
     setSelectedLocations(value);
   };
 
+  // Filter items based on searchValue, selectedLocation, and selectedCategory
+  let filteredItems = useMemo(
+    () => (data ? data?.pages.flatMap((item) => item.results) : []),
+    [data]
+  );
+
   if (isError || locations.error) {
     return <div>Error</div>;
   }
-
-  // Filter items based on searchValue, selectedLocation, and selectedCategory
-  let filteredItems = data?.pages.flatMap((page) => page);
 
   if (searchValue) {
     filteredItems = filteredItems?.filter((item) =>
@@ -182,16 +163,24 @@ const BrowseItems = () => {
                       role='list'
                       className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3'
                     >
-                      {filteredItems?.map((item: any, i: number) => (
-                        <ItemsCard key={i} {...item} />
+                      {filteredItems?.map((item: Item, i: number) => (
+                        <div
+                          ref={
+                            filteredItems.length === i + 1
+                              ? lastElementRef
+                              : null
+                          }
+                          key={item._id}
+                        >
+                          <ItemsCard key={i} {...item} />
+                        </div>
                       ))}
                     </div>
-                    {isFetchingNextPage && (
+                    {isFetching && (
                       <Box className='flex items-center m-5 justify-center'>
                         <CircularProgress className='text-primary' />
                       </Box>
                     )}
-                    <div id='last-page-element' />
                   </section>
                 </div>
               </main>

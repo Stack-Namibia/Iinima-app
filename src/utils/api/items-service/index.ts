@@ -1,4 +1,5 @@
 // import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { QueryFunction } from "@tanstack/react-query";
 import { ItemsApi } from "../../../api/items";
 import { Item } from "../../../api/items";
 // import { storage } from "../../../plugins/firebase";
@@ -46,10 +47,27 @@ export const fetchUserItems = async (userId: string): Promise<Item[]> => {
   return data.filter((item: Item) => item.user_id === userId);
 };
 
-export const fetchPaginatedData = async (pageParam = 1, limit = 15) => {
-  const skip = (pageParam - 1) * limit;
-  const { data } = await itemsApi.getItemsApiV1Get(skip, limit);
-  return data;
+// export const fetchPaginatedData = async (pageParam = 1, limit = 15) => {
+//   const skip = (pageParam - 1) * limit;
+//   const { data } = await itemsApi.getItemsApiV1Get(skip, limit);
+//   return data;
+// };
+
+interface APIResultsI {
+  results: Item[];
+  offset: number | null;
+}
+
+export const fetchPaginatedData: QueryFunction<
+  APIResultsI,
+  ["paginatedItems"]
+> = async ({ pageParam }: any) => {
+  const offset = pageParam ? pageParam : 0;
+  const data = await itemsApi.getItemsApiV1Get(offset, 15);
+  return {
+    results: data.data,
+    offset: offset + 15,
+  };
 };
 
 export const fetchItem = async (id: string) => {

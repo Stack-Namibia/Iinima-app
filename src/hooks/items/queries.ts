@@ -39,18 +39,9 @@ export const useGetUserItems = (userId: string) => {
  * This query is used to get paginated data
  */
 export const usePaginatedData = () => {
-  return useInfiniteQuery(
-    ["paginatedData"],
-    ({ pageParam = 1 }) => fetchPaginatedData(pageParam),
-    {
-      getNextPageParam: (lastPage, allPages) => {
-        // Check if there are more items to fetch
-        const hasMore = lastPage.length >= 15; // Adjust the number as per your API's pageSize
-        // Return the next page number (pageParam) or null if no more data
-        return hasMore ? allPages.length : null;
-      },
-    }
-  );
+  return useInfiniteQuery(["paginatedItems"], fetchPaginatedData, {
+    getNextPageParam: (lastPage, pages) => lastPage.offset,
+  });
 };
 
 /**
