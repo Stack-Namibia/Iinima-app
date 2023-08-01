@@ -4,6 +4,7 @@ import undraw from "../../../assets/read_time.svg";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import BrowseItemButton from "../../general/BrowseItemButton";
+import { categories as staticCategories } from "../../../settings/constants";
 
 const HowItWorks = () => {
   return (
@@ -18,14 +19,9 @@ const HowItWorks = () => {
                   How to Rent
                 </p>
                 <Words className="">
-                  <MarkText className="font-bold text-7xl">Anything</MarkText>
-                  <MarkText className="font-bold text-7xl">Tools</MarkText>
-                  <MarkText className="font-bold text-7xl">Furniture</MarkText>
-                  <MarkText className="font-bold text-7xl">Clothing</MarkText>
-                  <MarkText className="font-bold text-7xl">
-                    Electronics
-                  </MarkText>
-                  <MarkText className="font-bold text-7xl">Anything</MarkText>
+                { staticCategories.map((category, i) => (
+                  <MarkText className='font-bold text-7xl' key={i}>{category.name}</MarkText>
+                ))}
                 </Words>
               </InnerHeading>
               <div
