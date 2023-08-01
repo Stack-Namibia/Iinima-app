@@ -5,10 +5,10 @@ import { configs } from "../../../settings/configs";
 const { projectId, dataset, apiVersion } = configs.contentManger;
 
 const client = createClient({
-  projectId: projectId || "",
-  dataset: dataset || "production",
+  projectId,
+  dataset,
   useCdn: true,
-  apiVersion: apiVersion || "2021-10-21",
+  apiVersion: apiVersion,
 });
 
 const builder = imageUrlBuilder({
