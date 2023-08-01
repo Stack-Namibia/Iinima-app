@@ -13,7 +13,6 @@ import { Box, CircularProgress } from "@mui/material";
 const BrowseItems = () => {
   const location = useLocation();
   const history = useHistory();
-  // const items = useGetItems();
   const {
     data,
     fetchNextPage,
