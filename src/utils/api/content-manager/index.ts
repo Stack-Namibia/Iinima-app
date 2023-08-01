@@ -20,9 +20,11 @@ export const fetchCategories = async (): Promise<Category[]> => {
     mainImage: any;
   }[];
 
-  return data.map((category) => ({
-    _id: category._id,
-    name: category.title,
-    imageUrl: urlFor(category.mainImage).url(),
-  }));
+  return data
+    .map((category) => ({
+      _id: category._id,
+      name: category.title,
+      imageUrl: urlFor(category.mainImage).url(),
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
 };

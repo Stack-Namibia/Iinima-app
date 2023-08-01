@@ -1,3 +1,5 @@
+import { LazyLoadImage } from "react-lazy-load-image-component";
+
 interface Props {
   name: string;
   imageUrl: string | null;
@@ -8,9 +10,19 @@ const CategoryCard = ({ name, imageUrl }: Props) => {
     <div className='card card-compact w-full bg-white shadow-xl'>
       <figure className='max-h-32'>
         {imageUrl ? (
-          <img src={imageUrl} alt={name} />
+          <LazyLoadImage
+            src={imageUrl}
+            alt={name}
+            placeholderSrc={imageUrl}
+            effect='blur'
+          />
         ) : (
-          <img src='/placeholder.png' alt={name} />
+          <LazyLoadImage
+            src='/placeholder.png'
+            alt={name}
+            placeholderSrc={"/placeholder.png"}
+            effect='blur'
+          />
         )}
       </figure>
       <div className='card-body items-center text-black'>
