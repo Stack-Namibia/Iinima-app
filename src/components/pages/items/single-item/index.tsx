@@ -61,7 +61,7 @@ const SingleItem = () => {
   }
 
   //URL Encode text
-  const message = `Im interested in your ${item?.title} for N${selectedSubscription?.price} per ${selectedSubscription?.duration} https://iinima-app.vercel.app/item/browse/${item?._id}`;
+  const message = `Im interested in your ${item?.title} for N$${selectedSubscription?.price} per ${selectedSubscription?.duration} https://iinima-app.vercel.app/item/browse/${item?._id}`;
 
   const encodedMessage = encodeURI(message);
 
