@@ -20,4 +20,26 @@ const extractObjectIdFromString = (inputString: string): string | null => {
   return match ? match[0] : null;
 };
 
-export { arrayUnique, extractObjectIdFromString as extractUUIDFromString };
+//function adds area code to phone number
+/**
+ * @description - Adds area code to phone number
+ * @param {(string | undefined)} number
+ * @return {*}
+ */
+const addAreaCode = (number: string | undefined): string => {
+  if (!number) return "";
+  if (number.charAt(0) === "0") {
+    return `264${number.substring(1)}`;
+  }
+  if (number.charAt(0) === "+") {
+    return number.substring(1);
+  }
+
+  return number;
+};
+
+export {
+  arrayUnique,
+  extractObjectIdFromString as extractUUIDFromString,
+  addAreaCode,
+};
