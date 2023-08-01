@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import ApplicationWrapper from "../../../general/ApplicationWrapper";
-import { extractUUIDFromString } from "../../../../utils/data";
+import { addAreaCode, extractUUIDFromString } from "../../../../utils/data";
 import { EditOutlined, Phone, WhatsApp } from "@mui/icons-material";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 import { useGetItem } from "../../../../hooks/items/queries";
 import { useAccount } from "../../../../hooks/accounts/queries";
-import { configs } from "../../../../settings/configs";
 import LoadingPage from "../../loading-page";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import HttpError from "../../http-error";
@@ -60,6 +59,15 @@ const SingleItem = () => {
   if (errorGettingUser || !itemUser) {
     return <HttpError message='Something went wrong. Please try again later' />;
   }
+
+  //URL Encode text
+  const message = `Im interested in your ${item?.title} for N${selectedSubscription?.price} per ${selectedSubscription?.duration} https://iinima-app.vercel.app/item/browse/${item?._id}`;
+
+  const encodedMessage = encodeURI(message);
+
+  const whatsappLinkUrl = `https://api.whatsapp.com/send?phone=${addAreaCode(
+    itemUser?.mobileNumber
+  )}&text=${encodedMessage}`;
 
   return (
     <ApplicationWrapper>
@@ -289,7 +297,7 @@ const SingleItem = () => {
                     <div>
                       <button>
                         <a
-                          href={`https://wa.me/${itemUser?.mobileNumber}?text=I'm%20interested%20in%20your%20${item?.title}%20${configs.base_url}/item/browse/${item?._id}%20for%20N$${selectedSubscription?.price}%20per%20${selectedSubscription?.duration}`}
+                          href={whatsappLinkUrl}
                           target='_blank'
                           rel='noreferrer'
                         >

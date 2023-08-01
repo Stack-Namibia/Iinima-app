@@ -12,6 +12,9 @@
     "@mui/icons-material": "^5.10.16",
     "@mui/material": "^5.10.16",
     "@reduxjs/toolkit": "^1.9.0",
+    "@sanity/block-content-to-react": "^3.0.0",
+    "@sanity/cli": "^3.14.4",
+    "@sanity/client": "^6.2.0",
     "@tanstack/react-query": "^4.32.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -51,7 +54,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "content-manager:dev": "cd ./content-manager && npm run dev",
+    "content-manager:build": "cd ./content-manager && npm run build",
+    "content-manager:deploy": "cd ./content-manager && npm install &&npm run deploy",
+    "content-manager:lint": "cd ./content-manager && npm run lint"
   },
   "eslintConfig": {
     "extends": [

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useCreateAccount } from "../../../hooks/accounts/mutations";
 import { useQueryClient } from "@tanstack/react-query";
+import { addAreaCode } from "../../../utils/data";
 
 const Form = () => {
   const { user } = useAuth0();
@@ -113,7 +114,7 @@ const Form = () => {
               label='Phone Number'
               type='phone'
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={(e) => setPhone(addAreaCode(e.target.value))}
               required={true}
             />
           </div>

@@ -3,12 +3,12 @@ import ItemsCard from "../../../general/ItemCard";
 import SearchInput from "./SearchInput";
 import MultiSelect from "../../../general/MultiSelect";
 import { arrayUnique } from "../../../../utils/data";
-import { categories as staticCategories } from "../../../../settings/constants";
 import { useHistory, useLocation } from "react-router-dom";
 import { usePaginatedData } from "../../../../hooks/items/queries";
 import { useGetLocations } from "../../../../hooks/locations/queries";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { Box, CircularProgress } from "@mui/material";
+import { useCategories } from "../../../../hooks/content/queries";
 
 const BrowseItems = () => {
   const location = useLocation();
@@ -22,6 +22,7 @@ const BrowseItems = () => {
     isError,
   } = usePaginatedData();
   const locations = useGetLocations(true);
+  const { data: cmCategories } = useCategories();
 
   const queryParams = new URLSearchParams(location.search);
   const searchQuery = queryParams.get("searchValue") || "";
@@ -147,7 +148,7 @@ const BrowseItems = () => {
                 handleChange={handleLocationsChange}
               />
               <MultiSelect
-                data={arrayUnique(staticCategories.map((c) => c.name))}
+                data={arrayUnique(cmCategories?.map((c) => c.name))}
                 label={"Categories"}
                 options={categories}
                 handleChange={handleCategoriesChange}

@@ -6,13 +6,15 @@ import SearchInput from "./SearchInput";
 import { Button } from "../../general/Button";
 import divider from "../../../assets/divider.svg";
 import CategoryCard from "./CategoryCard";
-import { categories } from "../../../settings/constants";
 import React from "react";
 import { arrayUnique } from "../../../utils/data";
 import { useGetItems } from "../../../hooks/items/queries";
+import { useCategories } from "../../../hooks/content/queries";
 
 const Home = () => {
   const { data: items, isLoading: isGettingItems } = useGetItems();
+  const { data: categories } = useCategories();
+
   const [value, setValue] = React.useState(0);
 
   return (
@@ -82,7 +84,7 @@ const Home = () => {
             <h1>Explore our categories</h1>
           </div>
           <ul className='grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4  xl:grid-cols-6 items-center'>
-            {categories.map((category, i) => (
+            {categories?.map((category, i) => (
               <Link to={`/item/browse?category=${category.name}`} key={i}>
                 <CardList>
                   <CategoryCard {...category} />
