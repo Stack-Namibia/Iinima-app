@@ -1,18 +1,14 @@
 import { useEffect, useState } from "react";
 import ApplicationWrapper from "../../../general/ApplicationWrapper";
 import { extractUUIDFromString } from "../../../../utils/data";
-import {
-  CameraAltOutlined,
-  EditOutlined,
-  Phone,
-  WhatsApp,
-} from "@mui/icons-material";
+import { EditOutlined, Phone, WhatsApp } from "@mui/icons-material";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 import { useGetItem } from "../../../../hooks/items/queries";
 import { useAccount } from "../../../../hooks/accounts/queries";
 import { configs } from "../../../../settings/configs";
 import LoadingPage from "../../loading-page";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const SingleItem = () => {
   const { user } = useAuth0();
@@ -84,17 +80,26 @@ const SingleItem = () => {
                   <div className='lg:order-2 lg:ml-5'>
                     <div className='max-w-xl overflow-hidden rounded-lg'>
                       {item?.photos && item.photos.length > 0 ? (
-                        <img
-                          className='h-full w-full max-w-full object-cover'
+                        <LazyLoadImage
                           src={selectedPhoto || item?.photos[0]}
-                          alt=''
+                          effect='blur'
+                          className='h-full w-full object-cover'
+                          width={"100%"}
+                          placeholderSrc={selectedPhoto || item?.photos[0]}
                         />
                       ) : (
-                        <CameraAltOutlined
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                          }}
+                        <LazyLoadImage
+                          className='h-48 w-full object-cover'
+                          src={`/categories/${item?.category.replace(
+                            " ",
+                            ""
+                          )}.jpg`}
+                          alt={`alt-${item?.title}`}
+                          width={"100%"}
+                          placeholderSrc={`/categories/${item?.category.replace(
+                            " ",
+                            ""
+                          )}.jpg`}
                         />
                       )}
                     </div>
@@ -112,10 +117,12 @@ const SingleItem = () => {
                             }`}
                             onClick={() => setSelectedPhoto(photo)}
                           >
-                            <img
-                              className='h-full w-full object-cover'
+                            <LazyLoadImage
                               src={photo}
-                              alt=''
+                              effect='blur'
+                              className='h-full w-full object-cover'
+                              width={"100%"}
+                              height={"100%"}
                             />
                           </button>
                         ))
@@ -124,11 +131,18 @@ const SingleItem = () => {
                           type='button'
                           className={`flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 text-center transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110`}
                         >
-                          <CameraAltOutlined
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                            }}
+                          <LazyLoadImage
+                            className='h-full w-full object-cover'
+                            src={`/categories/${item?.category.replace(
+                              " ",
+                              ""
+                            )}.jpg`}
+                            alt={`alt-${item?.title}`}
+                            width={"100%"}
+                            placeholderSrc={`/categories/${item?.category.replace(
+                              " ",
+                              ""
+                            )}.jpg`}
                           />
                         </button>
                       )}

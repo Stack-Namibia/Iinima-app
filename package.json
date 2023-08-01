@@ -36,11 +36,13 @@
     "react-error-boundary": "^4.0.10",
     "react-firebase-hooks": "^5.1.1",
     "react-jwt": "^1.1.8",
+    "react-lazy-load-image-component": "^1.6.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^5.3.4",
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.7",
     "redux-thunk": "^2.4.2",
+    "sharp": "^0.32.4",
     "styled-components": "^5.3.6",
     "typescript": "^4.9.3",
     "web-vitals": "^2.1.4"
@@ -72,6 +74,7 @@
   "devDependencies": {
     "@types/auth0-js": "^9.14.7",
     "@types/base-64": "^1.0.0",
+    "@types/react-lazy-load-image-component": "^1.5.3",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-swipeable-views": "^0.13.1",
     "@types/react-swipeable-views-utils": "^0.13.4",

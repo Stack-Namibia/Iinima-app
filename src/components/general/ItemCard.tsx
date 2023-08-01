@@ -1,10 +1,11 @@
-import { CameraAltOutlined } from "@mui/icons-material";
 import { Item } from "../../api/items";
 import { Link } from "react-router-dom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 export default function ItemCard({
   photos,
-  description,
+  location,
   dailyPrice,
   title,
   category,
@@ -12,34 +13,41 @@ export default function ItemCard({
 }: Item) {
   return (
     <Link to={`/item/browse/${_id}`}>
-      <div className='card h-[90%] shadow-xl rounded-xl bg-white h-100 transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 hover:bg-white duration-300'>
-        <figure className='max-h-32 row-span-1'>
-          {photos.length > 0 ? (
-            <img src={photos[0]} className='rounded-t-xl' alt='i' />
-          ) : (
-            <div className='flex justify-center'>
-              <CameraAltOutlined
-                style={{
-                  width: "66.5%",
-                  height: "100%",
-                }}
-              />
-            </div>
-          )}
-        </figure>
-        <div className='card-body'>
-          <div className='grid grid-col-2 gap-6'>
-            <h2 className='card-title grid grid-col grid-flow-row md:grid-flow-col xl:grid-flow-col'>
-              {title}
-              <div className='badge bg-primary text-white border-primary w-20'>
-                N$ {dailyPrice}
-              </div>
-            </h2>
+      <div className='bg-white border rounded-lg overflow-hidden'>
+        {photos.length > 0 ? (
+          <div>
+            <LazyLoadImage
+              className='h-48 w-full object-cover'
+              src={photos[0]}
+              alt={`alt-${title}`}
+              height={192}
+              effect='blur'
+              width={"100%"}
+              placeholderSrc={photos[0]}
+            />
           </div>
-          <p className='break-all text-sm'>{description}</p>
-          <div className='card-actions'>
-            <div className='badge badge-outline'>Windhoek</div>
-            <div className='badge badge-outline'>{category}</div>
+        ) : (
+          <LazyLoadImage
+            className='h-48 w-full object-cover'
+            src={`/categories/${category.replace(" ", "")}.jpg`}
+            alt={`alt-${title}`}
+          />
+        )}
+        <div className='p-6'>
+          <div className='flex items-baseline'>
+            <span className='inline-block bg-primary text-white text-xs px-2 rounded-full uppercase font-semibold tracking-wide'>
+              {category}
+            </span>
+            <div className='ml-2 text-gray-600 text-xs uppercase font-semibold tracking-wide'>
+              {location}
+            </div>
+          </div>
+          <h4 className='mt-1 font-semibold text-lg leading-tight truncate capitalize'>
+            {title}
+          </h4>
+          <div className='mt-1 text-gray-600 '>
+            N$ {dailyPrice}
+            <span className='text-sm'> / day</span>
           </div>
         </div>
       </div>

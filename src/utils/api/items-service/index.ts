@@ -40,6 +40,18 @@ export const fetchItems = async (): Promise<Item[]> => {
   return data;
 };
 
+export const fetchUserItems = async (userId: string): Promise<Item[]> => {
+  // This function fetches items from the api
+  const { data } = await itemsApi.getItemsApiV1Get(0, 100000000);
+  return data.filter((item: Item) => item.user_id === userId);
+};
+
+export const fetchPaginatedData = async (pageParam = 1, limit = 15) => {
+  const skip = (pageParam - 1) * limit;
+  const { data } = await itemsApi.getItemsApiV1Get(skip, limit);
+  return data;
+};
+
 export const fetchItem = async (id: string) => {
   // This function fetches a single item from the api
   const { data } = await itemsApi.getItemByIdApiV1IdGet(id, {

@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { createTheme } from "@mui/material/styles";
@@ -40,7 +39,7 @@ root.render(
           {...configs.auth0}
           cookieDomain='iinima.app'
           useRefreshTokens={true}
-          cacheLocation='memory'
+          cacheLocation='localstorage'
         >
           <QueryClientProvider client={queryClient}>
             <App />
