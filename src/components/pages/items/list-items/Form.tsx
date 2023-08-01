@@ -10,7 +10,6 @@ import { BasicSelect } from "../../../general/BasicSelect";
 import { Item } from "../../../../api/items";
 import { extractUUIDFromString } from "../../../../utils/data";
 import { useGetLocations } from "../../../../hooks/locations/queries";
-import { categories as staticCategories } from "../../../../settings/constants";
 import { useGetItem } from "../../../../hooks/items/queries";
 import {
   useCreateItem,
@@ -20,6 +19,7 @@ import { uploadImages } from "../../../../utils/firebase";
 import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../../../../plugins/firebase";
 import { useHistory } from "react-router-dom";
+import { useCategories } from "../../../../hooks/content/queries";
 
 const Form = () => {
   const { user } = useAuth0();
@@ -27,6 +27,7 @@ const Form = () => {
 
   const { mutate, isLoading: isCreatingItem } = useCreateItem();
   const { mutate: updateItem, isLoading: isUpdatingItem } = useUpdateItem();
+  const { data: cmCategories } = useCategories();
 
   const path = window.location.pathname;
   const itemId = extractUUIDFromString(path);
@@ -339,10 +340,17 @@ const Form = () => {
               required
             />
             <BasicSelect
-              items={staticCategories.map((c) => ({
-                label: c.name,
-                value: c.name,
-              }))}
+              items={
+                cmCategories?.map((c) => ({
+                  label: c.name,
+                  value: c.name,
+                })) ?? [
+                  {
+                    label: "loading...",
+                    value: "loading...",
+                  },
+                ]
+              }
               text={"Categories"}
               onChange={setCategory}
               value={category}
