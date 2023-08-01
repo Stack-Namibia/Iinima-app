@@ -26,3 +26,4 @@ jobs:
       - run: npm ci --force
       - run: npm run build --if-present --force
       - run: npm test
+      - run: npm run content-manager:deploy

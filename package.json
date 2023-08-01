@@ -56,7 +56,7 @@
     "eject": "react-scripts eject",
     "content-manager:dev": "cd ./content-manager && npm run dev",
     "content-manager:build": "cd ./content-manager && npm run build",
-    "content-manager:deploy": "cd ./content-manager && npm run build && npm run deploy",
+    "content-manager:deploy": "cd ./content-manager && npm run deploy",
     "content-manager:lint": "cd ./content-manager && npm run lint"
   },
   "eslintConfig": {
