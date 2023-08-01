@@ -30,4 +30,10 @@ jobs:
       - run: npm ci --force
       - run: npm run build --if-present --force
       # - run: npm test
-      - run: npm run content-manager:deploy
+      - name: Deploy Sanity
+        run: |
+          set -e
+          cat << EOF > .env
+          SANITY_STUDIO_FRONTEND_BASE_URL=${{ secrets.SANITY_STUDIO_FRONTEND_BASE_URL }}
+          EOF
+          SANITY_AUTH_TOKEN="${{ secrets.SANITY_AUTH_TOKEN }}" npm run content-manager:deploy
