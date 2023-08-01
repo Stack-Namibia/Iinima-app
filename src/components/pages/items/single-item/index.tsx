@@ -60,32 +60,6 @@ const SingleItem = () => {
     return <HttpError message='Something went wrong. Please try again later' />;
   }
 
-  if (errorGettingItem || !item) {
-    return (
-      <HttpError
-        // code='Item not found - 404'
-        message='The item could not be found'
-      />
-    );
-  }
-
-  if (errorGettingUser || !itemUser) {
-    return <HttpError message='Something went wrong. Please try again later' />;
-  }
-
-  if (errorGettingItem || !item) {
-    return (
-      <HttpError
-        // code='Item not found - 404'
-        message='The item could not be found'
-      />
-    );
-  }
-
-  if (errorGettingUser || !itemUser) {
-    return <HttpError message='Something went wrong. Please try again later' />;
-  }
-
   //URL Encode text
   const message = `Im interested in your ${item?.title} for N${selectedSubscription?.price} per ${selectedSubscription?.duration} https://iinima-app.vercel.app/item/browse/${item?._id}`;
 
@@ -94,6 +68,7 @@ const SingleItem = () => {
   const whatsappLinkUrl = `https://api.whatsapp.com/send?phone=${addAreaCode(
     itemUser?.mobileNumber
   )}&text=${encodedMessage}`;
+
   return (
     <ApplicationWrapper>
       <div className={`m-2`}>
