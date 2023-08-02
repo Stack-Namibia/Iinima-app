@@ -47,7 +47,7 @@ function App() {
     return <SignUp />;
   }
 
-  if (error || errorGettingAccount) {
+  if ((error || errorGettingAccount) && isAuthenticated) {
     return <HttpError />;
   }
 
