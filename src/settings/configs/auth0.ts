@@ -12,12 +12,14 @@ const onRedirectCallBack = (appState: any) => {
 
 const providerConfig = {
   domain: process.env.REACT_APP_AUTH0_DOMAIN ?? "",
-  clientId: process.env.REACT_APP_AUTH0_CLIENT_ID ?? "",
+  clientId: process.env.REACT_APP_AUTH0_CLIENTID ?? "",
   onRedirectCallBack,
   authorizationParams: {
     redirect_uri: window.location.origin,
     audience: process.env.REACT_APP_AUTH0_AUDIENCE ?? "",
   },
 };
+
+console.log("providerConfig", providerConfig);
 
 export default providerConfig;
