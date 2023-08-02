@@ -1,236 +1,148 @@
-/* eslint-disable no-restricted-globals */
 import ApplicationWrapper from "../../../general/ApplicationWrapper";
 import ItemsCard from "../../../general/ItemCard";
 import SearchInput from "./SearchInput";
 import MultiSelect from "../../../general/MultiSelect";
-import { connect } from "react-redux";
-import { RootState } from "../../../../store/reducers";
-import { Dispatch } from "@reduxjs/toolkit";
-import { Item } from "../../../../api/items";
-import { getItems } from "../../../../store/action-creators/items-action-creator";
-import { loadLocations } from "../../../../store/action-creators";
-import { Component } from "react";
-import BasicModal from "../../../general/BasicModal";
-import SingleItem, { SingleItemProps } from "./SingleItem";
-import { SelectChangeEvent } from "@mui/material";
 import { arrayUnique } from "../../../../utils/data";
-import { Location } from "../../../../api/locations";
-import { categories as staticCategories } from "../../../../settings/constants";
+import { useHistory, useLocation } from "react-router-dom";
+import { usePaginatedData } from "../../../../hooks/items/queries";
+import { useGetLocations } from "../../../../hooks/locations/queries";
+import { useEffect, useState, useRef, useCallback, useMemo } from "react";
+import { Box, CircularProgress } from "@mui/material";
+import { useCategories } from "../../../../hooks/content/queries";
+import { Item } from "../../../../api/items";
 
-interface Props {
-  items: Item[] | undefined;
-  locations: Location[] | undefined;
-  getItems: () => void;
-  categories: string[];
-  loadLocations: () => void;
-}
+const BrowseItems = () => {
+  const location = useLocation();
+  const history = useHistory();
+  const { data, fetchNextPage, hasNextPage, isLoading, isError, isFetching } =
+    usePaginatedData();
+  const locations = useGetLocations(true);
+  const { data: cmCategories } = useCategories();
 
-interface ComponentState {
-  modalOpen: boolean;
-  selectedItem: Item | undefined;
-  searchValue: string;
-  locations: Location[];
-  categories: string[];
-}
+  const queryParams = new URLSearchParams(location.search);
+  const searchQuery = queryParams.get("searchValue") || "";
+  const categoryQuery = queryParams.get("category") || "";
 
-export class BrowseItems extends Component<Props> {
-  state: ComponentState = {
-    modalOpen: false,
-    selectedItem: undefined,
-    searchValue: "",
-    locations: [],
-    categories: [],
+  const [searchValue, setSearchValue] = useState<string>(searchQuery);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
+
+  const observer = useRef<IntersectionObserver>();
+
+  const lastElementRef = useCallback(
+    (node: HTMLDivElement) => {
+      if (isLoading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasNextPage && !isFetching) {
+          fetchNextPage();
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isLoading, hasNextPage]
+  );
+
+  useEffect(() => {
+    // Update the state with the search value from the URL
+    setSearchValue(searchQuery);
+    setCategories(categoryQuery ? categoryQuery.split(",") : []);
+  }, [searchQuery, categoryQuery]);
+
+  const handleSearchValueChange = (e: any) => {
+    const value = e.target.value;
+    setSearchValue(value);
+    // Update the URL with the new search value
+    queryParams.set("searchValue", value);
+    history.push({ search: queryParams.toString() });
   };
 
-  componentDidMount(): void {
-    this.props.getItems();
-    this.props.loadLocations();
+  const handleCategoriesChange = (event: any) => {
+    const { value } = event.target;
+    setCategories(Array.isArray(value) ? value : [value]); // Ensure categories is an array
+    // Update the URL with the new categories (using append instead of set)
+    queryParams.delete("category"); // Remove existing category parameters
+    value.forEach((category: string) =>
+      queryParams.append("category", category)
+    );
+    history.push({ search: queryParams.toString() });
+  };
 
-    if (location.search) {
-      const params = new URLSearchParams(location.search);
-      const searchValue = params.get("searchValue");
-      const locations = params.getAll("location");
-      const categories = params.getAll("category");
+  const handleLocationsChange = (event: any) => {
+    const {
+      target: { value },
+    } = event;
+    setSelectedLocations(value);
+  };
 
-      this.setState((prevState: ComponentState) => ({
-        ...prevState,
-        searchValue: searchValue ?? "",
-        locations:
-          locations.length > 0 ? locations.map((l) => ({ town: l })) : [],
-        categories: categories.length > 0 ? categories : [],
-      }));
-    }
+  // Filter items based on searchValue, selectedLocation, and selectedCategory
+  let filteredItems = useMemo(
+    () => (data ? data?.pages.flatMap((item) => item.results) : []),
+    [data]
+  );
 
-    const regex = /\/item\/browse\/([a-f0-9-]+)/;
-
-    // eslint-disable-next-line no-restricted-globals
-    const match = location.pathname.match(regex);
-
-    if (match) {
-      this.setState((prevState: ComponentState) => ({
-        ...prevState,
-        modalOpen: true,
-        selectedItem: this.props.items?.find((i) => i._id === match[1]),
-      }));
-    }
+  if (isError || locations.error) {
+    return <div>Error</div>;
   }
 
-  handleSearchValueChange = (e: any) => {
-    this.setState((prevState) => ({
-      ...prevState,
-      searchValue: e.target.value,
-    }));
-  };
+  if (searchValue) {
+    filteredItems = filteredItems?.filter((item) =>
+      item.title.toLowerCase().includes(searchValue.toLowerCase())
+    );
+  }
 
-  handleLocationsChange = (event: SelectChangeEvent<string[]>) => {
-    const {
-      target: { value },
-    } = event;
+  if (selectedLocations.length > 0) {
+    filteredItems = filteredItems?.filter((item) =>
+      selectedLocations.some((l) => l === item.location)
+    );
+  }
 
-    console.log(value);
+  if (categories.length > 0) {
+    filteredItems = filteredItems?.filter((item) =>
+      categories.some((c) => c === item.category)
+    );
+  }
 
-    this.setState((prevState) => ({
-      ...prevState,
-      locations: value,
-    }));
-  };
-
-  handleCategoriesChange = (event: SelectChangeEvent<string[]>) => {
-    const {
-      target: { value },
-    } = event;
-
-    console.log(value);
-
-    this.setState((prevState) => ({
-      ...prevState,
-      categories: value,
-    }));
-  };
-
-  setSelectedItem = (item: Item) => {
-    this.setState((prevState: ComponentState) => ({
-      ...prevState,
-      selectedItem: item,
-    }));
-  };
-
-  setModalOpen = () => {
-    this.setState((prevState: ComponentState) => ({
-      ...prevState,
-      modalOpen: !prevState.modalOpen,
-    }));
-  };
-
-  setFilteredItems = () => {
-    const { searchValue } = this.state;
-    const items = this.props.items;
-
-    if (
-      !searchValue &&
-      this.state.locations.length === 0 &&
-      this.state.categories.length === 0
-    ) {
-      return items;
-    }
-
-    if (!items) return [];
-
-    let filteredItems = items.filter((item) => {
-      return (
-        item.title.toLowerCase().includes(searchValue.toLowerCase()) ||
-        item.description?.toLowerCase().includes(searchValue.toLowerCase())
-      );
-    });
-
-    if (this.state.locations.length > 0) {
-      filteredItems = filteredItems.filter((item) => {
-        console.log("location: ", item.location);
-        return this.state.locations.find((l) => l.town === item.location);
-      });
-    }
-
-    if (this.state.categories.length > 0) {
-      filteredItems = filteredItems.filter((item) => {
-        return this.state.categories.includes(item.category);
-      });
-    }
-
-    return filteredItems;
-  };
-
-  removeLocationOption = (option: string) => {
-    this.setState((prevState: ComponentState) => ({
-      ...prevState,
-      locations: prevState.locations.filter((l) => l.town !== option),
-    }));
-  };
-
-  removeCategoryOption = (option: string) => {
-    this.setState((prevState: ComponentState) => ({
-      ...prevState,
-      categories: prevState.categories.filter((l) => l !== option),
-    }));
-  };
-
-  render() {
-    const items = this.setFilteredItems();
-
-    const { selectedItem, locations, categories } = this.state;
-    const currentItem: SingleItemProps = {
-      title: selectedItem?.title ?? "",
-      description: selectedItem?.description ?? "",
-      photos: selectedItem?.photos ?? [],
-      location: selectedItem?.location ?? "",
-      category: selectedItem?.category ?? "",
-      dailyPrice: selectedItem?.dailyPrice ?? 0,
-      weeklyPrice: selectedItem?.weeklyPrice ?? 0,
-      monthlyPrice: selectedItem?.monthlyPrice ?? 0,
-      user_id: selectedItem?.user_id ?? "",
-      _id: selectedItem?._id ?? "",
-    };
-
-    return (
-      <ApplicationWrapper>
-        <BasicModal
-          open={this.state.modalOpen}
-          handleClose={this.setModalOpen}
-          width={700}
-        >
-          {<SingleItem {...currentItem} />}
-        </BasicModal>
-        <div className='flex h-screen'>
-          {/* Content area */}
-          <div className='flex flex-1 flex-col overflow-hidden'>
-            <header className='w-full border-b border-gray-200 bg-white shadow-sm'>
-              <div className='relative z-10 flex h-16 flex-shrink-0 bg-white'>
-                <div className='flex flex-1 justify-between px-4 sm:px-6'>
-                  <div className='flex flex-1'>
-                    <SearchInput
-                      value={this.state.searchValue}
-                      onChange={this.handleSearchValueChange}
-                      handleSearch={() => this.setFilteredItems()}
-                    />
-                  </div>
+  return (
+    <ApplicationWrapper>
+      <div className='flex h-screen'>
+        {/* Content area */}
+        <div className='flex flex-1 flex-col overflow-hidden'>
+          <header className='w-full border-b border-gray-200 bg-white shadow-sm'>
+            <div className='relative z-10 flex h-16 flex-shrink-0 bg-white'>
+              <div className='flex flex-1 justify-between px-4 sm:px-6'>
+                <div className='flex flex-1'>
+                  <SearchInput
+                    value={searchValue}
+                    onChange={handleSearchValueChange}
+                    handleSearch={() => {}}
+                  />
                 </div>
               </div>
-              <div className='flex-row md:flex lg:flex pl-5 pr-5'>
-                <MultiSelect
-                  data={arrayUnique(this.props.locations?.map((l) => l.town))}
-                  label={"Locations"}
-                  options={locations.map((l) => l.town)}
-                  handleChange={this.handleLocationsChange}
-                />
-                <MultiSelect
-                  data={arrayUnique(staticCategories.map((c) => c.name))}
-                  label={"Categories"}
-                  options={categories}
-                  handleChange={this.handleCategoriesChange}
-                />
-              </div>
-            </header>
+            </div>
+            <div className='flex-row md:flex lg:flex pl-5 pr-5'>
+              <MultiSelect
+                data={locations.data?.map((l) => l.town) || []}
+                label={"Locations"}
+                options={selectedLocations}
+                handleChange={handleLocationsChange}
+              />
+              <MultiSelect
+                data={arrayUnique(cmCategories?.map((c) => c.name))}
+                label={"Categories"}
+                options={categories}
+                handleChange={handleCategoriesChange}
+              />
+            </div>
+          </header>
 
-            {/* Main content */}
+          {/* Main content */}
+          {isLoading || locations.isLoading ? (
+            <Box className='flex items-center m-5 justify-center'>
+              <CircularProgress className='text-primary' />
+            </Box>
+          ) : (
             <div className='flex flex-1 items-stretch overflow-hidden'>
               <main className='flex-1 overflow-y-auto'>
                 <div className='mx-auto max-w-8xl px-4 pt-8 sm:px-4 lg:px-4'>
@@ -245,56 +157,39 @@ export class BrowseItems extends Component<Props> {
                     aria-labelledby='gallery-heading'
                   >
                     <h2 id='gallery-heading' className='sr-only'>
-                      Recently viewed
+                      Items
                     </h2>
                     <div
                       role='list'
                       className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3'
                     >
-                      {items ? (
-                        items.map((item: any, i: number) => (
-                          <button
-                            key={i}
-                            onClick={() => {
-                              this.setSelectedItem(item);
-                              this.setModalOpen();
-                            }}
-                            className='text-left'
-                          >
-                            <ItemsCard
-                              photos={item.photos}
-                              description={item.description || ""}
-                              dailyPrice={item.dailyPrice}
-                              location={item.location}
-                              title={item.title}
-                              category={item.category}
-                            />
-                          </button>
-                        ))
-                      ) : (
-                        <div>Its lonely here</div>
-                      )}
+                      {filteredItems?.map((item: Item, i: number) => (
+                        <div
+                          ref={
+                            filteredItems.length === i + 1
+                              ? lastElementRef
+                              : null
+                          }
+                          key={item._id}
+                        >
+                          <ItemsCard key={i} {...item} />
+                        </div>
+                      ))}
                     </div>
+                    {isFetching && (
+                      <Box className='flex items-center m-5 justify-center'>
+                        <CircularProgress className='text-primary' />
+                      </Box>
+                    )}
                   </section>
                 </div>
               </main>
             </div>
-          </div>
+          )}
         </div>
-      </ApplicationWrapper>
-    );
-  }
-}
+      </div>
+    </ApplicationWrapper>
+  );
+};
 
-const mapStateToProps = (state: RootState) => ({
-  items: state.items.items,
-  categories: state.items.items?.map((item) => item.category) ?? [],
-  locations: state.location.locations,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-  getItems: () => dispatch(getItems()),
-  loadLocations: () => dispatch(loadLocations()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(BrowseItems);
+export default BrowseItems;

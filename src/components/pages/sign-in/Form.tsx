@@ -61,7 +61,6 @@ const Form = () => {
         handleRedirect();
         clearData();
       } else {
-        console.log(res);
       }
     });
   };

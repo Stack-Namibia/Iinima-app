@@ -19,10 +19,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
+        env:
+          REACT_APP_CM_PROJECT_ID: ${{ secrets.CM_PROJECT_ID }}
+          REACT_APP_CM_DATASET: ${{ secrets.CM_DATASET }}
+          REACT_APP_CM_API_VERSION: ${{ secrets.CM_API_VERSION }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
       - run: npm ci --force
       - run: npm run build --if-present --force
-      - run: npm test

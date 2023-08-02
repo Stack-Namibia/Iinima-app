@@ -4,6 +4,8 @@ import ListItem from "../components/pages/items/list-items";
 import Profile from "../components/pages/profile";
 import ProfileEdit from "../components/pages/profile/edit";
 import HowItWorks from "../components/pages/how-it-works";
+import SingleItem from "../components/pages/items/single-item";
+import SignUp from "../components/pages/sign-up";
 
 const routes = [
   {
@@ -11,6 +13,12 @@ const routes = [
     exact: true,
     element: <Home />,
     key: "Home",
+  },
+  {
+    path: "/signup",
+    exact: true,
+    element: <SignUp />,
+    key: "SignUp",
   },
   {
     path: "/profile",
@@ -50,7 +58,7 @@ const routes = [
   {
     path: "/item/browse/:id",
     exact: true,
-    element: <BrowseItems />,
+    element: <SingleItem />,
     key: "ListItem",
   },
 ];

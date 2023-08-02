@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { createTheme } from "@mui/material/styles";
@@ -9,6 +8,7 @@ import store from "./store";
 import "./index.css";
 import App from "./App";
 import { configs } from "./settings/configs";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const theme = createTheme({
   palette: {
@@ -30,6 +30,13 @@ const theme = createTheme({
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 root.render(
   <Provider store={store}>
     <BrowserRouter>
@@ -38,9 +45,11 @@ root.render(
           {...configs.auth0}
           cookieDomain='iinima.app'
           useRefreshTokens={true}
-          cacheLocation='memory'
+          cacheLocation='localstorage'
         >
-          <App />
+          <QueryClientProvider client={queryClient}>
+            <App />
+          </QueryClientProvider>
         </Auth0Provider>
       </ThemeProvider>
     </BrowserRouter>

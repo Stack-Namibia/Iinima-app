@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import ReactDropzone from "react-dropzone";
-import { useDispatch, useSelector } from "react-redux";
-import { bindActionCreators } from "@reduxjs/toolkit";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Input } from "../../../general/Input";
 import { Button } from "../../../general/Button";
@@ -9,46 +7,36 @@ import Grid from "@mui/material/Grid";
 import photoUploadImage from "../../../../assets/photo-upload.svg";
 import { InfoText } from "../../../general/InfoText";
 import { BasicSelect } from "../../../general/BasicSelect";
-import * as ItemActionsCreator from "../../../../store/action-creators/items-action-creator";
-import * as LocationActionCreator from "../../../../store/action-creators";
-import { RootState } from "../../../../store/reducers";
-import { Location } from "../../../../api/locations";
 import { Item } from "../../../../api/items";
 import { extractUUIDFromString } from "../../../../utils/data";
-
-const categoriesMock = [
-  {
-    value: "power-tools",
-    label: "Power Tools",
-  },
-  {
-    value: "hand-tools",
-    label: "Hand Tools",
-  },
-  {
-    value: "garden-tools",
-    label: "Garden Tools",
-  },
-];
+import { useGetLocations } from "../../../../hooks/locations/queries";
+import { useGetItem } from "../../../../hooks/items/queries";
+import {
+  useCreateItem,
+  useUpdateItem,
+} from "../../../../hooks/items/mutations";
+import { uploadImages } from "../../../../utils/firebase";
+import { getDownloadURL, ref } from "firebase/storage";
+import { storage } from "../../../../plugins/firebase";
+import { useHistory } from "react-router-dom";
+import { useCategories } from "../../../../hooks/content/queries";
+import { useSnackbar } from "notistack";
 
 const Form = () => {
   const { user } = useAuth0();
-  const dispatch = useDispatch();
+  const history = useHistory();
+  const { enqueueSnackbar } = useSnackbar();
 
-  const { locations } = useSelector((state: RootState) => state.location);
-  const { item, isLoading } = useSelector((state: RootState) => state.items);
+  const { mutate, isLoading: isCreatingItem } = useCreateItem();
+  const { mutate: updateItem, isLoading: isUpdatingItem } = useUpdateItem();
+  const { data: cmCategories } = useCategories();
 
-  const { createItem, getItem, updateItem } = bindActionCreators(
-    ItemActionsCreator,
-    dispatch
-  );
-  const { loadLocations } = bindActionCreators(LocationActionCreator, dispatch);
+  const path = window.location.pathname;
+  const itemId = extractUUIDFromString(path);
+  const { data: item, isLoading: isGettingItem } = useGetItem(itemId || "");
 
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
-  const [localLocations, setLocalLocations] = useState<Location[] | undefined>(
-    []
-  );
   const [description, setDescription] = useState("");
   const [dailyPrice, setDailyPrice] = useState(0);
   const [weeklyPrice, setWeeklyPrice] = useState(0);
@@ -62,32 +50,27 @@ const Form = () => {
   const [editItemsPhotos, setEditItemsPhotos] = useState<string[]>([]);
   const [location, setLocation] = useState<any>([]);
   const [editForm, setEditForm] = useState(false);
+  const { data: locations } = useGetLocations(true);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: any) => {
-    // This function sends the data to the backend
-    e.preventDefault();
-    if (editForm) {
-      if (item && item._id) {
-        updateItem(item._id, {
-          item: {
-            title,
-            category,
-            location,
-            description,
-            dailyPrice,
-            weeklyPrice,
-            monthlyPrice,
-            itemValue,
-            // quantity,
-            miniRentalDays,
-            photos,
-            user_id: user?.sub,
-          },
-          currentPhotos: editItemsPhotos,
-        });
-      }
-    } else {
-      await createItem({
+  const handleCreateItem = async () => {
+    setIsLoading(true);
+    enqueueSnackbar("Listing item...", { variant: "info" });
+    // Upload images to firebase storage
+    const metadata = await uploadImages(photos, user?.sub || "", title);
+
+    // get photo urls
+    const photoUrls: Array<string> = await Promise.all(
+      metadata.map(async ({ metadata }: any) => {
+        const url = await getDownloadURL(ref(storage, metadata.fullPath));
+        return url;
+      })
+    );
+
+    // create item
+
+    mutate(
+      {
         title,
         category,
         location,
@@ -98,11 +81,90 @@ const Form = () => {
         itemValue,
         // quantity,
         miniRentalDays,
-        photos,
+        photos: photoUrls,
         user_id: user?.sub,
-      });
+      },
+      {
+        onSuccess(data, _) {
+          enqueueSnackbar("Item listed successfully", {
+            variant: "success",
+          });
+          history.push(`/item/browse/${data.data._id}`);
+        },
+        onError(_) {
+          enqueueSnackbar("Error listing item, please try again later", {
+            variant: "error",
+          });
+        },
+      }
+    );
+    setIsLoading(false);
+  };
+
+  const handleUpdateItem = async () => {
+    setIsLoading(true);
+    // Upload images to firebase storage
+    const metadata = await uploadImages(photos, user?.sub || "", title);
+
+    const photoUrls: Array<string> = await Promise.all(
+      metadata.map(async ({ metadata }: any) => {
+        const url = await getDownloadURL(ref(storage, metadata.fullPath));
+        return url;
+      })
+    );
+
+    if (!isGettingItem) {
+      if (item) {
+        enqueueSnackbar("Updating item...", { variant: "info" });
+        const newPhotos = [...editItemsPhotos, ...photoUrls].slice(-4);
+        updateItem(
+          {
+            ...item,
+            title,
+            category,
+            location,
+            description,
+            dailyPrice,
+            weeklyPrice,
+            monthlyPrice,
+            itemValue,
+            // quantity,
+            miniRentalDays,
+            photos: newPhotos,
+            user_id: user?.sub,
+          },
+          {
+            onSuccess(_) {
+              enqueueSnackbar("Item updated successfully", {
+                variant: "success",
+              });
+              history.push(`/item/browse/${item._id}`);
+            },
+
+            onError(_) {
+              enqueueSnackbar("Error updating item, please try again later", {
+                variant: "error",
+              });
+            },
+          }
+        );
+      }
     }
-    handleCancel();
+
+    setIsLoading(false);
+  };
+
+  const handleSubmit = async (e: any) => {
+    // This function sends the data to the backend
+    e.preventDefault();
+    if (editForm) {
+      if (item && item._id) {
+        await handleUpdateItem();
+      }
+    } else {
+      await handleCreateItem();
+    }
+    // handleCancel();
   };
 
   const handleCancel = () => {
@@ -137,27 +199,13 @@ const Form = () => {
   };
 
   useEffect(() => {
-    loadLocations();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    setLocalLocations(locations);
-
-    // Get items id parameter from path
-    const path = window.location.pathname;
-    const itemId = extractUUIDFromString(path);
-
-    if (itemId) {
-      setEditForm(true);
-      getItem(itemId);
-
+    if (!isGettingItem) {
       if (item) {
         setEditItem(item);
+        setEditForm(true);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [locations]);
+  }, [isGettingItem, item]);
 
   const setPhotosPreview = (photo: any, index: number) => {
     if (editItemsPhotos[index]) {
@@ -177,7 +225,6 @@ const Form = () => {
           <div className='flex justify-center mb-5 mt-2 gap-2'>
             <ReactDropzone
               onDrop={(acceptedFiles) => {
-                console.log(acceptedFiles);
                 // set value at index zero in images array
                 if (acceptedFiles) {
                   setPhotos([
@@ -311,7 +358,17 @@ const Form = () => {
               required
             />
             <BasicSelect
-              items={categoriesMock}
+              items={
+                cmCategories?.map((c) => ({
+                  label: c.name,
+                  value: c.name,
+                })) ?? [
+                  {
+                    label: "loading...",
+                    value: "loading...",
+                  },
+                ]
+              }
               text={"Categories"}
               onChange={setCategory}
               value={category}
@@ -319,12 +376,10 @@ const Form = () => {
             />
             <BasicSelect
               items={
-                localLocations
-                  ? localLocations.map((l) => ({
-                      label: l.town,
-                      value: l.town,
-                    }))
-                  : []
+                locations?.map((l) => ({
+                  label: l.town,
+                  value: l.town,
+                })) || []
               }
               text={"Address"}
               onChange={setLocation}
@@ -337,6 +392,7 @@ const Form = () => {
               multiline
               onChange={setDescription}
               value={description}
+              inputProps={{ maxLength: 299 }}
               required
             />
           </div>
@@ -425,9 +481,17 @@ const Form = () => {
             </Grid>
             <Grid item xs={6}>
               {editForm ? (
-                <Button text='Update item' type='submit' loading={isLoading} />
+                <Button
+                  text='Update item'
+                  type='submit'
+                  loading={isLoading || isUpdatingItem}
+                />
               ) : (
-                <Button text='List item' type='submit' loading={isLoading} />
+                <Button
+                  text='List item'
+                  type='submit'
+                  loading={isLoading || isCreatingItem}
+                />
               )}
             </Grid>
           </Grid>

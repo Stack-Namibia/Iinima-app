@@ -8,15 +8,12 @@ import Box from "@mui/material/Box";
 // import { Link } from "react-router-dom";
 import ApplicationWrapper from "../../general/ApplicationWrapper";
 import withAuth from "../../auth";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../store/reducers";
-import { bindActionCreators } from "@reduxjs/toolkit";
-import * as ItemActionsCreator from "../../../store/action-creators/items-action-creator";
 import { Item } from "../../../api/items";
 import { useAuth0 } from "@auth0/auth0-react";
 import ItemCard from "../../general/ItemCard";
-import BasicModal from "../../general/BasicModal";
-import SingleItem from "../items/browse-items/SingleItem";
+import { useAccount } from "../../../hooks/accounts/queries";
+import { useGetUserItems } from "../../../hooks/items/queries";
+import LoadingPage from "../loading-page";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -72,48 +69,26 @@ const profile: any = {
 
 const Profile = () => {
   const { user } = useAuth0();
-  const { items } = useSelector((state: RootState) => state.items);
-  const { getItems } = bindActionCreators(ItemActionsCreator, useDispatch());
-  const [value, setValue] = React.useState(0);
-  const [localItems, setLocalItems] = React.useState<Item[] | undefined>(
-    undefined
+  const { data: dbUser, isLoading: isGettingAccount } = useAccount(
+    user?.sub || "",
+    true
   );
-  const [modalOpen, setModalOpen] = React.useState(false);
-  const [selectedItem, setselectedItem] = React.useState<any>();
-  const { user: dbUser } = useSelector((state: RootState) => state.authUser);
+  const { data: items, isLoading: isGettingItems } = useGetUserItems(
+    user?.sub || ""
+  );
+  const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
-  const handleSetModalOpen = () => {
-    setModalOpen(!modalOpen);
-  };
-
-  const setSelectedItem = (item: Item) => {
-    setselectedItem(item);
-  };
-
-  React.useEffect(() => {
-    getItems();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  React.useEffect(() => {
-    const userItems = items?.filter((item) => item.user_id === user?.sub);
-    setLocalItems(userItems);
-  }, [items, user]);
+  if (isGettingAccount || isGettingItems) {
+    return <LoadingPage />;
+  }
 
   return (
     <>
       <ApplicationWrapper>
-        <BasicModal
-          open={modalOpen}
-          handleClose={handleSetModalOpen}
-          width={700}
-        >
-          {<SingleItem {...selectedItem} />}
-        </BasicModal>
         <div className='flex h-screen'>
           <div className='flex min-w-0 flex-1 flex-col overflow-hidden'>
             <div className='lg:hidden'>
@@ -205,29 +180,9 @@ const Profile = () => {
                             role='list'
                             className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3'
                           >
-                            {localItems && (
-                              <>
-                                {localItems.map((item: Item, i) => (
-                                  <button
-                                    key={i}
-                                    onClick={() => {
-                                      setSelectedItem(item);
-                                      handleSetModalOpen();
-                                    }}
-                                    className='text-left'
-                                  >
-                                    <ItemCard
-                                      photos={item.photos}
-                                      description={item.description || ""}
-                                      dailyPrice={item.dailyPrice}
-                                      location={item.location}
-                                      title={item.title}
-                                      category={item.category}
-                                    />
-                                  </button>
-                                ))}
-                              </>
-                            )}
+                            {items.map((item: Item, i) => (
+                              <ItemCard {...item} />
+                            ))}
                           </div>
                         </TabPanel>
                         {/* <TabPanel value={value} index={1}>

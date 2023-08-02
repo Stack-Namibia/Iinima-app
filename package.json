@@ -12,6 +12,10 @@
     "@mui/icons-material": "^5.10.16",
     "@mui/material": "^5.10.16",
     "@reduxjs/toolkit": "^1.9.0",
+    "@sanity/block-content-to-react": "^3.0.0",
+    "@sanity/cli": "^3.14.4",
+    "@sanity/client": "^6.2.0",
+    "@tanstack/react-query": "^4.32.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -28,6 +32,7 @@
     "firebase": "^9.14.0",
     "framer-motion": "^7.6.19",
     "jsonwebtoken": "^9.0.0",
+    "notistack": "^3.0.1",
     "react": "^18.2.0",
     "react-daisyui": "^3.1.2",
     "react-dom": "^18.2.0",
@@ -35,11 +40,13 @@
     "react-error-boundary": "^4.0.10",
     "react-firebase-hooks": "^5.1.1",
     "react-jwt": "^1.1.8",
+    "react-lazy-load-image-component": "^1.6.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^5.3.4",
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.7",
     "redux-thunk": "^2.4.2",
+    "sharp": "^0.32.4",
     "styled-components": "^5.3.6",
     "typescript": "^4.9.3",
     "web-vitals": "^2.1.4"
@@ -48,7 +55,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "content-manager:dev": "cd ./content-manager && npm run dev",
+    "content-manager:build": "cd ./content-manager && npm run build",
+    "content-manager:deploy": "cd ./content-manager && npm install &&npm run deploy",
+    "content-manager:lint": "cd ./content-manager && npm run lint"
   },
   "eslintConfig": {
     "extends": [
@@ -71,11 +82,13 @@
   "devDependencies": {
     "@types/auth0-js": "^9.14.7",
     "@types/base-64": "^1.0.0",
+    "@types/react-lazy-load-image-component": "^1.5.3",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-swipeable-views": "^0.13.1",
     "@types/react-swipeable-views-utils": "^0.13.4",
     "@types/styled-components": "^5.1.26",
     "autoprefixer": "^10.4.13",
+    "dotenv": "^16.3.1",
     "postcss": "^8.4.19",
     "tailwindcss": "^3.2.4"
   },

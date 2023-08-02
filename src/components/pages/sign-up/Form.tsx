@@ -1,24 +1,25 @@
 import { TextField } from "@mui/material";
 import { Button } from "../../general/Button";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { bindActionCreators } from "@reduxjs/toolkit";
-import { withRouter } from "react-router-dom";
-import * as authActionCreators from "../../../store/action-creators/auth-action-creators";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useCreateAccount } from "../../../hooks/accounts/mutations";
+import { useQueryClient } from "@tanstack/react-query";
+import { addAreaCode } from "../../../utils/data";
+import { useSnackbar } from "notistack";
 
-const Form = (props: any) => {
+const Form = () => {
   const { user } = useAuth0();
-  const dispatch = useDispatch();
-  const { addUser } = bindActionCreators(authActionCreators, dispatch);
+  const { enqueueSnackbar } = useSnackbar();
+  const { mutate, isLoading: isCreatingAccount } = useCreateAccount();
 
   const [firstName, setFirstName] = useState<string>(user?.given_name ?? "");
   const [lastName, setLastName] = useState<string>(user?.family_name ?? "");
   const [email, setEmail] = useState<string>(user?.email ?? "");
 
   const [phone, setPhone] = useState(user?.phone_number);
-  const [loading, setLoading] = useState(false);
   const [userExists, setUserExists] = useState(false);
+
+  const queryClient = useQueryClient();
 
   const clearData = () => {
     setFirstName("");
@@ -29,20 +30,35 @@ const Form = (props: any) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
 
     if (user?.sub) {
-      addUser({
-        user_id: user?.sub,
-        firstName,
-        lastName,
-        email,
-        mobileNumber: phone,
-      });
+      mutate(
+        {
+          user_id: user?.sub,
+          firstName,
+          lastName,
+          email,
+          mobileNumber: phone,
+        },
+        {
+          onSuccess: (_) => {
+            enqueueSnackbar("Account created successfully", {
+              variant: "success",
+            });
+            queryClient.invalidateQueries(["account"]);
+
+            // clear the form
+            clearData();
+          },
+
+          onError: (_) => {
+            enqueueSnackbar("An error occurred while creating account", {
+              variant: "error",
+            });
+          },
+        }
+      );
     }
-    setLoading(false);
-    props.history.push("/");
-    return clearData();
   };
 
   const enableSubmit = firstName && lastName && email && phone;
@@ -108,7 +124,7 @@ const Form = (props: any) => {
               label='Phone Number'
               type='phone'
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={(e) => setPhone(addAreaCode(e.target.value))}
               required={true}
             />
           </div>
@@ -116,7 +132,7 @@ const Form = (props: any) => {
             text='Register'
             type='submit'
             disabled={!enableSubmit}
-            loading={loading}
+            loading={isCreatingAccount}
           />
         </form>
       </div>
@@ -124,4 +140,4 @@ const Form = (props: any) => {
   );
 };
 
-export default withRouter(Form);
+export default Form;

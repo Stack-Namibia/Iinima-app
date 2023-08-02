@@ -7,8 +7,9 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
-import { auth } from "../../plugins/firebase";
+import { auth, storage } from "../../plugins/firebase";
 import { User, UsersApi } from "../../api/accounts";
+import { ref, uploadBytes } from "firebase/storage";
 
 const usersApi = new UsersApi();
 
@@ -86,11 +87,14 @@ export const signInWithGoogle = async () => {
     const response: any = await signInWithPopup(auth, googleProvider);
     sessionStorage.setItem("firebaseToken", await response.user.getIdToken());
     const [firstName, lastName] = response.user.displayName.split(" ");
-    console.log(response.user);
 
     // Create user exists in the database
     const user = await usersApi
-      .getUserByEmailApiV1EmailEmailGet(response.user.email, { headers: { Authorization: `Bearer ${sessionStorage.getItem("firebaseToken")}`} })
+      .getUserByEmailApiV1EmailEmailGet(response.user.email, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("firebaseToken")}`,
+        },
+      })
       .then(async (user) => {
         return response.user;
       })
@@ -103,9 +107,17 @@ export const signInWithGoogle = async () => {
             lastName,
             email: response.user.email,
           };
-          await usersApi.createUserApiV1Post(user, { headers: { Authorization: `Bearer ${sessionStorage.getItem("firebaseToken")}`} }).catch((error) => {
-            console.log(error);
-          });
+          await usersApi
+            .createUserApiV1Post(user, {
+              headers: {
+                Authorization: `Bearer ${sessionStorage.getItem(
+                  "firebaseToken"
+                )}`,
+              },
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         }
 
         if (error.response.status === 401) {
@@ -176,4 +188,25 @@ export const logout = async () => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const uploadImages = (
+  files: any[],
+  userId: string,
+  itemName: string
+): Promise<any> => {
+  /** This function returns a promise that is resolved after uploading images to firbase storage */
+  const promises: any[] = [];
+  files.forEach(({ file }) => {
+    if (file) {
+      const storageRef = ref(
+        storage,
+        `items/${userId}/${itemName}/${file.path}`
+      );
+      const uploadTask = uploadBytes(storageRef, file);
+      promises.push(uploadTask);
+    }
+  });
+
+  return Promise.all(promises);
 };

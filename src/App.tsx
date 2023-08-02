@@ -10,25 +10,22 @@ import "./App.css";
 import routes from "./settings/routes";
 import LoadingPage from "./components/pages/loading-page";
 import HttpError from "./components/pages/http-error";
-import { useEffect, useState } from "react";
-import * as AuthActionCreators from "./store/action-creators/auth-action-creators";
-import { useDispatch, useSelector } from "react-redux";
-import { bindActionCreators } from "@reduxjs/toolkit";
-import { RootState } from "./store/reducers";
+import { useEffect } from "react";
 import SignUp from "./components/pages/sign-up";
+import { useAccount } from "./hooks/accounts/queries";
+import { SnackbarProvider } from "notistack";
 
 function App() {
   const location = useLocation();
+
   const { isLoading, error, getAccessTokenSilently, isAuthenticated, user } =
     useAuth0();
 
-  const dispatch = useDispatch();
-
-  const { user: dbUser } = useSelector((state: RootState) => state.authUser);
-
-  const { getUser } = bindActionCreators(AuthActionCreators, dispatch);
-
-  const [localUser, setLocalUser] = useState<any>(null);
+  const {
+    data,
+    isLoading: isLoadingAccount,
+    error: errorGettingAccount,
+  } = useAccount(user?.sub || "", true);
 
   useEffect(() => {
     const getToken = async () => {
@@ -42,47 +39,40 @@ function App() {
 
     if (isAuthenticated) {
       getToken();
-      if (user?.sub) {
-        getUser(user?.sub);
-      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getAccessTokenSilently, isAuthenticated]);
 
-  useEffect(() => {
-    if (dbUser) {
-      setLocalUser(dbUser);
-    }
-  }, [dbUser, localUser]);
-
-  if (!dbUser && user) {
+  if (!isLoading && !isLoadingAccount && !data) {
     return <SignUp />;
   }
 
-  if (error) {
+  if (error || errorGettingAccount) {
     return <HttpError />;
   }
 
-  if (isLoading) {
+  if (isLoading || isLoadingAccount) {
     return <LoadingPage />;
   }
 
   return (
     <>
       <AnimatePresence>
-        <Switch>
-          {routes.map(({ key, path, element }, index) => (
-            <Route path={path} key={index} exact location={location}>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: "100%" }}
-                exit={{ opacity: 0 }}
-              >
-                {element}
-              </motion.div>
-            </Route>
-          ))}
-        </Switch>
+        <SnackbarProvider>
+          <Switch>
+            {routes.map(({ key, path, element }, index) => (
+              <Route path={path} key={index} exact location={location}>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: "100%" }}
+                  exit={{ opacity: 0 }}
+                >
+                  {element}
+                </motion.div>
+              </Route>
+            ))}
+          </Switch>
+        </SnackbarProvider>
       </AnimatePresence>
     </>
   );

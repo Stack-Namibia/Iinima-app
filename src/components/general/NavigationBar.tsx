@@ -3,7 +3,6 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
@@ -23,14 +22,17 @@ const pages = [
     to: "/item/browse",
   },
 ];
-const pages2 = [
-  { text: "How it works", to: "/howitworks" },
-  { text: "List an item", to: "/item/list" },
+
+const mobileMenu = [
+  { text: "How it works", to: "/howitworks", useAuth: false },
+  { text: "List an item", to: "/item/list", useAuth: false },
+
   {
     text: "Browse Items",
     to: "/item/browse",
+    useAuth: false,
   },
-  { text: "Login", to: "/signin" },
+  { text: "Login", to: "", useAuth: true, alternateText: "Logout" },
 ];
 export const settings = [
   {
@@ -44,7 +46,14 @@ export const settings = [
 ];
 
 function ResponsiveAppBar() {
-  const { loginWithRedirect, isAuthenticated } = useAuth0();
+  const {
+    loginWithRedirect,
+    isAuthenticated,
+    logout,
+    getAccessTokenSilently,
+    isLoading,
+    error,
+  } = useAuth0();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -55,6 +64,23 @@ function ResponsiveAppBar() {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+
+  React.useEffect(() => {
+    // Check authentication status again on mount
+    const checkAuthenticationStatus = async () => {
+      try {
+        // If the user is authenticated, the access token will be available
+        await getAccessTokenSilently();
+      } catch (error) {
+        // If the user is not authenticated, an error will be thrown
+      }
+    };
+
+    if (!isLoading && !error) {
+      // Call the function to check authentication status
+      checkAuthenticationStatus();
+    }
+  }, [getAccessTokenSilently, isLoading, error]);
 
   return (
     <AppBar
@@ -99,18 +125,38 @@ function ResponsiveAppBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages2.map(({ text, to }, i) => (
-                <Link to={to} key={i}>
-                  <MenuItem key={text} onClick={handleCloseNavMenu}>
-                    <Typography
-                      textAlign='center'
-                      className='hover:text-primary'
+              {mobileMenu.map(({ text, to, useAuth, alternateText }, i) => {
+                if (useAuth && !isAuthenticated) {
+                  return (
+                    <MenuItem
+                      onClick={() => {
+                        handleCloseNavMenu();
+                        loginWithRedirect();
+                      }}
+                      key={i}
                     >
                       {text}
-                    </Typography>
-                  </MenuItem>
-                </Link>
-              ))}
+                    </MenuItem>
+                  );
+                } else if (useAuth && isAuthenticated) {
+                  return (
+                    <MenuItem
+                      onClick={() => {
+                        handleCloseNavMenu();
+                        logout();
+                      }}
+                      key={i}
+                    >
+                      {alternateText}
+                    </MenuItem>
+                  );
+                }
+                return (
+                  <Link to={to} key={i}>
+                    <MenuItem onClick={handleCloseNavMenu}>{text}</MenuItem>
+                  </Link>
+                );
+              })}
             </Menu>
           </Box>
           {/* small screen logo */}
