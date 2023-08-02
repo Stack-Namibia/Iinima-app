@@ -20,6 +20,4 @@ const providerConfig = {
   },
 };
 
-console.log("providerConfig", providerConfig);
-
 export default providerConfig;
