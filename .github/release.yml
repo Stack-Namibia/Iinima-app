@@ -1,0 +1,29 @@
+changelog:
+  categories:
+    - title: Authentication 🔐
+      labels:
+        - Authentication
+    - title: Pages 📄
+      labels:
+        - Browse Items Page
+        - How it works Page
+        - Profile Page
+        - Sign in Page
+        - Single Item Page
+        - Signup Page
+        - list items page
+    - title: Components 🧱
+      labels:
+        - Components
+    - title: Navigation 🧭
+      labels:
+        - Navigation Bar
+    - title: Enhancements ➕
+      labels:
+        - enhancement
+    - title: Content Manager 📚
+      labels:
+        - content manager
+    - title: Bug Fixes 🪳
+      labels:
+        - bug
