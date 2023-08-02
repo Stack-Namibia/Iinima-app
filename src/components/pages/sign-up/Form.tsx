@@ -5,9 +5,11 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useCreateAccount } from "../../../hooks/accounts/mutations";
 import { useQueryClient } from "@tanstack/react-query";
 import { addAreaCode } from "../../../utils/data";
+import { useSnackbar } from "notistack";
 
 const Form = () => {
   const { user } = useAuth0();
+  const { enqueueSnackbar } = useSnackbar();
   const { mutate, isLoading: isCreatingAccount } = useCreateAccount();
 
   const [firstName, setFirstName] = useState<string>(user?.given_name ?? "");
@@ -39,12 +41,20 @@ const Form = () => {
           mobileNumber: phone,
         },
         {
-          onSuccess: (data) => {
-            // invalidate the account query
+          onSuccess: (_) => {
+            enqueueSnackbar("Account created successfully", {
+              variant: "success",
+            });
             queryClient.invalidateQueries(["account"]);
 
             // clear the form
             clearData();
+          },
+
+          onError: (_) => {
+            enqueueSnackbar("An error occurred while creating account", {
+              variant: "error",
+            });
           },
         }
       );
