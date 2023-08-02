@@ -43,7 +43,7 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getAccessTokenSilently, isAuthenticated]);
 
-  if (!isLoading && !isLoadingAccount && !data) {
+  if (!isLoading && !isLoadingAccount && !data && isAuthenticated) {
     return <SignUp />;
   }
 
