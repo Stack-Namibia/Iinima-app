@@ -20,10 +20,12 @@ import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../../../../plugins/firebase";
 import { useHistory } from "react-router-dom";
 import { useCategories } from "../../../../hooks/content/queries";
+import { useSnackbar } from "notistack";
 
 const Form = () => {
   const { user } = useAuth0();
   const history = useHistory();
+  const { enqueueSnackbar } = useSnackbar();
 
   const { mutate, isLoading: isCreatingItem } = useCreateItem();
   const { mutate: updateItem, isLoading: isUpdatingItem } = useUpdateItem();
@@ -53,6 +55,7 @@ const Form = () => {
 
   const handleCreateItem = async () => {
     setIsLoading(true);
+    enqueueSnackbar("Listing item...", { variant: "info" });
     // Upload images to firebase storage
     const metadata = await uploadImages(photos, user?.sub || "", title);
 
@@ -83,8 +86,15 @@ const Form = () => {
       },
       {
         onSuccess(data, _) {
-          // navigate to item page
+          enqueueSnackbar("Item listed successfully", {
+            variant: "success",
+          });
           history.push(`/item/browse/${data.data._id}`);
+        },
+        onError(_) {
+          enqueueSnackbar("Error listing item, please try again later", {
+            variant: "error",
+          });
         },
       }
     );
@@ -105,6 +115,7 @@ const Form = () => {
 
     if (!isGettingItem) {
       if (item) {
+        enqueueSnackbar("Updating item...", { variant: "info" });
         const newPhotos = [...editItemsPhotos, ...photoUrls].slice(-4);
         updateItem(
           {
@@ -123,10 +134,17 @@ const Form = () => {
             user_id: user?.sub,
           },
           {
-            onSuccess(data, _) {
-              // navigate to item page
-              console.log("redirect", item);
+            onSuccess(_) {
+              enqueueSnackbar("Item updated successfully", {
+                variant: "success",
+              });
               history.push(`/item/browse/${item._id}`);
+            },
+
+            onError(_) {
+              enqueueSnackbar("Error updating item, please try again later", {
+                variant: "error",
+              });
             },
           }
         );

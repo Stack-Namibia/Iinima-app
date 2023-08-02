@@ -13,6 +13,7 @@ import HttpError from "./components/pages/http-error";
 import { useEffect } from "react";
 import SignUp from "./components/pages/sign-up";
 import { useAccount } from "./hooks/accounts/queries";
+import { SnackbarProvider } from "notistack";
 
 function App() {
   const location = useLocation();
@@ -57,19 +58,21 @@ function App() {
   return (
     <>
       <AnimatePresence>
-        <Switch>
-          {routes.map(({ key, path, element }, index) => (
-            <Route path={path} key={index} exact location={location}>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: "100%" }}
-                exit={{ opacity: 0 }}
-              >
-                {element}
-              </motion.div>
-            </Route>
-          ))}
-        </Switch>
+        <SnackbarProvider>
+          <Switch>
+            {routes.map(({ key, path, element }, index) => (
+              <Route path={path} key={index} exact location={location}>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: "100%" }}
+                  exit={{ opacity: 0 }}
+                >
+                  {element}
+                </motion.div>
+              </Route>
+            ))}
+          </Switch>
+        </SnackbarProvider>
       </AnimatePresence>
     </>
   );
