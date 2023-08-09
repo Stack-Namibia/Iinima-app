@@ -109,11 +109,21 @@ const Profile = () => {
                     <div className='mx-auto max-w-5xl px-4 sm:px-6 lg:px-8'>
                       <div className='-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5'>
                         <div className='flex'>
-                          <img
-                            className='h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32'
-                            src={user?.picture}
-                            alt={dbUser?.firstName + " " + dbUser?.lastName}
-                          />
+                          {user?.picture ? (
+                            <img
+                              className='h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32'
+                              src={user?.picture}
+                              alt={dbUser?.firstName + " " + dbUser?.lastName}
+                            />
+                          ) : (
+                            <div className=' bg-primary relative inline-flex items-center justify-center w-24 h-24 overflow-hidden rounded-full ring-4 ring-white sm:h-32 sm:w-32 '>
+                              <span className='font-medium text-white dark:text-gray-300 text-4xl'>
+                                {dbUser?.firstName[0] ||
+                                  "" + dbUser?.lastName[0] ||
+                                  ""}
+                              </span>
+                            </div>
+                          )}
                         </div>
                         <div className='mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1'>
                           <div className='mt-6 min-w-0 flex-1 sm:hidden 2xl:block'>
