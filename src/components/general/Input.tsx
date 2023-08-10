@@ -44,8 +44,15 @@ export const Input = ({
             startAdornment: (
               <InputAdornment position='start'>N$</InputAdornment>
             ),
+            inputProps: {
+              min: 0,
+            },
           }
-        : {}
+        : {
+            inputProps: {
+              min: 0,
+            },
+          }
     }
     value={value}
     required={required}
